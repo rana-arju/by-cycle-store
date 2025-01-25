@@ -1,14 +1,14 @@
-import type React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Layout, Menu, Button, Drawer, Space, Badge } from "antd";
-import logo from "../../assets/logo.png";
 import {
   MenuOutlined,
   UserOutlined,
   ShoppingCartOutlined,
   LogoutOutlined,
+  DownOutlined,
 } from "@ant-design/icons";
+import logo from "../../assets/logo.png";
 import "./navbar.css";
 
 const { Header } = Layout;
@@ -21,36 +21,33 @@ interface MenuItem {
 
 const menuItems: MenuItem[] = [
   { key: "home", label: "Home", path: "/" },
+  { key: "shop", label: "Shop", path: "/shop" },
   { key: "about", label: "About", path: "/about" },
-  { key: "services", label: "Services", path: "/services" },
   { key: "contact", label: "Contact", path: "/contact" },
+  { key: "services", label: "Services", path: "/services" },
+  { key: "blog", label: "Blog", path: "/blog" },
 ];
 
 const Navbar: React.FC = () => {
   const [visible, setVisible] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(true); // This should be managed by user authentication system
   const location = useLocation();
+  const [overflowedItems, setOverflowedItems] = useState<MenuItem[]>([]);
   const [count, setCount] = useState(0);
 
-  const showDrawer = () => {
-    setVisible(true);
-  };
+  const showDrawer = () => setVisible(true);
+  const onClose = () => setVisible(false);
 
-  const onClose = () => {
-    setVisible(false);
-  };
-
-  const handleLogout = () => {
-    // Implement logout logic here
-    setIsLoggedIn(false);
-  };
+  const handleLogout = () => setIsLoggedIn(false); // Implement logout logic
 
   const renderMenuItems = () =>
-    menuItems.map((item) => (
-      <Menu.Item key={item.key}>
-        <Link to={item.path}>{item.label}</Link>
-      </Menu.Item>
-    ));
+    menuItems
+      .slice(0, menuItems.length - overflowedItems.length)
+      .map((item) => (
+        <Menu.Item key={item.key}>
+          <Link to={item.path}>{item.label}</Link>
+        </Menu.Item>
+      ));
 
   const renderRightMenu = () => (
     <Space size="large" className="right-menu">
@@ -67,9 +64,28 @@ const Navbar: React.FC = () => {
     </Space>
   );
 
+  useEffect(() => {
+    // Dynamically calculate overflowed items based on window width
+    const handleResize = () => {
+      const navWidth = document.querySelector(".navbar-menu")?.clientWidth || 0;
+      const availableSpace = navWidth - 200; // Subtract space for logo & right menu
+      const menuItemWidth = 100; // Approximate width per menu item
+      const maxVisibleItems = Math.floor(availableSpace / menuItemWidth);
+
+      if (menuItems.length > maxVisibleItems) {
+        setOverflowedItems(menuItems.slice(maxVisibleItems));
+      } else {
+        setOverflowedItems([]);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Initial calculation
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <Header className="navbar">
-    
       <div className="navbar-logo">
         <Link to="/">
           <img src={logo} alt="Logo" className="logo" />
@@ -80,6 +96,22 @@ const Navbar: React.FC = () => {
         <div className="desktop-menu">
           <Menu mode="horizontal" selectedKeys={[location.pathname]}>
             {renderMenuItems()}
+            {overflowedItems.length > 0 && (
+              <Menu.SubMenu
+                key="more"
+                title={
+                  <>
+                    More <DownOutlined />
+                  </>
+                }
+              >
+                {overflowedItems.map((item) => (
+                  <Menu.Item key={item.key}>
+                    <Link to={item.path}>{item.label}</Link>
+                  </Menu.Item>
+                ))}
+              </Menu.SubMenu>
+            )}
           </Menu>
         </div>
       </div>
@@ -91,7 +123,7 @@ const Navbar: React.FC = () => {
           </Badge>
         </Link>
       </div>
-      {/* Mobile Menu and Cart */}
+      {/* Mobile Menu */}
       <div className="mobile-menu">
         <Link to="/cart" className="cart-icon mobile-cart">
           <Badge count={count} size="small">
@@ -102,7 +134,7 @@ const Navbar: React.FC = () => {
           <MenuOutlined />
         </Button>
       </div>
-      {/* Mobile Menu Drawer */}
+      {/* Mobile Drawer */}
       <Drawer
         title="Menu"
         placement="right"
@@ -115,7 +147,11 @@ const Navbar: React.FC = () => {
           selectedKeys={[location.pathname]}
           onClick={onClose}
         >
-          {renderMenuItems()}
+          {menuItems.map((item) => (
+            <Menu.Item key={item.key}>
+              <Link to={item.path}>{item.label}</Link>
+            </Menu.Item>
+          ))}
         </Menu>
         <div className="drawer-right-menu">{renderRightMenu()}</div>
       </Drawer>

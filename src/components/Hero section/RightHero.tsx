@@ -8,8 +8,10 @@ function RightHero() {
         backgroundColor: "#CFDFEE",
         padding: "24px",
         borderRadius: "8px",
-        right: 0,
-        top: 0,
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
       } as CSSProperties,
       title: {
         fontSize: "28px",
@@ -58,7 +60,7 @@ function RightHero() {
     <div
       style={{
         ...styles.content,
-        maxWidth: "500px",
+        maxWidth: "400px",
         width: "100%",
         margin: "0 auto",
       }}

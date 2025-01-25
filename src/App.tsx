@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
+import Shop from "./pages/Shop";
 
 const { Content } = Layout;
 
@@ -24,6 +25,7 @@ const App: React.FC = () => {
           <div style={{ background: "#fff", padding: 24, minHeight: 380 }}>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/shop" element={<Shop />} />
               <Route path="/about" element={<About />} />
               <Route path="/services" element={<Services />} />
               <Route path="/contact" element={<Contact />} />

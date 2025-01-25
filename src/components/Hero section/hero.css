@@ -1,13 +1,16 @@
-.hero{
+.hero {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-    grid-gap: 20px;
-  
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 20px;
 }
-
-@media only screen and (max-width: 768px){
-  .hero{
+.banner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+}
+@media only screen and (max-width: 768px) {
+  .hero {
     grid-template-columns: 1fr;
   }
-    
 }

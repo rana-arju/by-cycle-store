@@ -40,7 +40,7 @@ const sliderData: SliderItem[] = [
 const styles = {
   sliderContainer: {
     width: "100%",
-    maxWidth: "1000px",
+    maxWidth: "800px",
     margin: "0 auto",
   } as CSSProperties,
   slide: {
@@ -120,7 +120,7 @@ const styles = {
 };
 
 
-const BicycleSlider: React.FC = () => {
+const LeftHero: React.FC = () => {
   return (
     <div style={styles.sliderContainer}>
       <Swiper
@@ -167,4 +167,4 @@ const BicycleSlider: React.FC = () => {
   );
 };
 
-export default BicycleSlider;
+export default LeftHero;
