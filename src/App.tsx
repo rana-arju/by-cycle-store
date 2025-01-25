@@ -7,12 +7,14 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Shop from "./pages/Shop";
+import Login from "./pages/Login";
+import Registration from "./pages/Registration";
 
 const { Content } = Layout;
 
 // Simple components for each route
 
-const Login = () => <h1>Login Page</h1>;
+
 const Profile = () => <h1>Profile Page</h1>;
 const Cart = () => <h1>Cart Page</h1>;
 
@@ -30,6 +32,7 @@ const App: React.FC = () => {
               <Route path="/services" element={<Services />} />
               <Route path="/contact" element={<Contact />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/registration" element={<Registration />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/cart" element={<Cart />} />
             </Routes>
