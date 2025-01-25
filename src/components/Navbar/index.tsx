@@ -69,6 +69,7 @@ const Navbar: React.FC = () => {
 
   return (
     <Header className="navbar">
+    
       <div className="navbar-logo">
         <Link to="/">
           <img src={logo} alt="Logo" className="logo" />
@@ -77,11 +78,7 @@ const Navbar: React.FC = () => {
       <div className="navbar-menu">
         {/* Desktop Menu */}
         <div className="desktop-menu">
-          <Menu
-           
-            mode="horizontal"
-            selectedKeys={[location.pathname]}
-          >
+          <Menu mode="horizontal" selectedKeys={[location.pathname]}>
             {renderMenuItems()}
           </Menu>
         </div>

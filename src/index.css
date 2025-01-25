@@ -2,6 +2,12 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+ 
+}
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 @media only screen and (min-width: 100px) {
   .custom-menu {
@@ -11,18 +17,15 @@
     gap: 20px; /* Add spacing between items */
     border: none; /* Remove Ant Design's default border */
     background: none; /* Remove Ant Design's background color */
-}
-  
-.custom-menu .ant-menu-item {
+  }
+
+  .custom-menu .ant-menu-item {
     flex: 0 1 auto; /* Make items flexible and fit the content */
     text-align: center;
     font-size: 16px; /* Adjust the font size for better visibility */
-}
+  }
 
-.custom-menu .ant-menu-item:hover {
+  .custom-menu .ant-menu-item:hover {
     color: #1890ff; /* Optional: Add hover effect */
+  }
 }
-}
-
-
-

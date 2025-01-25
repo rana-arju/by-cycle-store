@@ -1,7 +1,10 @@
+import Hero from "../components/Hero section"
 
 function Home() {
   return (
-    <div>Home</div>
+    <div>
+      <Hero />
+    </div>
   )
 }
 

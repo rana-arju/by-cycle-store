@@ -20,7 +20,7 @@ const App: React.FC = () => {
     <Router>
       <Layout>
         <Navbar />
-        <Content style={{  marginTop: 64 }}>
+        <Content style={{ marginTop: 64 }}>
           <div style={{ background: "#fff", padding: 24, minHeight: 380 }}>
             <Routes>
               <Route path="/" element={<Home />} />

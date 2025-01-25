@@ -2,12 +2,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
   position: fixed;
-  z-index: 1;
+  z-index: 999;
   width: 100%;
   background-color: white;
-  border-bottom: 2px solid red;
  
 }
 
@@ -102,8 +100,9 @@
     margin-right: 16px;
   }
 
-  .mobile-drawer .ant-drawer-body {
+  .mobile-drawer .ant-drawer-body,.ant-drawer-header {
     padding: 24px 0;
+    margin: 0 !important;
   }
 
   .mobile-drawer .ant-menu {
@@ -124,4 +123,3 @@
     display: none;
   }
 }
-
