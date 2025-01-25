@@ -2,12 +2,12 @@ import { Button, Card, Col, Flex } from "antd";
 import BForm from "../components/form/BForm";
 import BInput from "../components/form/BInput";
 import { FieldValues } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hook";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registrationSchema } from "../schema/user.schema";
 
-function Registration() {
+function PasswordChange() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const onSubmit = (data: FieldValues) => {
@@ -27,43 +27,30 @@ function Registration() {
                 textTransform: "uppercase",
               }}
             >
-              Registration
+              Password Change
             </h3>
-            <BForm onSubmit={onSubmit} resolver={zodResolver(registrationSchema)}>
-              <BInput
-                type="text"
-                placeholder="Enter your name"
-                label="Enter your name"
-                name="name"
-              />
-              <BInput
-                type="text"
-                placeholder="Enter your email"
-                label="Enter your email"
-                name="email"
-              />
+            <BForm
+              onSubmit={onSubmit}
+              resolver={zodResolver(registrationSchema)}
+            >
               <BInput
                 type="password"
-                placeholder="Enter your password"
-                label="Enter your password"
-                name="password"
+                placeholder="Enter old password"
+                label="Enter old password"
+                name="oldPassword"
+              />
+            
+              <BInput
+                type="password"
+                placeholder="Enter new password"
+                label="Enter new password"
+                name="newPassword"
               />
               <Button type="primary" htmlType="submit">
-                Registration
+                password Change
               </Button>
             </BForm>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                gap: "5px",
-                marginTop: "10px"
-              }}
-            >
-              <p>Already have an account? </p>
-              <Link to="/login">Login</Link>
-            </div>
+           
           </Col>
         </Flex>
       </Card>
@@ -71,4 +58,4 @@ function Registration() {
   );
 }
 
-export default Registration;
+export default PasswordChange;
