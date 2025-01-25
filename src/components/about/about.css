@@ -1,0 +1,28 @@
+.about-header{
+    background-image: url('https://res.cloudinary.com/db8l1ulfq/image/upload/v1737819455/mtb-single_e58jix.webp');
+    background-size: cover;
+    height: 300px;
+    width: 100%;
+    background-position: center top;
+    background-blend-mode: multiply;
+    background-repeat: no-repeat;
+    object-fit: cover;
+
+    color: white; 
+    background-color:rgba(0, 0, 0, 0.8) ;
+}
+  .overlay{
+    position: "absolute";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+  } 
+  .about-content p{
+    font-size: 15px;
+    margin: 15px 0;
+    align-items: justify;
+    font-weight: 400;
+   
+  }

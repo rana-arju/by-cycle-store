@@ -22,7 +22,7 @@ const App: React.FC = () => {
       <Layout>
         <Navbar />
         <Content style={{ marginTop: 64 }}>
-          <div style={{ background: "#fff", padding: 24, minHeight: 380 }}>
+          <div style={{ background: "#fff", minHeight: 380 }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/shop" element={<Shop />} />
