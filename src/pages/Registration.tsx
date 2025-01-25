@@ -4,6 +4,8 @@ import BInput from "../components/form/BInput";
 import { FieldValues } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hook";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { registrationSchema } from "../schema/user.schema";
 
 function Registration() {
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ function Registration() {
             >
               Login
             </h3>
-            <BForm onSubmit={onSubmit}>
+            <BForm onSubmit={onSubmit} resolver={zodResolver(registrationSchema)}>
               <BInput
                 type="text"
                 placeholder="Enter your name"

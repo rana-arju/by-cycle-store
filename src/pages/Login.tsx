@@ -4,6 +4,8 @@ import BInput from "../components/form/BInput";
 import { FieldValues } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../redux/hook";
+import { loginSchema } from "../schema/user.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 function Login() {
   const navigate = useNavigate();
@@ -27,7 +29,10 @@ function Login() {
             >
               Login
             </h3>
-            <BForm onSubmit={onSubmit}>
+            <BForm
+              onSubmit={onSubmit}
+              resolver={zodResolver(loginSchema)}
+            >
               <BInput
                 type="text"
                 placeholder="Enter your email"
