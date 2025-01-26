@@ -4,6 +4,7 @@ interface FilterSidebarProps {
   filters: FilterState;
   onChange: (filters: FilterState) => void;
   categories: string[];
+  brand: string[]
 
 }
 

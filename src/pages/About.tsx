@@ -1,4 +1,4 @@
-import { Card, Col, Image, Layout, Row } from "antd";
+import {  Col, Image, Layout, Row } from "antd";
 import AboutHeader from "../components/about"
 import { Content } from "antd/es/layout/layout";
 import Title from "antd/es/typography/Title";

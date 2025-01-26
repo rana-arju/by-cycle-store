@@ -13,7 +13,6 @@ export interface Product {
 export interface FilterState {
   availability: "all" | "in-stock" | "out-of-stock";
   priceRange: [number, number];
-  colors: string[];
-  sizes: string[];
+  brand: string[];
   category: string[];
 }

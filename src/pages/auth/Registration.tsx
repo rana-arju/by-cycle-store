@@ -1,13 +1,13 @@
 import { Button, Card, Col, Flex } from "antd";
-import BForm from "../components/form/BForm";
-import BInput from "../components/form/BInput";
+import BForm from "../../components/form/BForm";
+import BInput from "../../components/form/BInput";
 import { FieldValues } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../redux/hook";
-import { loginSchema } from "../schema/user.schema";
+import { useAppDispatch } from "../../redux/hook";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { registrationSchema } from "../../schema/user.schema";
 
-function Login() {
+function Registration() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const onSubmit = (data: FieldValues) => {
@@ -27,12 +27,18 @@ function Login() {
                 textTransform: "uppercase",
               }}
             >
-              Login
+              Registration
             </h3>
             <BForm
               onSubmit={onSubmit}
-              resolver={zodResolver(loginSchema)}
+              resolver={zodResolver(registrationSchema)}
             >
+              <BInput
+                type="text"
+                placeholder="Enter your name"
+                label="Enter your name"
+                name="name"
+              />
               <BInput
                 type="text"
                 placeholder="Enter your email"
@@ -46,7 +52,7 @@ function Login() {
                 name="password"
               />
               <Button type="primary" htmlType="submit">
-                Login
+                Registration
               </Button>
             </BForm>
             <div
@@ -58,8 +64,8 @@ function Login() {
                 marginTop: "10px",
               }}
             >
-              <p>Don't have an account? </p>
-              <Link to="/registration">Registration</Link>
+              <p>Already have an account? </p>
+              <Link to="/login">Login</Link>
             </div>
           </Col>
         </Flex>
@@ -68,4 +74,4 @@ function Login() {
   );
 }
 
-export default Login;
+export default Registration;

@@ -18,6 +18,12 @@
   font-weight: 700;
   text-transform: uppercase;
 }
+@media  only screen and (min-width: 780px) {
+  .filter-button{
+    display: none;
+  }
+  
+}
 @media only screen and (min-width: 100px) {
   .custom-menu {
     display: flex;
@@ -37,4 +43,44 @@
   .custom-menu .ant-menu-item:hover {
     color: #1890ff; /* Optional: Add hover effect */
   }
+}
+/* Ant Design Overrides */
+.ant-card {
+  @apply rounded-lg overflow-hidden;
+}
+
+.ant-card-body {
+  @apply p-4;
+}
+
+.ant-collapse {
+  @apply rounded-lg border border-gray-200;
+}
+
+.ant-collapse-header {
+  @apply py-3 px-4;
+}
+
+.ant-drawer-body {
+  @apply p-0;
+}
+
+.ant-pagination-item {
+  @apply rounded-md;
+}
+
+.ant-pagination-item-active {
+  @apply border-blue-600;
+}
+
+.ant-pagination-item-active a {
+  @apply text-blue-600;
+}
+
+.ant-select-selector {
+  @apply rounded-md;
+}
+
+.ant-badge-ribbon {
+  @apply rounded-sm;
 }

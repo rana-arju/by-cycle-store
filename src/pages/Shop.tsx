@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import type { Product, FilterState } from "../types/product";
 import { FilterSidebar } from "../components/shop/FilterSidebar";
 import { ProductCard } from "../components/shop/ProductCard";
 import ShopHeader from "../components/shop";
-import { Select } from "antd";
+import { Button, Drawer, Layout, Pagination, Select } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
 // This would normally come from an API
 const MOCK_PRODUCTS: Product[] = [
   {
@@ -77,62 +78,57 @@ const MOCK_PRODUCTS: Product[] = [
 ];
 
 export default function Shop() {
-  const [filters, setFilters] = useState<FilterState>({
-    availability: "all",
-    priceRange: [0, 5000],
-    colors: [],
-    sizes: [],
-    category: [],
-  });
-  const [sortBy, setSortBy] = useState("featured");
 
-  const filteredProducts = MOCK_PRODUCTS.filter((product) => {
-    if (
-      (filters.availability === "in-stock" && !product.inStock) ||
-      (filters.availability === "out-of-stock" && product.inStock)
-    ) {
-      return false;
-    }
+   const [filters, setFilters] = useState<FilterState>({
+     availability: "all",
+     priceRange: [0, 1000],
+     brand: [],
+     category: [],
+   });
+   const [sortBy, setSortBy] = useState<string>("featured");
+   const [currentPage, setCurrentPage] = useState(1);
+   const [drawerVisible, setDrawerVisible] = useState(false);
 
-    const price = product.salePrice || product.price;
-    if (price < filters.priceRange[0] || price > filters.priceRange[1]) {
-      return false;
-    }
+   const filteredProducts = MOCK_PRODUCTS.filter((product) => {
+     if (
+       (filters.availability === "in-stock" && !product.inStock) ||
+       (filters.availability === "out-of-stock" && product.inStock)
+     ) {
+       return false;
+     }
 
-    if (
-      filters.colors.length > 0 &&
-      !filters.colors.some((color) => product.colors.includes(color))
-    ) {
-      return false;
-    }
+     const price = product.salePrice || product.price;
+     if (price < filters.priceRange[0] || price > filters.priceRange[1]) {
+       return false;
+     }
 
-    if (
-      filters.sizes.length > 0 &&
-      !filters.sizes.some((size) => product.sizes?.includes(size))
-    ) {
-      return false;
-    }
+   
 
-    if (
-      filters.category.length > 0 &&
-      !filters.category.includes(product.category)
-    ) {
-      return false;
-    }
+/*
+     if (filters.brands.length > 0 && !filters.brands.includes(product.brand)) {
+       return false;
+     }
+       */
 
-    return true;
-  });
+     return true;
+   });
 
-  const sortedProducts = [...filteredProducts].sort((a, b) => {
-    switch (sortBy) {
-      case "price-asc":
-        return (a.salePrice || a.price) - (b.salePrice || b.price);
-      case "price-desc":
-        return (b.salePrice || b.price) - (a.salePrice || a.price);
-      default:
-        return 0;
-    }
-  });
+   const sortedProducts = [...filteredProducts].sort((a, b) => {
+     switch (sortBy) {
+       case "price-asc":
+         return (a.salePrice || a.price) - (b.salePrice || b.price);
+       case "price-desc":
+         return (b.salePrice || b.price) - (a.salePrice || a.price);
+       default:
+         return 0;
+     }
+   });
+
+   const itemsPerPage = 12;
+   const paginatedProducts = sortedProducts.slice(
+     (currentPage - 1) * itemsPerPage,
+     currentPage * itemsPerPage
+   );
 const handleSort =() => {
 
 }
@@ -141,45 +137,79 @@ const handleSort =() => {
       <div className="pb-56">
         <ShopHeader />
       </div>
-      <div
-        className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-8 container"
-        style={{ marginTop: "20px", paddingBottom: "50px" }}
-      >
-        <div
-          className="flex items-baseline justify-end border-b border-gray-200 pb-6"
-          style={{ marginBottom: "20px" }}
-        >
-          <div className="flex items-center">
-            <Select
-              value={sortBy}
-              onChange={handleSort}
-              className="rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500"
-              style={{ width: "200px", marginBottom: "10px" }}
-              options={[
-                { value: "recently added", label: "Recently Added" },
-                { value: "price low to high", label: "Price low to high" },
-                { value: "price high to low", label: "Price high to low" },
-              ]}
-            />
+      <Layout className="min-h-screen bg-gray-100" style={{marginBottom: "50px"}}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-8 container">
+          <div className="flex items-center justify-end mb-6">
+            <div className="flex items-center gap-4 " style={{marginBottom: "20px", marginTop: "20px"}}>
+              <Button
+                icon={<MenuOutlined />}
+                onClick={() => setDrawerVisible(true)}
+                className="filter-button"
+               
+              >
+                Filters
+              </Button>
+              <Select
+                value={sortBy}
+                onChange={setSortBy}
+                className="w-[200px]"
+                options={[
+                  { value: "featured", label: "Featured" },
+                  { value: "price-asc", label: "Price: Low to High" },
+                  { value: "price-desc", label: "Price: High to Low" },
+                ]}
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="flex gap-x-8 py-6">
-          <FilterSidebar
-            filters={filters}
-            onChange={setFilters}
-            categories={["Mountain Bikes", "Road Bikes", "Electric Bikes"]}
-          />
+          <div className="flex gap-8">
+            {/* Desktop Sidebar */}
+            <div className="hidden md:block">
+              <FilterSidebar
+                filters={filters}
+                onChange={setFilters}
+                brand={["SportsPro", "ActiveWear", "FitGear"]}
+                categories={[]}
+              />
+            </div>
 
-          <div className="flex-1">
-            <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-              {sortedProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
+            {/* Mobile Drawer */}
+            <Drawer
+              title="Filters"
+              placement="left"
+              onClose={() => setDrawerVisible(false)}
+              visible={drawerVisible}
+              width={300}
+            >
+              <FilterSidebar
+                filters={filters}
+                onChange={setFilters}
+                brand={["SportsPro", "ActiveWear", "FitGear"]}
+                categories={[]}
+              />
+            </Drawer>
+
+            {/* Product Grid */}
+            <div className="flex-1">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {paginatedProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </div>
+
+              <div className="mt-8 flex justify-center">
+                <Pagination
+                  current={currentPage}
+                  onChange={setCurrentPage}
+                  total={sortedProducts.length}
+                  pageSize={itemsPerPage}
+                  showSizeChanger={false}
+                />
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </Layout>
     </>
   );
 }

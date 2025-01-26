@@ -7,13 +7,12 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact";
 import Shop from "./pages/Shop";
-import Login from "./pages/Login";
-import Registration from "./pages/Registration";
+import Login from "./pages/auth/Login";
+import Registration from "./pages/auth/Registration";
 
 const { Content } = Layout;
 
 // Simple components for each route
-
 
 const Profile = () => <h1>Profile Page</h1>;
 const Cart = () => <h1>Cart Page</h1>;
