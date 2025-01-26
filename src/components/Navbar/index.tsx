@@ -10,6 +10,13 @@ import {
 } from "@ant-design/icons";
 import logo from "../../assets/logo.png";
 import "./navbar.css";
+import {
+  IUser,
+  logout,
+  useCurrentToken,
+} from "../../redux/features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
+import { verifyToken } from "../../utils/VerifyToken";
 
 const { Header } = Layout;
 
@@ -29,8 +36,16 @@ const menuItems: MenuItem[] = [
 ];
 
 const Navbar: React.FC = () => {
+const dispatch = useAppDispatch()
+  const token = useAppSelector(useCurrentToken);
+ 
+  let user;
+  if (token) {
+    user = verifyToken(token);
+  }
+  const role = (user as IUser)?.role;
+
   const [visible, setVisible] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // This should be managed by user authentication system
   const location = useLocation();
   const [overflowedItems, setOverflowedItems] = useState<MenuItem[]>([]);
   const [count, setCount] = useState(0);
@@ -38,7 +53,7 @@ const Navbar: React.FC = () => {
   const showDrawer = () => setVisible(true);
   const onClose = () => setVisible(false);
 
-  const handleLogout = () => setIsLoggedIn(false); // Implement logout logic
+  const handleLogout = () => dispatch(logout());// Implement logout logic
 
   const renderMenuItems = () =>
     menuItems
@@ -51,7 +66,7 @@ const Navbar: React.FC = () => {
 
   const renderRightMenu = () => (
     <Space size="large" className="right-menu">
-      {isLoggedIn ? (
+      {role ? (
         <>
           <Link to="/profile">
             <UserOutlined className="nav-icon" />
@@ -59,7 +74,9 @@ const Navbar: React.FC = () => {
           <LogoutOutlined className="nav-icon" onClick={handleLogout} />
         </>
       ) : (
-        <Link to="/login">Login</Link>
+        <Button>
+          <Link to="/login">Login</Link>
+        </Button>
       )}
     </Space>
   );

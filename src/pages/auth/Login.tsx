@@ -6,12 +6,31 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hook";
 import { loginSchema } from "../../schema/user.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { IUser, setUser } from "../../redux/features/auth/authSlice";
+import { useLoginMutation } from "../../redux/features/auth/authApi";
+import { verifyToken } from "../../utils/VerifyToken";
+import { toast } from "sonner";
 
 function Login() {
+  const [login] = useLoginMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
+  const onSubmit = async (value: FieldValues) => {
+    const data = {
+      email: value.email,
+      password: value.password,
+    };
+
+    const res = await login(data).unwrap();
+    const user = verifyToken(res.data.accessToken) as IUser;
+    console.log("user", user);
+    if (!res.data.success) {
+      toast.error(res?.data?.error?.message);
+    }
+
+    dispatch(setUser({ user: user, token: res.data.accessToken }));
+    toast.success(res.message);
+    navigate("/", { replace: true });
   };
   return (
     <div className="container">

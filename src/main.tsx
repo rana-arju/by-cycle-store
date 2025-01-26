@@ -10,7 +10,9 @@ import "swiper/swiper-bundle.css";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
     <Toaster position="top-center" expand={false} richColors />
   </StrictMode>
