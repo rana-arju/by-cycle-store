@@ -74,9 +74,9 @@ const dispatch = useAppDispatch()
           <LogoutOutlined className="nav-icon" onClick={handleLogout} />
         </>
       ) : (
-        <Button>
-          <Link to="/login">Login</Link>
-        </Button>
+        <Link to="/login">
+          <Button>Login</Button>
+        </Link>
       )}
     </Space>
   );

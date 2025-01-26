@@ -23,7 +23,6 @@ function Login() {
 
     const res = await login(data).unwrap();
     const user = verifyToken(res.data.accessToken) as IUser;
-    console.log("user", user);
     if (!res.data.success) {
       toast.error(res?.data?.error?.message);
     }
