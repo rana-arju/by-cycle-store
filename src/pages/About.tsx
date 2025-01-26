@@ -4,6 +4,7 @@ import { Content } from "antd/es/layout/layout";
 import Title from "antd/es/typography/Title";
 import Paragraph from "antd/es/typography/Paragraph";
 import Boxes from "../components/annouce/Boxes";
+import Teams from "../components/team";
 
 
 function About() {
@@ -77,6 +78,7 @@ function About() {
             </Row>
 
           </Content>
+          <Teams />
         </Layout>
       </div>
       <Boxes />
