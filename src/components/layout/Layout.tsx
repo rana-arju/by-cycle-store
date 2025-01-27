@@ -29,8 +29,7 @@ const Layout: React.FC<LayoutProps> = ({ children, userRole }) => {
             }}
           >
             <div
-              style={{
-                background: "#fff",
+              style={{background: "#fff",
                 paddingLeft: "10px",
                 paddingTop: isDashboard && userRole ? "20px" : 0,
               }}
