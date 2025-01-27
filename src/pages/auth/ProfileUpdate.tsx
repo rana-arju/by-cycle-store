@@ -4,31 +4,31 @@ import BInput from "../../components/form/BInput";
 import { FieldValues } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hook";
-import { loginSchema } from "../../schema/user.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { IUser, setUser } from "../../redux/features/auth/authSlice";
-import { useLoginMutation } from "../../redux/features/auth/authApi";
+import { registrationSchema } from "../../schema/user.schema";
+import { useRegistrationMutation } from "../../redux/features/auth/authApi";
 import { verifyToken } from "../../utils/VerifyToken";
+import { IUser, setUser } from "../../redux/features/auth/authSlice";
 import { toast } from "sonner";
 
-function Login({ setUserRole }: any) {
-  const [login] = useLoginMutation();
+function ProfileUpdate() {
+  const [registration] = useRegistrationMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const onSubmit = async (value: FieldValues) => {
     const data = {
       email: value.email,
       password: value.password,
+      name: value.name,
     };
 
-    const res = await login(data).unwrap();
+    const res = await registration(data).unwrap();
     const user = verifyToken(res.data.accessToken) as IUser;
+
     if (!res.data.success) {
       toast.error(res?.data?.error?.message);
     }
-    console.log("user role", user);
-    
-    setUserRole(user.role);
+
     dispatch(setUser({ user: user, token: res.data.accessToken }));
     toast.success(res.message);
     navigate("/", { replace: true });
@@ -47,9 +47,18 @@ function Login({ setUserRole }: any) {
                 textTransform: "uppercase",
               }}
             >
-              Login
+              Profile Update
             </h3>
-            <BForm onSubmit={onSubmit} resolver={zodResolver(loginSchema)}>
+            <BForm
+              onSubmit={onSubmit}
+              resolver={zodResolver(registrationSchema)}
+            >
+              <BInput
+                type="text"
+                placeholder="Enter your name"
+                label="Enter your name"
+                name="name"
+              />
               <BInput
                 type="text"
                 placeholder="Enter your email"
@@ -63,7 +72,7 @@ function Login({ setUserRole }: any) {
                 name="password"
               />
               <Button type="primary" htmlType="submit">
-                Login
+                Registration
               </Button>
             </BForm>
             <div
@@ -75,8 +84,8 @@ function Login({ setUserRole }: any) {
                 marginTop: "10px",
               }}
             >
-              <p>Don't have an account? </p>
-              <Link to="/registration">Registration</Link>
+              <p>Already have an account? </p>
+              <Link to="/login">Login</Link>
             </div>
           </Col>
         </Flex>
@@ -85,4 +94,4 @@ function Login({ setUserRole }: any) {
   );
 }
 
-export default Login;
+export default ProfileUpdate;

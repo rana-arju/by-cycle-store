@@ -2,14 +2,12 @@ import { Button, Card, Col, Flex } from "antd";
 import BForm from "../components/form/BForm";
 import BInput from "../components/form/BInput";
 import { FieldValues } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../redux/hook";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registrationSchema } from "../schema/user.schema";
 
 function PasswordChange() {
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+
   const onSubmit = (data: FieldValues) => {
     console.log(data);
   };

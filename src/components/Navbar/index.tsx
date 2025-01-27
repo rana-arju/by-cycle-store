@@ -36,9 +36,9 @@ const menuItems: MenuItem[] = [
 ];
 
 const Navbar: React.FC = () => {
-const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const token = useAppSelector(useCurrentToken);
- 
+
   let user;
   if (token) {
     user = verifyToken(token);
@@ -48,12 +48,12 @@ const dispatch = useAppDispatch()
   const [visible, setVisible] = useState(false);
   const location = useLocation();
   const [overflowedItems, setOverflowedItems] = useState<MenuItem[]>([]);
-  const [count, setCount] = useState(0);
+  //const [count, setCount] = useState(0);
 
   const showDrawer = () => setVisible(true);
   const onClose = () => setVisible(false);
 
-  const handleLogout = () => dispatch(logout());// Implement logout logic
+  const handleLogout = () => dispatch(logout()); // Implement logout logic
 
   const renderMenuItems = () =>
     menuItems
@@ -68,7 +68,15 @@ const dispatch = useAppDispatch()
     <Space size="large" className="right-menu">
       {role ? (
         <>
-          <Link to="/profile">
+          <Link
+            to={
+              role === "admin"
+                ? "/dashboard/info"
+                : role === "user"
+                ? "/dashboard"
+                : ""
+            }
+          >
             <UserOutlined className="nav-icon" />
           </Link>
           <LogoutOutlined className="nav-icon" onClick={handleLogout} />
@@ -135,7 +143,7 @@ const dispatch = useAppDispatch()
       <div className="navbar-right">
         {renderRightMenu()}
         <Link to="/cart" className="cart-icon desktop-cart">
-          <Badge count={count} size="small">
+          <Badge count={1} size="small">
             <ShoppingCartOutlined className="nav-icon" />
           </Badge>
         </Link>
@@ -143,7 +151,7 @@ const dispatch = useAppDispatch()
       {/* Mobile Menu */}
       <div className="mobile-menu">
         <Link to="/cart" className="cart-icon mobile-cart">
-          <Badge count={count} size="small">
+          <Badge count={1} size="small">
             <ShoppingCartOutlined className="nav-icon" />
           </Badge>
         </Link>

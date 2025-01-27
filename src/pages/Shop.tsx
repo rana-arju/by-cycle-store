@@ -129,9 +129,7 @@ export default function Shop() {
      (currentPage - 1) * itemsPerPage,
      currentPage * itemsPerPage
    );
-const handleSort =() => {
 
-}
   return (
     <>
       <div className="pb-56">

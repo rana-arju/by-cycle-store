@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 
-
 * {
   padding: 0;
   margin: 0;
@@ -45,6 +44,7 @@
   }
 }
 /* Ant Design Overrides */
+
 .ant-card {
   @apply rounded-lg overflow-hidden;
 }
@@ -84,3 +84,4 @@
 .ant-badge-ribbon {
   @apply rounded-sm;
 }
+  

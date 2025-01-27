@@ -2,27 +2,26 @@ import type React from "react";
 import { useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ConfigProvider } from "antd";
-import { useAppSelector } from "./redux/hook";
-import { IUser, useCurrentToken } from "./redux/features/auth/authSlice";
-import { verifyToken } from "./utils/VerifyToken";
-import Layout from "./components/layout/Layout";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Shop from "./pages/Shop";
-import Login from "./pages/auth/Login";
-import ProtectRoute from "./components/layout/ProtectRoute";
-import Dashboard from "./pages/Dashboard";
-import MyOrders from "./pages/user/MyOrders";
-import Orders from "./pages/admin/Orders";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import Users from "./pages/admin/Users";
-import Products from "./pages/admin/Products";
-import AddProduct from "./pages/admin/CreateProduct";
-import Profile from "./pages/Profile";
-import Cart from "./pages/Cart";
+import Home from "./Home";
+import About from "./About";
+import Contact from "./Contact";
+import Login from "./auth/Login";
+import Dashboard from "./Dashboard";
+import Orders from "./admin/Orders";
+import Users from "./admin/Users";
+import Products from "./admin/Products";
+import Profile from "./Profile";
+import Layout from "../components/layout/Layout";
+import AdminDashboard from "./admin/AdminDashboard";
+import { useAppSelector } from "../redux/hook";
+import { IUser, useCurrentToken } from "../redux/features/auth/authSlice";
+import { verifyToken } from "../utils/VerifyToken";
+import Shop from "./Shop";
+import ProtectRoute from "../components/layout/ProtectRoute";
+import AddProduct from "./admin/CreateProduct";
+import MyOrders from "./user/MyOrders";
 
-const App: React.FC = () => {
+const Test: React.FC = () => {
   const token = useAppSelector(useCurrentToken);
 
   let user;
@@ -47,7 +46,6 @@ const App: React.FC = () => {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/shop" element={<Shop />} />
-            <Route path="/cart" element={<Cart />} />
             <Route
               path="/login"
               element={<Login setUserRole={setUserRole} />}
@@ -127,4 +125,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default Test;
