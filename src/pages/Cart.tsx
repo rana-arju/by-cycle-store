@@ -296,7 +296,7 @@ function Cart() {
 
           <div
             className="bg-white rounded-md px-4 py-6  shadow-[0_2px_12px_-3px_rgba(61,63,68,0.3)] "
-            style={{ padding: "20px"}}
+            style={{ padding: "20px" }}
           >
             <ul className="text-gray-800 space-y-4 flex flex-col justify-center gap-[10px]">
               <li className="flex justify-between items-center">
@@ -319,15 +319,15 @@ function Cart() {
               style={{ marginTop: "20px", marginBottom: "20px" }}
             >
               <Link to="/dashboard/checkout">
-                <Button className="text-md px-4 py-2.5 w-full font-semibold tracking-wide bg-gray-800 hover:bg-gray-900 text-white rounded-md">
-                  Buy Now
+                <Button
+                  type="primary"
+                  className="text-md px-4 py-2.5 w-full  tracking-wide bg-gray-800 hover:bg-gray-900 text-white rounded-md uppercase font-bold"
+                >
+                  Proceed to checkout
                 </Button>
               </Link>
               <Link to="/shop">
-                <Button
-                  type="primary"
-                  className="text-md px-4 py-2.5 w-full font-semibold tracking-wide bg-transparent hover:bg-gray-100 text-gray-800 border border-gray-300 rounded-md"
-                >
+                <Button className="text-md px-4 py-2.5 w-full font-bold tracking-wide bg-transparent hover:bg-gray-100 text-gray-800 border border-gray-300 rounded-md uppercase">
                   Continue Shopping
                 </Button>
               </Link>

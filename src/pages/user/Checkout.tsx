@@ -1,0 +1,338 @@
+import { FieldValues } from "react-hook-form";
+import BForm from "../../components/form/BForm";
+import BInput from "../../components/form/BInput";
+import { Button } from "antd";
+import { Link } from "react-router-dom";
+
+function Checkout() {
+  const onSubmit = (value: FieldValues) => {
+    console.log(value);
+    
+  };
+  return (
+    <div style={{ paddingTop: "20px", paddingBottom: "20px" }}>
+      <div
+        className="font-[sans-serif] bg-white container shadow-2xl rounded-md"
+        style={{ padding: "20px" }}
+      >
+        <div className="max-lg:max-w-xl mx-auto w-full">
+          <div className="grid lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 max-lg:order-1 p-6 !pr-0 max-w-4xl mx-auto w-full">
+              <div className="text-center max-lg:hidden">
+                <h2 className="text-3xl font-bold text-gray-800 inline-block border-b-2 border-gray-800 pb-1">
+                  Checkout
+                </h2>
+              </div>
+
+              <BForm onSubmit={onSubmit}>
+                <div>
+                  <h2 className="text-xl font-bold text-gray-800">
+                    Shipping info
+                  </h2>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <BInput
+                        type="text"
+                        name="name"
+                        label="Full name"
+                        placeholder="Full name"
+                      />
+                    </div>
+                    <div>
+                      <BInput
+                        type="text"
+                        name="email"
+                        label="Email"
+                        placeholder="Email"
+                      />
+                    </div>
+                    <div>
+                      <BInput
+                        type="text"
+                        name="street"
+                        label="Streat address"
+                        placeholder="Streat address"
+                      />
+                    </div>
+                    <div>
+                      <BInput
+                        type="text"
+                        name="city"
+                        label="City"
+                        placeholder="City"
+                      />
+                    </div>
+                    <div>
+                      <BInput
+                        type="text"
+                        name="state"
+                        label="State"
+                        placeholder="State"
+                      />
+                    </div>
+                    <div>
+                      <BInput
+                        type="number"
+                        name="postcode"
+                        label="Post code"
+                        placeholder="Post code"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mt-16">
+                  <h2 className="text-xl font-bold text-gray-800">
+                    Payment method
+                  </h2>
+
+                  <div className="grid gap-4 sm:grid-cols-2 mt-4">
+                    <div className="flex items-center">
+                      <input
+                        type="radio"
+                        className="w-5 h-5 cursor-pointer"
+                        id="card"
+                        checked
+                      />
+                      <label
+                        htmlFor="card"
+                        className="ml-4 flex gap-2 cursor-pointer"
+                      >
+                        <img
+                          src="https://readymadeui.com/images/visa.webp"
+                          className="w-12"
+                          alt="card1"
+                        />
+                        <img
+                          src="https://readymadeui.com/images/american-express.webp"
+                          className="w-12"
+                          alt="card2"
+                        />
+                        <img
+                          src="https://readymadeui.com/images/master.webp"
+                          className="w-12"
+                          alt="card3"
+                        />
+                      </label>
+                    </div>
+
+                    <div className="flex items-center">
+                      <input
+                        type="radio"
+                        className="w-5 h-5 cursor-pointer"
+                        id="paypal"
+                      />
+                      <label
+                        htmlFor="paypal"
+                        className="ml-4 flex gap-2 cursor-pointer"
+                      >
+                        <img
+                          src="https://readymadeui.com/images/paypal.webp"
+                          className="w-20"
+                          alt="paypalCard"
+                        />
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="grid gap-8" style={{marginTop: "20px"}}>
+                    <div className="flex items-center gap-2">
+                      <input
+                        id="remember-me"
+                        name="remember-me"
+                        type="checkbox"
+                        className="h-4 w-4 shrink-0 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                      />
+                      <label
+                        htmlFor="remember-me"
+                        className="ml-3 block text-sm"
+                      >
+                        I accept the
+                        <a
+                          href="javascript:void(0);"
+                          className="text-blue-600 font-semibold hover:underline ml-1"
+                        >
+                          Terms and Conditions
+                        </a>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  className="flex flex-wrap gap-4 justify-end"
+                  style={{ marginTop: "20px" }}
+                >
+                  <Link to="/cart">
+                    <Button className="min-w-[150px] px-6 py-3.5 text-sm bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300">
+                      Back
+                    </Button>
+                  </Link>
+                  <Link to="/">
+                    <Button
+                      type="primary"
+                      className="min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                    >
+                      Confirm payment
+                    </Button>
+                  </Link>
+                </div>
+              </BForm>
+            </div>
+
+            <div className="bg-white lg:h-screen lg:sticky lg:top-0 lg:max-w-[430px] w-full lg:ml-auto">
+              <div className="relative h-full">
+                <div className="p-6 overflow-auto max-lg:max-h-[300px] lg:h-[calc(100vh-50px)]">
+                  <h2 className="text-xl font-bold text-gray-800">
+                    Order Summary
+                  </h2>
+
+                  <div className="flex flex-col gap-4" style={{padding: "10px"}}>
+                    <div className="flex gap-4">
+                      <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
+                        <img
+                          src="https://readymadeui.com/images/product10.webp"
+                          className="w-full object-contain"
+                        />
+                      </div>
+
+                      <div className="w-full">
+                        <h3 className="text-sm text-gray-800 font-bold">
+                          Naruto: Split Sneakers
+                        </h3>
+                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
+                          <li className="flex flex-wrap gap-4">
+                            Price <span className="ml-auto">37</span>
+                          </li>
+                          <li className="flex flex-wrap gap-4">
+                            Quantity <span className="ml-auto">2</span>
+                          </li>
+                          <li className="flex flex-wrap gap-4">
+                            Total Price <span className="ml-auto">$400</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
+                        <img
+                          src="https://readymadeui.com/images/product11.webp"
+                          className="w-full object-contain"
+                        />
+                      </div>
+
+                      <div className="w-full">
+                        <h3 className="text-sm text-gray-800 font-bold">
+                          VelvetGlide Boots
+                        </h3>
+                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
+                          <li>
+                            Size <span className="float-right">37</span>
+                          </li>
+                          <li>
+                            Quantity <span className="float-right">2</span>
+                          </li>
+                          <li>
+                            Total Price <span className="float-right">$40</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
+                        <img
+                          src="https://readymadeui.com/images/product14.webp"
+                          className="w-full object-contain"
+                        />
+                      </div>
+
+                      <div className="w-full">
+                        <h3 className="text-sm text-gray-800 font-bold">
+                          Echo Elegance
+                        </h3>
+                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
+                          <li>
+                            Size <span className="float-right">37</span>
+                          </li>
+                          <li>
+                            Quantity <span className="float-right">2</span>
+                          </li>
+                          <li>
+                            Total Price <span className="float-right">$40</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
+                        <img
+                          src="https://readymadeui.com/images/product12.webp"
+                          className="w-full object-contain"
+                        />
+                      </div>
+
+                      <div className="w-full">
+                        <h3 className="text-sm text-gray-800 font-bold">
+                          Naruto: Split Sneakers
+                        </h3>
+                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
+                          <li className="flex flex-wrap gap-4">
+                            Size <span className="ml-auto">37</span>
+                          </li>
+                          <li className="flex flex-wrap gap-4">
+                            Quantity <span className="ml-auto">2</span>
+                          </li>
+                          <li className="flex flex-wrap gap-4">
+                            Total Price <span className="ml-auto">$40</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div className="flex gap-4">
+                      <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
+                        <img
+                          src="https://readymadeui.com/images/product9.webp"
+                          className="w-full object-contain"
+                        />
+                      </div>
+
+                      <div className="w-full">
+                        <h3 className="text-sm text-gray-800 font-bold">
+                          VelvetGlide Boots
+                        </h3>
+                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
+                          <li>
+                            Size <span className="float-right">37</span>
+                          </li>
+                          <li>
+                            Quantity <span className="float-right">2</span>
+                          </li>
+                          <li>
+                            Total Price <span className="float-right">$40</span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="lg:absolute lg:left-0 lg:bottom-0 bg-gray-100 w-full rounded-lg" style={{padding: "10px"}}>
+                  <h4 className="flex flex-wrap gap-4 text-sm text-gray-800 font-bold">
+                    Total <span className="ml-auto">$240.00</span>
+                  </h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default Checkout;
