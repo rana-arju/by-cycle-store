@@ -1,6 +1,7 @@
 import { Controller } from "react-hook-form";
 import { Form, Input } from "antd";
 import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import TextArea from "antd/es/input/TextArea";
 type IInputProps = {
   name: string;
   type: string;
@@ -24,6 +25,15 @@ function BInput({ name, type, label, placeholder }: IInputProps) {
                 iconRender={(visible) =>
                   visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
                 }
+              />
+            ) : type == "textarea" ? (
+              <TextArea
+                rows={4}
+                placeholder={placeholder}
+                maxLength={500}
+                id={name}
+                {...field}
+                showCount
               />
             ) : (
               <Input

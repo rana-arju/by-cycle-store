@@ -1,92 +1,84 @@
 import type React from "react";
-import { Form, Input, InputNumber, Select, Button, message } from "antd";
-
-const { Option } = Select;
+import {  Button, Flex, Col } from "antd";
+import BForm from "../../components/form/BForm";
+import { zodResolver } from "@hookform/resolvers/zod";
+import BInput from "../../components/form/BInput";
+import { FieldValues } from "react-hook-form";
+import { productSchema } from "../../schema/product.schema";
+import BSelect from "../../components/form/BSelect";
+import { modelOptions } from "../../constant/product";
 
 const AddProduct: React.FC = () => {
-  const [form] = Form.useForm();
-
-  const onFinish = (values: any) => {
+  const onSubmit = (values: FieldValues) => {
     console.log("Success:", values);
-    message.success("Product added successfully");
-    form.resetFields();
   };
 
   return (
     <>
-      <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
-      <Form
-        form={form}
-        name="add_product"
-        onFinish={onFinish}
-        layout="vertical"
-        className="max-w-lg"
-      >
-        <Form.Item
-          name="name"
-          label="Product Name"
-          rules={[
-            { required: true, message: "Please input the product name!" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-
-        <Form.Item
-          name="price"
-          label="Price"
-          rules={[{ required: true, message: "Please input the price!" }]}
-        >
-          <InputNumber
-            formatter={(value) =>
-              `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-            }
-            min={0}
-            step={0.01}
-          />
-        </Form.Item>
-
-        <Form.Item
-          name="category"
-          label="Category"
-          rules={[{ required: true, message: "Please select the category!" }]}
-        >
-          <Select placeholder="Select a category">
-            <Option value="electronics">Electronics</Option>
-            <Option value="clothing">Clothing</Option>
-            <Option value="books">Books</Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item
-          name="stock"
-          label="Stock"
-          rules={[
-            { required: true, message: "Please input the stock quantity!" },
-          ]}
-        >
-          <InputNumber min={0} />
-        </Form.Item>
-
-        <Form.Item
-          name="description"
-          label="Description"
-          rules={[
-            {
-              required: true,
-              message: "Please input the product description!",
-            },
-          ]}
-        >
-          <Input.TextArea rows={4} />
-        </Form.Item>
-
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Add Product
-          </Button>
-        </Form.Item>
-      </Form>
+      <div className="container" style={{ paddingBottom: "50px" }}>
+        <Flex justify="center" align="middle">
+          <Col span={12}>
+            <h3
+              style={{
+                textAlign: "center",
+                marginTop: "20px",
+                marginBottom: "20px",
+                fontSize: "20px",
+                textTransform: "uppercase",
+              }}
+            >
+              Add New Product
+            </h3>
+            <BForm onSubmit={onSubmit} resolver={zodResolver(productSchema)}>
+              <BInput
+                type="text"
+                placeholder="Enter product name"
+                label="Enter product name"
+                name="name"
+              />
+              <BInput
+                type="text"
+                placeholder="Brand"
+                label="Enter brand"
+                name="brand"
+              />
+              <BSelect
+                placeholder="Model"
+                label="Model"
+                name="model"
+                options={modelOptions}
+              />
+              <BInput
+                type="number"
+                placeholder="Enter price"
+                label="Enter price"
+                name="price"
+              />{" "}
+              <BInput
+                type="number"
+                placeholder="Enter quantity"
+                label="Enter quantity"
+                name="quantity"
+              />
+              <BInput
+                type="text"
+                placeholder="Product image url"
+                label="Enter one Product image url"
+                name="images"
+              />
+              <BInput
+                placeholder="Write product description..."
+                type="textarea"
+                name="description"
+                label="Write product description"
+              />
+              <Button type="primary" htmlType="submit">
+                Create new Product
+              </Button>
+            </BForm>
+          </Col>
+        </Flex>
+      </div>
     </>
   );
 };
