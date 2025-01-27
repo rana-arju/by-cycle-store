@@ -20,5 +20,5 @@ export const productSchema = z.object({
     .string({
       required_error: "Provide at least one product image",
     })
-    .array(),
+    ,
 });

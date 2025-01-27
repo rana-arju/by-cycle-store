@@ -1,5 +1,5 @@
 import type React from "react";
-import {  Button, Flex, Col } from "antd";
+import { Button, Flex, Col } from "antd";
 import BForm from "../../components/form/BForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import BInput from "../../components/form/BInput";
@@ -7,10 +7,35 @@ import { FieldValues } from "react-hook-form";
 import { productSchema } from "../../schema/product.schema";
 import BSelect from "../../components/form/BSelect";
 import { modelOptions } from "../../constant/product";
+import { useAddProductMutation } from "../../redux/features/product/productApi";
+import { toast } from "sonner";
+import {  ISingleResponse } from "../../types/global";
 
 const AddProduct: React.FC = () => {
-  const onSubmit = (values: FieldValues) => {
-    console.log("Success:", values);
+  const [addProduct] = useAddProductMutation();
+  const onSubmit = async (values: FieldValues) => {
+    const productData = {
+      name: values.name,
+      model: values.model,
+      brand: values.brand,
+      quantity: Number(values.quantity),
+      price: Number(values.price),
+      description: values.description,
+      images: [values.images],
+    };
+    const toastId = toast.loading("Adding new product...");
+    try {
+      const res = (await addProduct(productData)) as ISingleResponse;
+      console.log("res====", res);
+
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId });
+      } else {
+        toast.success(res?.data?.message, { id: toastId });
+      }
+    } catch (error) {
+      toast.error("Something went wrong!", { id: toastId });
+    }
   };
 
   return (
