@@ -22,6 +22,7 @@ import AddProduct from "./pages/admin/CreateProduct";
 import Profile from "./pages/Profile";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/user/Checkout";
+import ProductDetails from "./pages/ProductDetails";
 
 const App: React.FC = () => {
   const token = useAppSelector(useCurrentToken);
@@ -49,7 +50,8 @@ const App: React.FC = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="checkout" element={<Checkout />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/details/:id" element={<ProductDetails />} />
             <Route
               path="/login"
               element={<Login setUserRole={setUserRole} />}
