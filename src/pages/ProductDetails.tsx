@@ -1,13 +1,43 @@
-import { Button } from "antd";
-import { useParams } from "react-router-dom";
+import { Button, Input } from "antd";
+import { Link, useParams } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Rating from "../components/card/Rating";
+import { useGetSingleProductQuery } from "../redux/features/product/productApi";
+import { useState } from "react";
+import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 
 function ProductDetails() {
   const { id } = useParams();
-  console.log("id", id);
+    const [quantity, setQuantity] = useState(1);
 
+  const { data: product, isFetching, isLoading } = useGetSingleProductQuery(id);
+  if (isFetching || isLoading) {
+    return <p>Loading...</p>;
+  }
+  const { data } = product;
+
+  const handleDecrease = () => {
+    const newValue = quantity - 1;
+    if (newValue >= 1) {
+      setQuantity(newValue);
+    }
+  };
+
+  const handleIncrease = () => {
+    const newValue = quantity + 1;
+    if (newValue <= data?.quantity) {
+      setQuantity(newValue);
+    }
+  };
+console.log(quantity);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number.parseInt(e.target.value, 10);
+    if (!isNaN(value) && value >= 1 && value <= data?.quantity) {
+      setQuantity(value);
+    }
+  };
   return (
     <div className="container" style={{ paddingBottom: "100px" }}>
       <div
@@ -21,18 +51,20 @@ function ProductDetails() {
                 slidesPerView={1}
                 spaceBetween={30}
                 loop={true}
+                autoplay={{
+                  delay: 200,
+                }}
                 pagination={{
                   clickable: true,
                 }}
                 modules={[Pagination]}
                 className="mySwiper"
               >
-                <SwiperSlide>Slide 1</SwiperSlide>
-                <SwiperSlide>Slide 1</SwiperSlide>
-                <SwiperSlide>Slide 1</SwiperSlide>
-                <SwiperSlide>Slide 1</SwiperSlide>
-                <SwiperSlide>Slide 1</SwiperSlide>
-                <SwiperSlide>Slide 1</SwiperSlide>
+                {data?.images?.map((img: string) => (
+                  <SwiperSlide>
+                    <img src={img} alt={data.name} />
+                  </SwiperSlide>
+                ))}
               </Swiper>
             </div>
           </div>
@@ -42,74 +74,60 @@ function ProductDetails() {
             style={{ padding: "10px" }}
           >
             <div>
-              <h2 className="text-xl font-bold text-gray-800">
-                Smart Watch Timex
-              </h2>
+              <h2 className="text-xl font-bold text-gray-800">{data.name}</h2>
               <Rating rating={4} />
             </div>
 
             <div style={{ margin: "10px 0 10px 0" }}>
-              <h3 className="text-lg font-bold text-gray-800">Price</h3>
-              <p className="text-gray-800 text-3xl font-bold mt-2">$130</p>
+              <p className="text-gray-800 text-3xl font-bold mt-2">
+                ৳ {data.price}
+              </p>
             </div>
 
-            <div style={{ margin: "10px 0 10px 0" }}>
+            <div style={{ margin: "20px 0 20px 0" }}>
               <h3
                 className="text-lg font-bold text-gray-800"
                 style={{ marginBottom: "10px" }}
               >
                 Quantity
               </h3>
-              <div className="flex divide-x  w-max mt-2 rounded border border-[#40A9FF] overflow-hidden">
-                <button
-                  type="button"
-                  className="bg-[#40A9FF] w-10 h-9 font-semibold flex items-center justify-center text-white cursor-pointer"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-3 fill-current inline"
-                    viewBox="0 0 124 124"
-                  >
-                    <path
-                      d="M112 50H12C5.4 50 0 55.4 0 62s5.4 12 12 12h100c6.6 0 12-5.4 12-12s-5.4-12-12-12z"
-                      data-original="#000000"
-                    ></path>
-                  </svg>
-                </button>
-                <div className="w-10 h-9 font-semibold flex items-center justify-center text-gray-800 text-lg">
-                  1
-                </div>
-                <button
-                  type="button"
-                  className="bg-[#40A9FF] text-white w-10 h-9 font-semibold flex items-center justify-center cursor-pointer"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-3 fill-current inline"
-                    viewBox="0 0 42 42"
-                  >
-                    <path
-                      d="M37.059 16H26V4.941C26 2.224 23.718 0 21 0s-5 2.224-5 4.941V16H4.941C2.224 16 0 18.282 0 21s2.224 5 4.941 5H16v11.059C16 39.776 18.282 42 21 42s5-2.224 5-4.941V26h11.059C39.776 26 42 23.718 42 21s-2.224-5-4.941-5z"
-                      data-original="#000000"
-                    ></path>
-                  </svg>
-                </button>
+              <div className="flex items-center">
+                <Button
+                  icon={<MinusOutlined />}
+                  onClick={handleDecrease}
+                  disabled={quantity <= 1}
+                  className="border border-gray-300"
+                  style={{ borderRadius: "4px 0 0 4px" }}
+                />
+                <Input
+                  value={quantity}
+                  onChange={handleInputChange}
+                  className="w-16 text-center"
+                  style={{
+                    borderLeft: "none",
+                    borderRight: "none",
+                    borderRadius: 0,
+                  }}
+                />
+                <Button
+                  icon={<PlusOutlined />}
+                  onClick={handleIncrease}
+                  disabled={quantity >= data?.quantity}
+                  className="border border-gray-300"
+                  style={{ borderRadius: "0 4px 4px 0" }}
+                />
               </div>
             </div>
 
-            <div className="flex gap-4 " style={{ margin: "10px 0 10px 0" }}>
-              <Button
-                type="primary"
-                className="w-full max-w-[200px] px-4 py-3 bg-gray-800 hover:bg-gray-900 text-white text-sm font-semibold rounded"
-              >
-                Buy now
-              </Button>
-              <Button
-                type="primary"
-                className="w-full max-w-[200px] px-4 py-2.5 border border-gray-800 bg-transparent hover:bg-gray-50 text-gray-800 text-sm font-semibold rounded"
-              >
-                Add to cart
-              </Button>
+            <div style={{ margin: "20px 0 20px 0" }}>
+              <Link to={"/checkout"}>
+                <Button
+                  type="primary"
+                  className="w-full px-4 py-3 bg-gray-800 hover:bg-gray-900 text-white text-sm font-semibold rounded"
+                >
+                  Buy now
+                </Button>
+              </Link>
             </div>
 
             <div className="flex flex-wrap items-center text-sm text-gray-800 mt-8 gap-4">
@@ -134,9 +152,7 @@ function ProductDetails() {
         </div>
 
         <div className="lg:mt-12 mt-6 max-w-2xl px-6">
-          <h3 className="text-lg font-bold text-gray-800">
-            Bi-Cycle Features
-          </h3>
+          <h3 className="text-lg font-bold text-gray-800">Bi-Cycle Info</h3>
 
           <ul className="grid sm:grid-cols-2 gap-3 mt-4 ">
             <li className="flex items-center text-sm text-gray-600 gap-2">
@@ -151,7 +167,7 @@ function ProductDetails() {
                   data-original="#000000"
                 />
               </svg>
-              Fitness Tracking
+              Model: {data.model}
             </li>
             <li className="flex items-center text-sm text-gray-600 gap-2">
               <svg
@@ -165,7 +181,7 @@ function ProductDetails() {
                   data-original="#000000"
                 />
               </svg>
-              Heart Rate Monitoring
+              Brand: {data.brand}
             </li>
             <li className="flex items-center text-sm text-gray-600 gap-2">
               <svg
@@ -179,65 +195,15 @@ function ProductDetails() {
                   data-original="#000000"
                 />
               </svg>
-              Sleep Tracking
-            </li>
-            <li className="flex items-center text-sm text-gray-600 gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="17"
-                className="mr-4 bg-green-500 fill-white rounded-full p-[3px]"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
-                  data-original="#000000"
-                />
-              </svg>
-              Waterproof Design
-            </li>
-            <li className="flex items-center text-sm text-gray-600 gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="17"
-                className="mr-4 bg-green-500 fill-white rounded-full p-[3px]"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
-                  data-original="#000000"
-                />
-              </svg>
-              Notifications
-            </li>
-            <li className="flex items-center text-sm text-gray-600 gap-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="17"
-                className="mr-4 bg-green-500 fill-white rounded-full p-[3px]"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M9.707 19.121a.997.997 0 0 1-1.414 0l-5.646-5.647a1.5 1.5 0 0 1 0-2.121l.707-.707a1.5 1.5 0 0 1 2.121 0L9 14.171l9.525-9.525a1.5 1.5 0 0 1 2.121 0l.707.707a1.5 1.5 0 0 1 0 2.121z"
-                  data-original="#000000"
-                />
-              </svg>
-              Touchscreen Interface
+              Category: {data.category}
             </li>
           </ul>
 
-          <div style={{margin:"20px 0 20px 0"}}>
+          <div style={{ margin: "20px 0 20px 0" }}>
             <h3 className="text-lg font-bold text-gray-800">
               Product Description
             </h3>
-            <p className="text-sm text-gray-600 mt-4">
-              Enhance your daily routine with our advanced smartwatch. Featuring
-              fitness tracking capabilities, heart rate monitoring, sleep
-              tracking, and a waterproof design, this smartwatch is designed to
-              keep up with your active lifestyle. Receive notifications and stay
-              connected with its touchscreen interface, offering convenience at
-              your fingertips. Upgrade to a smarter way of living with this
-              essential accessory.
-            </p>
+            <p className="text-sm text-gray-600 mt-4">{data.description}</p>
           </div>
         </div>
       </div>
