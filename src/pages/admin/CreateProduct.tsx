@@ -6,10 +6,10 @@ import BInput from "../../components/form/BInput";
 import { FieldValues } from "react-hook-form";
 import { productSchema } from "../../schema/product.schema";
 import BSelect from "../../components/form/BSelect";
-import { modelOptions } from "../../constant/product";
+import { CategoryOptions, ModelOptions } from "../../constant/product";
 import { useAddProductMutation } from "../../redux/features/product/productApi";
 import { toast } from "sonner";
-import {  ISingleResponse } from "../../types/global";
+import { ISingleResponse } from "../../types/global";
 
 const AddProduct: React.FC = () => {
   const [addProduct] = useAddProductMutation();
@@ -22,11 +22,13 @@ const AddProduct: React.FC = () => {
       price: Number(values.price),
       description: values.description,
       images: [values.images],
+      category: values.category,
     };
+    console.log("product data", productData);
+    
     const toastId = toast.loading("Adding new product...");
     try {
       const res = (await addProduct(productData)) as ISingleResponse;
-      console.log("res====", res);
 
       if (res.error) {
         toast.error(res.error.data.message, { id: toastId });
@@ -71,7 +73,13 @@ const AddProduct: React.FC = () => {
                 placeholder="Model"
                 label="Model"
                 name="model"
-                options={modelOptions}
+                options={ModelOptions}
+              />
+              <BSelect
+                placeholder="Category"
+                label="Category"
+                name="category"
+                options={CategoryOptions}
               />
               <BInput
                 type="number"

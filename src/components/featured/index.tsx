@@ -1,26 +1,44 @@
+import { useGetAllProductQuery } from "../../redux/features/product/productApi";
 import ProductCard from "../card";
 import "./featured.css";
 import { Link } from "react-router-dom";
 function Featured() {
+
+  const {
+    data: products,
+    isFetching,
+    isLoading,
+  } = useGetAllProductQuery([
+    { name: "limit", value: 6 }
+    
+  ]);
+  if (isFetching || isLoading) {
+    return <p>Loadding</p>;
+  }
+  console.log("products ====", products);
+
   return (
     <div className="container">
       <div className="featured">
         <h2 className="title">Featured Products</h2>
         <Link
           to="/shop"
-          style={{ fontSize: "14px", border: "1px solid #4096FF" ,padding: "5px", borderRadius: "6px"}}
+          style={{
+            fontSize: "14px",
+            border: "1px solid #4096FF",
+            padding: "5px",
+            borderRadius: "6px",
+          }}
         >
           View All
         </Link>
       </div>
       <div className="productGrid">
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-        <ProductCard />
-       
+        {!isFetching &&
+          products &&
+          products?.data.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
       </div>
     </div>
   );

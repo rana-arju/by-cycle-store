@@ -1,18 +1,18 @@
-export interface Product {
-  id: string;
+export interface IProduct {
+  _id: string;
   name: string;
   price: number;
-  salePrice?: number;
-  images: string[];
-  colors: string[];
   category: string;
-  inStock: boolean;
-  sizes?: string[];
+  images: string[];
+  model: string;
+  brand: string
+  
 }
 
 export interface FilterState {
   availability: "all" | "in-stock" | "out-of-stock";
-  priceRange: [number, number];
-  brand: string[];
+  priceRange: number[];
   category: string[];
+  brand: string[];
+  model: string[];
 }

@@ -1,7 +1,35 @@
-export const modelOptions = [
-  { value: "Mountain", label: "Mountain" },
-  { value: "Road", label: "Road" },
-  { value: "Hybrid", label: "Hybrid" },
-  { value: "BMX", label: "BMX" },
-  { value: "Electric", label: "Electric" },
-]
+export const CategoryOptions = [
+  { value: "Mountain", label: "Mountain Bikes" },
+  { value: "Road", label: "Road Bikes" },
+  { value: "Hybrid", label: "Hybrid Bikes" },
+  { value: "BMX", label: "BMX Bikes" },
+  { value: "Electric", label: "Electric Bikes" },
+  { value: "Cruiser", label: "Cruiser Bikes" },
+  { value: "Folding", label: "Folding Bikes" },
+  { value: "Kids", label: "Kids Bikes" },
+  { value: "Touring", label: "Touring Bikes" },
+  { value: "Cyclocross", label: "Cyclocross Bikes" },
+  { value: "Gravel", label: "Gravel Bikes" },
+  { value: "Fat", label: "Fat Bikes" },
+  { value: "Recumbent", label: "Recumbent Bikes" },
+  { value: "Tandem", label: "Tandem Bikes" },
+  { value: "Track", label: "Track Bikes" },
+];
+
+export const ModelOptions = [
+  { value: "ModelX100", label: "Model X100" },
+  { value: "TrailBlazer", label: "Trail Blazer" },
+  { value: "SpeedsterPro", label: "Speedster Pro" },
+  { value: "UrbanRider", label: "Urban Rider" },
+  { value: "EcoCruise", label: "Eco Cruise" },
+  { value: "XtremeBMX", label: "Xtreme BMX" },
+  { value: "PowerPedal", label: "Power Pedal" },
+  { value: "FoldMaster", label: "Fold Master" },
+  { value: "JuniorJoy", label: "Junior Joy" },
+  { value: "TouringPro", label: "Touring Pro" },
+  { value: "GravelGrinder", label: "Gravel Grinder" },
+  { value: "FatTireX", label: "Fat Tire X" },
+  { value: "RecuRide", label: "Recu Ride" },
+  { value: "TandemExpress", label: "Tandem Express" },
+  { value: "TrackStar", label: "Track Star" },
+];

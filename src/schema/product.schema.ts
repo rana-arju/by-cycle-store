@@ -5,9 +5,11 @@ export const productSchema = z.object({
     required_error: "Name is required!",
   }),
   model: z.string({
-    required_error: "model is required!",
+    required_error: "Model is required!",
   }),
-
+  category: z.string({
+    required_error: "Category is required!",
+  }),
   brand: z
     .string({ required_error: "Brand is required" })
     .min(3, { message: "Must have at least 3 character" }),
@@ -16,9 +18,7 @@ export const productSchema = z.object({
     .min(20, { message: "Must have at least 20 character" }),
   quantity: z.string({ required_error: "Quantity is required" }),
   price: z.string({ required_error: "Quantity is required" }),
-  images: z
-    .string({
-      required_error: "Provide at least one product image",
-    })
-    ,
+  images: z.string({
+    required_error: "Provide at least one product image",
+  }),
 });
