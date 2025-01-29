@@ -3,11 +3,22 @@ import BForm from "../../components/form/BForm";
 import BInput from "../../components/form/BInput";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../redux/hook";
+import { useDispatch } from "react-redux";
+import {
+  clearCart,
+  removeFromCart,
+} from "../../redux/features/product/cartSlice";
 
 function Checkout() {
+  const dispatch = useDispatch();
+  const product = useAppSelector((state) => state.cart);
+  const handleClearCart = () => {
+    dispatch(clearCart());
+  };
+
   const onSubmit = (value: FieldValues) => {
     console.log(value);
-    
   };
   return (
     <div style={{ paddingTop: "20px", paddingBottom: "20px" }}>
@@ -136,7 +147,7 @@ function Checkout() {
                     </div>
                   </div>
 
-                  <div className="grid gap-8" style={{marginTop: "20px"}}>
+                  <div className="grid gap-8" style={{ marginTop: "20px" }}>
                     <div className="flex items-center gap-2">
                       <input
                         id="remember-me"
@@ -184,146 +195,67 @@ function Checkout() {
             <div className="bg-white lg:h-screen lg:sticky lg:top-0 lg:max-w-[430px] w-full lg:ml-auto">
               <div className="relative h-full">
                 <div className="p-6 overflow-auto max-lg:max-h-[300px] lg:h-[calc(100vh-50px)]">
-                  <h2 className="text-xl font-bold text-gray-800">
-                    Order Summary
-                  </h2>
-
-                  <div className="flex flex-col gap-4" style={{padding: "10px"}}>
-                    <div className="flex gap-4">
-                      <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                        <img
-                          src="https://readymadeui.com/images/product10.webp"
-                          className="w-full object-contain"
-                        />
-                      </div>
-
-                      <div className="w-full">
-                        <h3 className="text-sm text-gray-800 font-bold">
-                          Naruto: Split Sneakers
-                        </h3>
-                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                          <li className="flex flex-wrap gap-4">
-                            Price <span className="ml-auto">37</span>
-                          </li>
-                          <li className="flex flex-wrap gap-4">
-                            Quantity <span className="ml-auto">2</span>
-                          </li>
-                          <li className="flex flex-wrap gap-4">
-                            Total Price <span className="ml-auto">$400</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-4">
-                      <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                        <img
-                          src="https://readymadeui.com/images/product11.webp"
-                          className="w-full object-contain"
-                        />
-                      </div>
-
-                      <div className="w-full">
-                        <h3 className="text-sm text-gray-800 font-bold">
-                          VelvetGlide Boots
-                        </h3>
-                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                          <li>
-                            Size <span className="float-right">37</span>
-                          </li>
-                          <li>
-                            Quantity <span className="float-right">2</span>
-                          </li>
-                          <li>
-                            Total Price <span className="float-right">$40</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-4">
-                      <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                        <img
-                          src="https://readymadeui.com/images/product14.webp"
-                          className="w-full object-contain"
-                        />
-                      </div>
-
-                      <div className="w-full">
-                        <h3 className="text-sm text-gray-800 font-bold">
-                          Echo Elegance
-                        </h3>
-                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                          <li>
-                            Size <span className="float-right">37</span>
-                          </li>
-                          <li>
-                            Quantity <span className="float-right">2</span>
-                          </li>
-                          <li>
-                            Total Price <span className="float-right">$40</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-4">
-                      <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                        <img
-                          src="https://readymadeui.com/images/product12.webp"
-                          className="w-full object-contain"
-                        />
-                      </div>
-
-                      <div className="w-full">
-                        <h3 className="text-sm text-gray-800 font-bold">
-                          Naruto: Split Sneakers
-                        </h3>
-                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                          <li className="flex flex-wrap gap-4">
-                            Size <span className="ml-auto">37</span>
-                          </li>
-                          <li className="flex flex-wrap gap-4">
-                            Quantity <span className="ml-auto">2</span>
-                          </li>
-                          <li className="flex flex-wrap gap-4">
-                            Total Price <span className="ml-auto">$40</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-
-                    <div className="flex gap-4">
-                      <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                        <img
-                          src="https://readymadeui.com/images/product9.webp"
-                          className="w-full object-contain"
-                        />
-                      </div>
-
-                      <div className="w-full">
-                        <h3 className="text-sm text-gray-800 font-bold">
-                          VelvetGlide Boots
-                        </h3>
-                        <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                          <li>
-                            Size <span className="float-right">37</span>
-                          </li>
-                          <li>
-                            Quantity <span className="float-right">2</span>
-                          </li>
-                          <li>
-                            Total Price <span className="float-right">$40</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
+                  <div className="flex justify-between">
+                    <h2 className="text-xl font-bold text-gray-800">
+                      Order Summary
+                    </h2>
+                    <Button onClick={handleClearCart}>Clear Cart</Button>
                   </div>
+                  {product?.items.map((item) => (
+                    <div
+                      className="flex flex-col gap-4"
+                      style={{
+                        padding: "10px",
+                        border: "1px solid #2B6CB0",
+                        marginBottom: "5px",
+                        borderRadius: "8px",
+                        marginTop: "10px",
+                      }}
+                    >
+                      <div className="flex gap-4">
+                        <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
+                          <img
+                            src={item.images}
+                            className="w-full object-contain"
+                          />
+                        </div>
+
+                        <div className="w-full">
+                          <h3 className="text-sm text-gray-800 font-bold">
+                            {item.name}
+                          </h3>
+                          <ul className="text-xs text-gray-800 space-y-1 mt-2">
+                            <li className="flex flex-wrap gap-4">
+                              Price{" "}
+                              <span className="ml-auto">{item.price}</span>
+                            </li>
+                            <li className="flex flex-wrap gap-4">
+                              Quantity{" "}
+                              <span className="ml-auto">{item.quantity}</span>
+                            </li>
+                            <li className="flex flex-wrap gap-4">
+                              Total Price{" "}
+                              <span className="ml-auto">{item.totalPrice}</span>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <Button
+                        onClick={() => dispatch(removeFromCart(item.product))}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="lg:absolute lg:left-0 lg:bottom-0 bg-gray-100 w-full rounded-lg" style={{padding: "10px"}}>
+                <div
+                  className="lg:absolute lg:left-0 lg:bottom-0 bg-gray-100 w-full rounded-lg"
+                  style={{ padding: "10px" }}
+                >
                   <h4 className="flex flex-wrap gap-4 text-sm text-gray-800 font-bold">
-                    Total <span className="ml-auto">$240.00</span>
+                    Total Price
+                    <span className="ml-auto">৳ {product?.totalPrice}</span>
                   </h4>
                 </div>
               </div>

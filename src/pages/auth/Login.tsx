@@ -26,7 +26,6 @@ function Login({ setUserRole }: any) {
     if (!res.data.success) {
       toast.error(res?.data?.error?.message);
     }
-    console.log("user role", user);
     
     setUserRole(user.role);
     dispatch(setUser({ user: user, token: res.data.accessToken }));

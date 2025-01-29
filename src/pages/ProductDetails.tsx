@@ -1,15 +1,19 @@
 import { Button, Input } from "antd";
-import { Link, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Rating from "../components/card/Rating";
 import { useGetSingleProductQuery } from "../redux/features/product/productApi";
 import { useState } from "react";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
+import { useAppDispatch } from "../redux/hook";
+import { addCart } from "../redux/features/product/cartSlice";
 
 function ProductDetails() {
   const { id } = useParams();
-    const [quantity, setQuantity] = useState(1);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [quantity, setQuantity] = useState(1);
 
   const { data: product, isFetching, isLoading } = useGetSingleProductQuery(id);
   if (isFetching || isLoading) {
@@ -30,13 +34,25 @@ function ProductDetails() {
       setQuantity(newValue);
     }
   };
-console.log(quantity);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number.parseInt(e.target.value, 10);
     if (!isNaN(value) && value >= 1 && value <= data?.quantity) {
       setQuantity(value);
     }
+  };
+
+  const handleBuy = async () => {
+    const cart = {
+      product: data._id,
+      name: data.name,
+      price: data.price,
+      quantity: quantity,
+      images: data.images[0],
+      totalPrice: data.price * quantity,
+    };
+    dispatch(addCart(cart));
+    navigate("/checkout", { replace: true });
   };
   return (
     <div className="container" style={{ paddingBottom: "100px" }}>
@@ -120,14 +136,13 @@ console.log(quantity);
             </div>
 
             <div style={{ margin: "20px 0 20px 0" }}>
-              <Link to={"/checkout"}>
-                <Button
-                  type="primary"
-                  className="w-full px-4 py-3 bg-gray-800 hover:bg-gray-900 text-white text-sm font-semibold rounded"
-                >
-                  Buy now
-                </Button>
-              </Link>
+              <Button
+                onClick={handleBuy}
+                type="primary"
+                className="w-full px-4 py-3 bg-gray-800 hover:bg-gray-900 text-white text-sm font-semibold rounded"
+              >
+                Buy now
+              </Button>
             </div>
 
             <div className="flex flex-wrap items-center text-sm text-gray-800 mt-8 gap-4">
