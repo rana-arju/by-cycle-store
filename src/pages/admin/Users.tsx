@@ -43,7 +43,11 @@ const columns = [
 ];
 
 const Users: React.FC = () => {
-  const { data: AllUsers, isLoading, isFetching } = useAllUsersQuery(undefined);
+  const {
+    data: AllUsers,
+    isLoading,
+    isFetching,
+  } = useAllUsersQuery(undefined, { refetchOnMountOrArgChange: true });
   if (isFetching || isLoading) {
     return <p>Loading...</p>;
   }

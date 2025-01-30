@@ -1,86 +1,84 @@
 import type React from "react";
-import { useState } from "react";
-import { Form, Input, Button, Upload, message, Avatar } from "antd";
-import { UserOutlined, UploadOutlined } from "@ant-design/icons";
-
-interface UserProfile {
-  name: string;
-  email: string;
-  avatar: string;
-}
+import { Button, Avatar } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import {
+  useGetMyDataQuery,
+  useProfileUpdateMutation,
+} from "../redux/features/auth/authApi";
+import BForm from "../components/form/BForm";
+import { FieldValues } from "react-hook-form";
+import BInput from "../components/form/BInput";
+import { toast } from "sonner";
 
 const Profile: React.FC = () => {
-  const [profile, setProfile] = useState<UserProfile>({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    avatar: "/placeholder.svg?height=100&width=100",
-  });
+  const [profileUpdate] = useProfileUpdateMutation();
+  const { data, isFetching, isLoading, refetch } = useGetMyDataQuery(
+    undefined,
+    { refetchOnMountOrArgChange: true }
+  );
 
-  const onFinish = (values: any) => {
-    setProfile({ ...profile, ...values });
-    message.success("Profile updated successfully");
+  if (isFetching || isLoading) {
+    return <p>Loading...</p>;
+  }
+  const defaultValues = {
+    name: data?.data?.name,
+    email: data?.data?.email,
+    phone: data?.data?.phone,
+    address: data?.data?.address,
+    city: data?.data?.city,
   };
 
-  const handleAvatarChange = (info: any) => {
-    if (info.file.status === "done") {
-      setProfile({ ...profile, avatar: info.file.response.url });
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
+  const onSubmit = async (values: FieldValues) => {
+    const data = {
+      name: values.name,
+      email: values.email,
+      city: values.city,
+      address: values.address,
+      phone: values.phone,
+    };
+
+    const res = await profileUpdate(data);
+    if (res?.data?.success) {
+      refetch();
+      toast.success(res?.data?.message);
     }
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div
+      className="max-w-2xl mx-auto"
+      style={{ paddingBottom: "50px", paddingTop: "50px" }}
+    >
       <h1 className="text-2xl font-bold mb-6">Profile</h1>
-      <div className="flex items-center mb-8">
-        <Avatar size={64} src={profile.avatar} icon={<UserOutlined />} />
-        <div className="ml-4">
-          <h2 className="text-xl font-semibold">{profile.name}</h2>
-          <p className="text-gray-600">{profile.email}</p>
+      <div className="flex items-center mb-8" style={{ marginBottom: "10px" }}>
+        <Avatar size={64} src="" icon={<UserOutlined />} />
+        <div className="ml-4" style={{ marginLeft: "10px" }}>
+          <h2 className="text-xl font-semibold">{data?.data?.name}</h2>
+          <p className="text-gray-600">{data?.data?.email}</p>
         </div>
       </div>
-      <Form
-        name="profile_form"
-        initialValues={profile}
-        onFinish={onFinish}
-        layout="vertical"
-      >
-        <Form.Item
-          name="name"
-          label="Name"
-          rules={[{ required: true, message: "Please input your name!" }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name="email"
+      <BForm onSubmit={onSubmit} defaultValues={defaultValues}>
+        <BInput placeholder="Name" label="Name" name="name" type="text" />
+        <BInput
+          placeholder="Email"
           label="Email"
-          rules={[
-            { required: true, message: "Please input your email!" },
-            { type: "email", message: "Please enter a valid email!" },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item name="avatar" label="Avatar" valuePropName="file">
-          <Upload
-            name="avatar"
-            listType="picture"
-            className="avatar-uploader"
-            showUploadList={false}
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            onChange={handleAvatarChange}
-          >
-            <Button icon={<UploadOutlined />}>Click to upload</Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Update Profile
-          </Button>
-        </Form.Item>
-      </Form>
+          name="email"
+          type="text"
+          disabled
+        />
+        <BInput
+          placeholder="Address"
+          label="Address"
+          name="address"
+          type="text"
+        />
+        <BInput placeholder="city" label="City" name="city" type="text" />
+        <BInput placeholder="Phone" label="Phone" name="phone" type="text" />
+
+        <Button type="primary" htmlType="submit">
+          Update Profile
+        </Button>
+      </BForm>
     </div>
   );
 };

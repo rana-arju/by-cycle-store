@@ -20,18 +20,39 @@ const authApi = baseApi.injectEndpoints({
       invalidatesTags: ["auth"],
     }),
     statusUpdate: builder.mutation({
-      query: (body) => ({
-        url: `auth/role/${body.id}`,
-        method: "PUT",
-        body: body.data,
-      }),
+      query: (body) => {
+        console.log("body", body);
+
+        return {
+          url: `/auth/status/${body.id}`,
+          method: "PATCH",
+          body: { status: body.data },
+        };
+      },
+      invalidatesTags: ["auth"],
+    }),
+    profileUpdate: builder.mutation({
+      query: (body) => {
+        return {
+          url: `/auth/profile`,
+          method: "PATCH",
+          body,
+        };
+      },
       invalidatesTags: ["auth"],
     }),
     roleUpdate: builder.mutation({
       query: (body) => ({
-        url: `auth/status/${body.id}`,
-        method: "PUT",
-        body: body.data,
+        url: `/auth/role/${body.id}`,
+        method: "PATCH",
+        body: { role: body.data },
+      }),
+      invalidatesTags: ["auth"],
+    }),
+    deleteUser: builder.mutation({
+      query: (body) => ({
+        url: `auth/${body.id}`,
+        method: "DELETE",
       }),
       invalidatesTags: ["auth"],
     }),
@@ -45,7 +66,7 @@ const authApi = baseApi.injectEndpoints({
       },
       providesTags: ["auth"],
     }),
-    AllUsers: builder.query({
+    allUsers: builder.query({
       query: () => {
         return {
           url: "/auth/users",
@@ -60,7 +81,10 @@ export const {
   useLoginMutation,
   useRegistrationMutation,
   useGetMyDataQuery,
-  useAllUsersQuery,
+
   useStatusUpdateMutation,
   useRoleUpdateMutation,
+  useDeleteUserMutation,
+  useAllUsersQuery,
+  useProfileUpdateMutation,
 } = authApi;
