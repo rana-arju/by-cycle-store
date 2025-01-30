@@ -5,7 +5,7 @@ import {
   DashboardOutlined,
   UserOutlined,
   ShoppingCartOutlined,
-  SettingOutlined,
+
   TeamOutlined,
   FileTextOutlined,
   MenuUnfoldOutlined,
@@ -73,10 +73,10 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ userRole }) => {
       link: "/dashboard/orders",
     },
     {
-      key: "settings",
-      icon: <SettingOutlined />,
-      label: "Settings",
-      link: "/dashboard/settings",
+      key: "profile",
+      icon: <UserOutlined />,
+      label: "Profile",
+      link: "/dashboard/profile",
     },
   ];
 

@@ -1,7 +1,6 @@
 import type React from "react";
 import { Table, Tag, Space, Button } from "antd";
 import { useAllOrdersQuery } from "../../redux/features/order/orderApi";
-import moment from "moment";
 interface Order {
   id: number;
   customer: string;

@@ -1,5 +1,5 @@
 import { Button, Input } from "antd";
-import {  useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Rating from "../components/card/Rating";
@@ -19,7 +19,7 @@ function ProductDetails() {
   if (isFetching || isLoading) {
     return <p>Loading...</p>;
   }
-  const { data } = product;
+  const data = product?.data;
 
   const handleDecrease = () => {
     const newValue = quantity - 1;
@@ -97,6 +97,9 @@ function ProductDetails() {
             <div style={{ margin: "10px 0 10px 0" }}>
               <p className="text-gray-800 text-3xl font-bold mt-2">
                 ৳ {data.price}
+              </p>  
+               <p className="text-gray-600 text-xl " style={{marginTop: "10px"}}>
+                Stock: {data.quantity}
               </p>
             </div>
 

@@ -1,14 +1,7 @@
 import type React from "react";
 import { Table, Tag } from "antd";
 import { useAllUsersQuery } from "../../redux/features/auth/authApi";
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: string;
-  status: string;
-}
+import { UserActions } from "../../components/actions/UserAction";
 
 const columns = [
   {
@@ -41,24 +34,21 @@ const columns = [
     render: (status: string) => (
       <Tag color={status === "in-progress" ? "green" : "orange"}>{status}</Tag>
     ),
-  },  {
+  },
+  {
     title: "Actions",
-    dataIndex: "status",
     key: "status",
-    render: (status: string) => (
-      <Tag color={status === "in-progress" ? "green" : "orange"}>{status}</Tag>
-    ),
+    render: (item: any) => <UserActions item={item} />,
   },
 ];
 
-
 const Users: React.FC = () => {
-  const {data: AllUsers, isLoading, isFetching} = useAllUsersQuery(undefined);
+  const { data: AllUsers, isLoading, isFetching } = useAllUsersQuery(undefined);
   if (isFetching || isLoading) {
-    return <p>Loading...</p>
+    return <p>Loading...</p>;
   }
   console.log(AllUsers);
-  
+
   return (
     <>
       <h1 className="text-2xl font-bold mb-6">Users</h1>

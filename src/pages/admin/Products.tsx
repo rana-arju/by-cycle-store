@@ -1,9 +1,8 @@
 import type React from "react";
-import { Table, Tag, Space, Button, Dropdown, Modal } from "antd";
-import { Link, NavLink } from "react-router-dom";
+import { Table, Tag,  Button} from "antd";
+import { Link } from "react-router-dom";
 import { useGetAllProductQuery } from "../../redux/features/product/productApi";
 import { IProduct } from "../../types/product";
-import { useState } from "react";
 import { ProductActions } from "../../components/Actions";
 
 const columns = [
