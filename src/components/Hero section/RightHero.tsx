@@ -60,7 +60,7 @@ function RightHero() {
     <div
       style={{
         ...styles.content,
-        maxWidth: "400px",
+      
         width: "100%",
         margin: "0 auto",
       }}

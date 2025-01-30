@@ -15,7 +15,6 @@ function Featured() {
   if (isFetching || isLoading) {
     return <p>Loadding</p>;
   }
-  console.log("products ====", products);
 
   return (
     <div className="container">

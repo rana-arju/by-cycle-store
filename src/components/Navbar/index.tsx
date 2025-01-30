@@ -145,8 +145,8 @@ const Navbar: React.FC = () => {
       </div>
       <div className="navbar-right">
         {renderRightMenu()}
-        <Link to="/cart" className="cart-icon desktop-cart">
-          <Badge count={1} size="small">
+        <Link to="/checkout" className="cart-icon desktop-cart">
+          <Badge count={0} size="small">
             <ShoppingCartOutlined className="nav-icon" />
           </Badge>
         </Link>
