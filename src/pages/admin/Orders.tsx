@@ -1,6 +1,7 @@
 import type React from "react";
 import { Table, Tag, Space, Button } from "antd";
-
+import { useAllOrdersQuery } from "../../redux/features/order/orderApi";
+import moment from "moment";
 interface Order {
   id: number;
   customer: string;
@@ -11,25 +12,25 @@ interface Order {
 
 const columns = [
   {
-    title: "Order ID",
-    dataIndex: "id",
-    key: "id",
+    title: "transaction ID",
+    dataIndex: "transaction.id",
+    key: "transaction",
   },
   {
     title: "Customer",
-    dataIndex: "customer",
+    dataIndex: "user.name",
     key: "customer",
   },
   {
     title: "Date",
-    dataIndex: "date",
-    key: "date",
+    dataIndex: "createdAt",
+    key: "createdAt",
   },
   {
     title: "Total",
-    dataIndex: "total",
-    key: "total",
-    render: (total: number) => `$${total.toFixed(2)}`,
+    dataIndex: "totalPrice",
+    key: "totalPrice",
+    render: (total: number) => `$${total?.toFixed(2)}`,
   },
   {
     title: "Status",
@@ -59,35 +60,22 @@ const columns = [
   },
 ];
 
-const data: Order[] = [
-  {
-    id: 1,
-    customer: "John Doe",
-    date: "2023-05-01",
-    total: 99.99,
-    status: "Completed",
-  },
-  {
-    id: 2,
-    customer: "Jane Smith",
-    date: "2023-05-02",
-    total: 149.99,
-    status: "Pending",
-  },
-  {
-    id: 3,
-    customer: "Bob Johnson",
-    date: "2023-05-03",
-    total: 79.99,
-    status: "Cancelled",
-  },
-];
+
 
 const Orders: React.FC = () => {
+  const {
+    data: allOrders,
+    isFetching,
+    isLoading,
+  } = useAllOrdersQuery(undefined);
+  if (isFetching || isLoading) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <>
       <h1 className="text-2xl font-bold mb-6">Orders</h1>
-      <Table columns={columns} dataSource={data} rowKey="id" />
+      <Table columns={columns} dataSource={allOrders?.data} rowKey="id" />
     </>
   );
 };

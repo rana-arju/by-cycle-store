@@ -9,28 +9,30 @@ import {
   removeFromCart,
 } from "../../redux/features/product/cartSlice";
 import { usePlaceOrderMutation } from "../../redux/features/order/orderApi";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useGetMyDataQuery } from "../../redux/features/auth/authApi";
-
+import payment from "../../assets/payment.png";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { checkout } from "../../schema/checkout.schema";
 function Checkout() {
-  const dispatch = useAppDispatch()
-  const [placeOrder, {  isLoading: placeLoad, isSuccess,data, isError,error }] =
-    usePlaceOrderMutation();
+  const dispatch = useAppDispatch();
+  const [check, setCheck] = useState(false);
+
+  const [
+    placeOrder,
+    { isLoading: placeLoad, isSuccess, data, isError, error },
+  ] = usePlaceOrderMutation();
   const product = useAppSelector((state) => state.cart);
-  const {
-    data: myData,
-    isFetching,
-    isLoading,
-  } = useGetMyDataQuery(undefined);
-if (isLoading || isFetching) {
-  return <p>Loading....</p>;
-}
+  const { data: myData, isFetching, isLoading } = useGetMyDataQuery(undefined);
+  if (isLoading || isFetching) {
+    return <p>Loading....</p>;
+  }
 
   const handleClearCart = () => {
-   dispatch(clearCart());
+    dispatch(clearCart());
   };
- 
+
   const defaultValues = {
     name: myData.data?.name,
     email: myData.data?.email,
@@ -38,7 +40,7 @@ if (isLoading || isFetching) {
     city: myData.data?.city || "",
     phone: myData.data?.phone || "",
   };
-  
+
   const onSubmit = async (values: FieldValues) => {
     console.log("values", values);
 
@@ -48,24 +50,28 @@ if (isLoading || isFetching) {
       totalQuantity: product.totalQuantity,
       userInfo: values,
     };
-     await placeOrder(data);
-  };
-const toastId = "cart";
-useEffect(() => {
-  if (placeLoad) toast.loading("Processing ...", { id: toastId });
-
-  if (isSuccess) {
-    dispatch(clearCart())
-    toast.success(data?.message, { id: toastId });
-    if (data?.data) {
-      setTimeout(() => {
-        window.location.href = data.data;
-      }, 1000);
+    if (product.items.length == 0) {
+      toast.error("There are no selected product!");
+    } else {
+      await placeOrder(data);
     }
-  }
+  };
+  const toastId = "cart";
+  useEffect(() => {
+    if (placeLoad) toast.loading("Processing ...", { id: toastId });
 
-  if (isError) toast.error(JSON.stringify(error), { id: toastId });
-}, [data?.data, data?.message, error, isError, isLoading, isSuccess]);
+    if (isSuccess) {
+      dispatch(clearCart());
+      toast.success(data?.message, { id: toastId });
+      if (data?.data) {
+        setTimeout(() => {
+          window.location.href = data.data;
+        }, 1000);
+      }
+    }
+
+    if (isError) toast.error(JSON.stringify(error), { id: toastId });
+  }, [data?.data, data?.message, error, isError, isLoading, isSuccess]);
   return (
     <div style={{ paddingTop: "20px", paddingBottom: "20px" }}>
       <div
@@ -81,7 +87,11 @@ useEffect(() => {
                 </h2>
               </div>
 
-              <BForm onSubmit={onSubmit} defaultValues={defaultValues}>
+              <BForm
+                onSubmit={onSubmit}
+                defaultValues={defaultValues}
+                resolver={zodResolver(checkout)}
+              >
                 <div>
                   <h2 className="text-xl font-bold text-gray-800">
                     Shipping info
@@ -151,37 +161,9 @@ useEffect(() => {
                         className="ml-4 flex gap-2 cursor-pointer"
                       >
                         <img
-                          src="https://readymadeui.com/images/visa.webp"
-                          className="w-12"
+                          src={payment}
+                          className="w-[100px] h-auto"
                           alt="card1"
-                        />
-                        <img
-                          src="https://readymadeui.com/images/american-express.webp"
-                          className="w-12"
-                          alt="card2"
-                        />
-                        <img
-                          src="https://readymadeui.com/images/master.webp"
-                          className="w-12"
-                          alt="card3"
-                        />
-                      </label>
-                    </div>
-
-                    <div className="flex items-center">
-                      <input
-                        type="radio"
-                        className="w-5 h-5 cursor-pointer"
-                        id="paypal"
-                      />
-                      <label
-                        htmlFor="paypal"
-                        className="ml-4 flex gap-2 cursor-pointer"
-                      >
-                        <img
-                          src="https://readymadeui.com/images/paypal.webp"
-                          className="w-20"
-                          alt="paypalCard"
                         />
                       </label>
                     </div>
@@ -193,6 +175,7 @@ useEffect(() => {
                         id="remember-me"
                         name="remember-me"
                         type="checkbox"
+                        onChange={() => setCheck(!check)}
                         className="h-4 w-4 shrink-0 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                       />
                       <label
@@ -208,6 +191,11 @@ useEffect(() => {
                         </a>
                       </label>
                     </div>
+                    {!check && (
+                      <label style={{ color: "red" }}>
+                        Without check you can't place order!
+                      </label>
+                    )}
                   </div>
                 </div>
 
@@ -220,9 +208,9 @@ useEffect(() => {
                       Back
                     </Button>
                   </Link>
-
                   <Button
                     type="primary"
+                    disabled={!check}
                     htmlType="submit"
                     className="min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                   >

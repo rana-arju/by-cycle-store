@@ -33,11 +33,26 @@ const orderApi = baseApi.injectEndpoints({
         };
       },
     }),
+    allOrders: builder.query({
+      query: () => {
+        return {
+          url: "/orders",
+          method: "GET",
+        };
+      },
+      transformResponse: (response: IResponseRedux<any>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
+    }),
   }),
 });
 export const {
   usePlaceOrderMutation,
   useVerifyOrderQuery,
-  useMyOrdersQuery
+  useMyOrdersQuery,
+  useAllOrdersQuery
  
 } = orderApi;
