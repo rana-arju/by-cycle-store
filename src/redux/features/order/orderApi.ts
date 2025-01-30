@@ -10,6 +10,7 @@ const orderApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: ["order"],
     }),
 
     verifyOrder: builder.query({
@@ -18,6 +19,7 @@ const orderApi = baseApi.injectEndpoints({
         params: { order_id },
         method: "GET",
       }),
+      providesTags: ["order"]
     }),
     myOrders: builder.query({
       query: () => {
@@ -26,6 +28,7 @@ const orderApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["order"],
       transformResponse: (response: IResponseRedux<any>) => {
         return {
           data: response.data,
@@ -40,6 +43,7 @@ const orderApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags: ["order"],
       transformResponse: (response: IResponseRedux<any>) => {
         return {
           data: response.data,

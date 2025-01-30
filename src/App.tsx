@@ -24,6 +24,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./pages/user/Checkout";
 import ProductDetails from "./pages/ProductDetails";
 import VerifyOrder from "./pages/user/VerifyOrder";
+import UpdateProduct from "./pages/admin/UpdateProduct";
 
 const App: React.FC = () => {
   const token = useAppSelector(useCurrentToken);
@@ -125,6 +126,14 @@ const App: React.FC = () => {
                       element={
                         <ProtectRoute role="admin">
                           <AddProduct />
+                        </ProtectRoute>
+                      }
+                    />{" "}
+                    <Route
+                      path="/dashboard/productUpdate/:id"
+                      element={
+                        <ProtectRoute role="admin">
+                          <UpdateProduct />
                         </ProtectRoute>
                       }
                     />

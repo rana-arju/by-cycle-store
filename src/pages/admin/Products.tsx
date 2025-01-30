@@ -1,23 +1,19 @@
 import type React from "react";
-import { Table, Tag, Space, Button } from "antd";
-import { Link } from "react-router-dom";
-
-interface Product {
-  id: number;
-  name: string;
-  price: number;
-  category: string;
-  stock: number;
-}
+import { Table, Tag, Space, Button, Dropdown, Modal } from "antd";
+import { Link, NavLink } from "react-router-dom";
+import { useGetAllProductQuery } from "../../redux/features/product/productApi";
+import { IProduct } from "../../types/product";
+import { useState } from "react";
+import { ProductActions } from "../../components/Actions";
 
 const columns = [
   {
     title: "ID",
-    dataIndex: "id",
+    dataIndex: "_id",
     key: "id",
   },
   {
-    title: "Name",
+    title: "Product",
     dataIndex: "name",
     key: "name",
   },
@@ -33,48 +29,43 @@ const columns = [
     key: "category",
   },
   {
-    title: "Stock",
-    dataIndex: "stock",
-    key: "stock",
-    render: (stock: number) => (
-      <Tag color={stock > 0 ? "green" : "red"}>{stock}</Tag>
+    title: "Quantity",
+    dataIndex: "quantity",
+    key: "quantity",
+    render: (quantity: number) => (
+      <Tag color={quantity > 0 ? "green" : "red"}>{quantity}</Tag>
     ),
   },
   {
-    title: "Action",
-    key: "action",
-    render: (_: any, _record: Product) => (
-      <Space size="middle">
-        <Button type="primary">Edit</Button>
-        <Button danger>Delete</Button>
-      </Space>
-    ),
-  },
-];
-
-const data: Product[] = [
-  {
-    id: 1,
-    name: "Product A",
-    price: 19.99,
-    category: "Electronics",
-    stock: 50,
-  },
-  { id: 2, name: "Product B", price: 29.99, category: "Clothing", stock: 100 },
-  { id: 3, name: "Product C", price: 9.99, category: "Books", stock: 0 },
+    title: "Actions",
+    key: "x",
+    render: (item: IProduct) => {      
+      return <ProductActions item={item} url={`/dashboard/productUpdate/${item._id}`} />
+    },
+  }
 ];
 
 const Products: React.FC = () => {
-  
+  const {
+    data: allProducts,
+    isFetching,
+    isLoading,
+  } = useGetAllProductQuery(undefined, { refetchOnMountOrArgChange: true });
+  if (isFetching || isLoading) {
+    return <p>Loading...</p>;
+  }
+  const products: IProduct[] = allProducts?.data || [];
   return (
     <>
-      <h1 className="text-2xl font-bold mb-6">Products</h1>
-      <Link to="/products/add">
-        <Button type="primary" className="mb-4">
+      <h1 className="text-2xl font-bold " style={{ marginBottom: "10px" }}>
+        Products
+      </h1>
+      <Link to="/dashboard/add-product">
+        <Button type="primary" style={{ marginBottom: "10px" }}>
           Add New Product
         </Button>
       </Link>
-      <Table columns={columns} dataSource={data} rowKey="id" />
+      <Table columns={columns} dataSource={products} rowKey="id" />
     </>
   );
 };
