@@ -7,8 +7,9 @@ type IInputProps = {
   type: string;
   label?: string;
   placeholder: string;
+  disabled?: boolean
 };
-function BInput({ name, type, label, placeholder }: IInputProps) {
+function BInput({ name, type, label, placeholder, disabled }: IInputProps) {
   return (
     <div style={{ marginBottom: "10px" }}>
       <Controller
@@ -42,6 +43,7 @@ function BInput({ name, type, label, placeholder }: IInputProps) {
                 {...field}
                 size="large"
                 placeholder={placeholder}
+                disabled={disabled ? true : false}
               />
             )}
 

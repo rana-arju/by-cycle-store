@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Layout, Menu, Button, Drawer, Space, Badge } from "antd";
 import {
   MenuOutlined,
@@ -38,7 +38,7 @@ const menuItems: MenuItem[] = [
 const Navbar: React.FC = () => {
   const dispatch = useAppDispatch();
   const token = useAppSelector(useCurrentToken);
-
+  const navigate = useNavigate();
   let user;
   if (token) {
     user = verifyToken(token);
@@ -53,7 +53,10 @@ const Navbar: React.FC = () => {
   const showDrawer = () => setVisible(true);
   const onClose = () => setVisible(false);
 
-  const handleLogout = () => dispatch(logout()); // Implement logout logic
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/login", { replace: true });
+  }; // Implement logout logic
 
   const renderMenuItems = () =>
     menuItems

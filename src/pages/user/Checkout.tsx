@@ -3,23 +3,69 @@ import BForm from "../../components/form/BForm";
 import BInput from "../../components/form/BInput";
 import { Button } from "antd";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../../redux/hook";
-import { useDispatch } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
   clearCart,
   removeFromCart,
 } from "../../redux/features/product/cartSlice";
+import { usePlaceOrderMutation } from "../../redux/features/order/orderApi";
+import { useEffect } from "react";
+import { toast } from "sonner";
+import { useGetMyDataQuery } from "../../redux/features/auth/authApi";
 
 function Checkout() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch()
+  const [placeOrder, {  isLoading: placeLoad, isSuccess,data, isError,error }] =
+    usePlaceOrderMutation();
   const product = useAppSelector((state) => state.cart);
-  const handleClearCart = () => {
-    dispatch(clearCart());
-  };
+  const {
+    data: myData,
+    isFetching,
+    isLoading,
+  } = useGetMyDataQuery(undefined);
+if (isLoading || isFetching) {
+  return <p>Loading....</p>;
+}
 
-  const onSubmit = (value: FieldValues) => {
-    console.log(value);
+  const handleClearCart = () => {
+   dispatch(clearCart());
   };
+ 
+  const defaultValues = {
+    name: myData.data?.name,
+    email: myData.data?.email,
+    address: myData.data?.address || "",
+    city: myData.data?.city || "",
+    phone: myData.data?.phone || "",
+  };
+  
+  const onSubmit = async (values: FieldValues) => {
+    console.log("values", values);
+
+    const data = {
+      products: product.items,
+      totalPrice: product.totalPrice,
+      totalQuantity: product.totalQuantity,
+      userInfo: values,
+    };
+     await placeOrder(data);
+  };
+const toastId = "cart";
+useEffect(() => {
+  if (placeLoad) toast.loading("Processing ...", { id: toastId });
+
+  if (isSuccess) {
+    dispatch(clearCart())
+    toast.success(data?.message, { id: toastId });
+    if (data?.data) {
+      setTimeout(() => {
+        window.location.href = data.data;
+      }, 1000);
+    }
+  }
+
+  if (isError) toast.error(JSON.stringify(error), { id: toastId });
+}, [data?.data, data?.message, error, isError, isLoading, isSuccess]);
   return (
     <div style={{ paddingTop: "20px", paddingBottom: "20px" }}>
       <div
@@ -35,7 +81,7 @@ function Checkout() {
                 </h2>
               </div>
 
-              <BForm onSubmit={onSubmit}>
+              <BForm onSubmit={onSubmit} defaultValues={defaultValues}>
                 <div>
                   <h2 className="text-xl font-bold text-gray-800">
                     Shipping info
@@ -48,6 +94,7 @@ function Checkout() {
                         name="name"
                         label="Full name"
                         placeholder="Full name"
+                        disabled={true}
                       />
                     </div>
                     <div>
@@ -56,14 +103,7 @@ function Checkout() {
                         name="email"
                         label="Email"
                         placeholder="Email"
-                      />
-                    </div>
-                    <div>
-                      <BInput
-                        type="text"
-                        name="street"
-                        label="Streat address"
-                        placeholder="Streat address"
+                        disabled={true}
                       />
                     </div>
                     <div>
@@ -71,25 +111,25 @@ function Checkout() {
                         type="text"
                         name="city"
                         label="City"
-                        placeholder="City"
+                        placeholder="Enter city"
                       />
                     </div>
                     <div>
                       <BInput
                         type="text"
-                        name="state"
-                        label="State"
-                        placeholder="State"
+                        name="phone"
+                        label="Phone"
+                        placeholder="Phone"
                       />
                     </div>
-                    <div>
-                      <BInput
-                        type="number"
-                        name="postcode"
-                        label="Post code"
-                        placeholder="Post code"
-                      />
-                    </div>
+                  </div>
+                  <div className="w-full">
+                    <BInput
+                      type="textarea"
+                      name="address"
+                      label="Full Address"
+                      placeholder="Write full address..."
+                    />
                   </div>
                 </div>
 
@@ -180,14 +220,14 @@ function Checkout() {
                       Back
                     </Button>
                   </Link>
-                  <Link to="/">
-                    <Button
-                      type="primary"
-                      className="min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
-                    >
-                      Confirm payment
-                    </Button>
-                  </Link>
+
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    className="min-w-[150px] px-6 py-3.5 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+                  >
+                    Order Now
+                  </Button>
                 </div>
               </BForm>
             </div>
@@ -201,52 +241,63 @@ function Checkout() {
                     </h2>
                     <Button onClick={handleClearCart}>Clear Cart</Button>
                   </div>
-                  {product?.items.map((item) => (
-                    <div
-                      className="flex flex-col gap-4"
-                      style={{
-                        padding: "10px",
-                        border: "1px solid #2B6CB0",
-                        marginBottom: "5px",
-                        borderRadius: "8px",
-                        marginTop: "10px",
-                      }}
-                    >
-                      <div className="flex gap-4">
-                        <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
-                          <img
-                            src={item.images}
-                            className="w-full object-contain"
-                          />
-                        </div>
-
-                        <div className="w-full">
-                          <h3 className="text-sm text-gray-800 font-bold">
-                            {item.name}
-                          </h3>
-                          <ul className="text-xs text-gray-800 space-y-1 mt-2">
-                            <li className="flex flex-wrap gap-4">
-                              Price{" "}
-                              <span className="ml-auto">{item.price}</span>
-                            </li>
-                            <li className="flex flex-wrap gap-4">
-                              Quantity{" "}
-                              <span className="ml-auto">{item.quantity}</span>
-                            </li>
-                            <li className="flex flex-wrap gap-4">
-                              Total Price{" "}
-                              <span className="ml-auto">{item.totalPrice}</span>
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      <Button
-                        onClick={() => dispatch(removeFromCart(item.product))}
+                  {product?.items.length > 0 ? (
+                    product?.items.map((item) => (
+                      <div
+                        className="flex flex-col gap-4"
+                        style={{
+                          padding: "10px",
+                          border: "1px solid #2B6CB0",
+                          marginBottom: "5px",
+                          borderRadius: "8px",
+                          marginTop: "10px",
+                        }}
                       >
-                        Remove
-                      </Button>
-                    </div>
-                  ))}
+                        <div className="flex gap-4">
+                          <div className="w-[124px] h-[100px] flex items-center justify-center p-4 shrink-0 bg-gray-200 rounded-lg">
+                            <img
+                              src={item.images}
+                              className="w-full object-contain"
+                            />
+                          </div>
+
+                          <div className="w-full">
+                            <h3 className="text-sm text-gray-800 font-bold">
+                              {item.name}
+                            </h3>
+                            <ul className="text-xs text-gray-800 space-y-1 mt-2">
+                              <li className="flex flex-wrap gap-4">
+                                Price{" "}
+                                <span className="ml-auto">{item.price}</span>
+                              </li>
+                              <li className="flex flex-wrap gap-4">
+                                Quantity{" "}
+                                <span className="ml-auto">{item.quantity}</span>
+                              </li>
+                              <li className="flex flex-wrap gap-4">
+                                Total Price{" "}
+                                <span className="ml-auto">
+                                  {item.totalPrice}
+                                </span>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <Button
+                          onClick={() => dispatch(removeFromCart(item.product))}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    ))
+                  ) : (
+                    <p
+                      className="flex flex-col justify-center items-center font-bold text-gray-600"
+                      style={{ marginTop: "20px" }}
+                    >
+                      No Product Found! go back
+                    </p>
+                  )}
                 </div>
 
                 <div
