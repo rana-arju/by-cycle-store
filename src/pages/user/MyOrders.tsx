@@ -1,95 +1,199 @@
 import type React from "react";
-import { Table, Tag, Space, Button } from "antd";
+import { useState, useEffect } from "react";
+import {
+  Card,
+  List,
+  Avatar,
+  Tag,
+  Spin,
+  Typography,
+  Statistic,
+  Row,
+  Col,
+  Timeline,
+  Divider,
+} from "antd";
+import {
+  ShoppingCartOutlined,
+  UserOutlined,
+  ClockCircleOutlined,
+  DollarOutlined,
+} from "@ant-design/icons";
+import { mockOrders } from "./mockData";
 
-interface Order {
-  id: number;
-  customer: string;
-  date: string;
-  total: number;
-  status: string;
+const { Title} = Typography;
+
+export interface Transaction {
+  id: string;
+  transactionStatus: string | null;
+  bank_status: string;
+  date_time: string;
+  method: string;
+  sp_code: string;
+  sp_message: string;
 }
 
-const columns = [
-  {
-    title: "Order ID",
-    dataIndex: "id",
-    key: "id",
-  },
-  {
-    title: "Customer",
-    dataIndex: "customer",
-    key: "customer",
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-  },
-  {
-    title: "Total",
-    dataIndex: "total",
-    key: "total",
-    render: (total: number) => `$${total.toFixed(2)}`,
-  },
-  {
-    title: "Status",
-    dataIndex: "status",
-    key: "status",
-    render: (status: string) => {
-      let color = "green";
-      if (status === "Pending") {
-        color = "gold";
-      } else if (status === "Cancelled") {
-        color = "red";
-      }
-      return <Tag color={color}>{status}</Tag>;
-    },
-  },
-  {
-    title: "Action",
-    key: "action",
-    render: (_: any, record: Order) => (
-      <Space size="middle">
-        <Button type="primary">View Details</Button>
-        <Button danger={record.status === "Pending"}>
-          {record.status === "Pending" ? "Cancel" : "Update Status"}
-        </Button>
-      </Space>
-    ),
-  },
-];
+export interface Product {
+  product: string;
+  quantity: number;
+  _id: string;
+  price: number;
+}
 
-const data: Order[] = [
-  {
-    id: 1,
-    customer: "John Doe",
-    date: "2023-05-01",
-    total: 99.99,
-    status: "Completed",
-  },
-  {
-    id: 2,
-    customer: "Jane Smith",
-    date: "2023-05-02",
-    total: 149.99,
-    status: "Pending",
-  },
-  {
-    id: 3,
-    customer: "Bob Johnson",
-    date: "2023-05-03",
-    total: 79.99,
-    status: "Cancelled",
-  },
-];
+export interface Order {
+  transaction: Transaction;
+  _id: string;
+  user: string;
+  products: Product[];
+  totalPrice: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
 
-const MyOrders: React.FC = () => {
+const OrderDetails: React.FC = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [orderData, setOrderData] = useState<Order[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      setOrderData(mockOrders);
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []);
+
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "pending":
+        return "orange";
+      case "completed":
+        return "green";
+      case "cancelled":
+        return "red";
+      default:
+        return "default";
+    }
+  };
+
+  const renderOrderCard = (order: Order) => (
+    <Card
+      key={order._id}
+      className="mb-8 shadow-md hover:shadow-lg transition-shadow duration-300"
+      actions={[
+        <Statistic
+          key="totalPrice"
+          title="Total Price"
+          value={order.totalPrice}
+          prefix="$"
+          precision={2}
+        />,
+        <Statistic key="items" title="Items" value={order.products.length} />,
+        <Statistic
+          key="status"
+          title="Status"
+          value={order.status}
+          formatter={(value) => <Tag color={getStatusColor(value as string)}>{value}</Tag>}
+        />,
+      ]}
+    >
+      <Row gutter={16}>
+        <Col span={12}>
+          <Title level={4}>
+            <UserOutlined className="mr-2" />
+            Customer Information
+          </Title>
+          <p>
+            <strong>Name:</strong> {order.user}
+          </p>
+          <p>
+            <strong>Order ID:</strong> {order._id}
+          </p>
+          <p>
+            <strong>Order Date:</strong>{" "}
+            {new Date(order.createdAt).toLocaleString()}
+          </p>
+        </Col>
+        <Col span={12}>
+          <Title level={4}>
+            <ShoppingCartOutlined className="mr-2" />
+            Products
+          </Title>
+          <List
+            itemLayout="horizontal"
+            dataSource={order.products}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar icon={<ShoppingCartOutlined />} />}
+                  title={item.product}
+                  description={`Quantity: ${
+                    item.quantity
+                  } | Price: $${item.price.toFixed(2)}`}
+                />
+              </List.Item>
+            )}
+          />
+        </Col>
+      </Row>
+      <Divider />
+      <Row gutter={16}>
+        <Col span={12}>
+          <Title level={4}>
+            <DollarOutlined className="mr-2" />
+            Transaction Details
+          </Title>
+          <p>
+            <strong>Transaction ID:</strong> {order.transaction.id}
+          </p>
+          <p>
+            <strong>Payment Method:</strong> {order.transaction.method}
+          </p>
+          <p>
+            <strong>Transaction Status:</strong> {order.transaction.bank_status}
+          </p>
+        </Col>
+        <Col span={12}>
+          <Title level={4}>
+            <ClockCircleOutlined className="mr-2" />
+            Order Timeline
+          </Title>
+          <Timeline>
+            <Timeline.Item color="green">
+              Order Placed ({new Date(order.createdAt).toLocaleString()})
+            </Timeline.Item>
+            <Timeline.Item color="blue">
+              Payment {order.transaction.bank_status} (
+              {order.transaction.date_time})
+            </Timeline.Item>
+            {order.status === "Completed" && (
+              <Timeline.Item color="green">
+                Order Completed ({new Date(order.updatedAt).toLocaleString()})
+              </Timeline.Item>
+            )}
+          </Timeline>
+        </Col>
+      </Row>
+    </Card>
+  );
+ 
   return (
-    <>
-      <h1 className="text-2xl font-bold mb-6">Orders</h1>
-      <Table columns={columns} dataSource={data} rowKey="id" />
-    </>
+    <div className="p-6 max-w-7xl mx-auto container" style={{marginBottom: "50px"}} >
+      <Title level={2} className="mb-6 text-center">
+        Order Details
+      </Title>
+      {isLoading ? (
+        <div className="flex justify-center items-center h-64">
+          <Spin size="large" />
+        </div>
+      ) : (
+        orderData.map(renderOrderCard)
+      )}
+    </div>
   );
 };
 
-export default MyOrders;
+export default OrderDetails;
