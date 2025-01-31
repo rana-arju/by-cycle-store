@@ -10,6 +10,7 @@ import {
   FileTextOutlined,
   MenuUnfoldOutlined,
   MenuFoldOutlined,
+  FormOutlined,
 } from "@ant-design/icons";
 import { useEffect, useState } from "react";
 
@@ -78,6 +79,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ userRole }) => {
       label: "Profile",
       link: "/dashboard/profile",
     },
+    {
+      key: "passwordUpdate",
+      icon: <FormOutlined />,
+      label: "Password Update",
+      link: "/dashboard/password-update",
+    },
   ];
 
   const customerMenuItems = [
@@ -98,6 +105,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ userRole }) => {
       icon: <UserOutlined />,
       label: "Profile",
       link: "/dashboard/profile",
+    },
+    {
+      key: "passwordUpdate",
+      icon: <FormOutlined />,
+      label: "Password Update",
+      link: "/dashboard/password-update",
     },
   ];
 

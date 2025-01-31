@@ -3,7 +3,10 @@ import { Table, Tag, Space, Button } from "antd";
 import { useAllOrdersQuery } from "../../redux/features/order/orderApi";
 interface Order {
   id: number;
-  customer: string;
+  user: {
+    name:string,
+    email: string
+  };
   date: string;
   total: number;
   status: string;
@@ -12,13 +15,15 @@ interface Order {
 const columns = [
   {
     title: "transaction ID",
-    dataIndex: "transaction.id",
+    dataIndex: "transaction",
     key: "transaction",
+    render: (item: any) => `${item.id}`,
   },
   {
     title: "Customer",
-    dataIndex: "user.name",
-    key: "customer",
+    dataIndex: "user",
+    key: "user",
+    render: (item: any) => `${item.email}`,
   },
   {
     title: "Date",
@@ -70,6 +75,7 @@ const Orders: React.FC = () => {
   if (isFetching || isLoading) {
     return <p>Loading...</p>;
   }
+console.log(allOrders);
 
   return (
     <>

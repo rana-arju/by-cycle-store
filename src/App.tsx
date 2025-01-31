@@ -25,6 +25,7 @@ import Checkout from "./pages/user/Checkout";
 import ProductDetails from "./pages/ProductDetails";
 import VerifyOrder from "./pages/user/VerifyOrder";
 import UpdateProduct from "./pages/admin/UpdateProduct";
+import PasswordChange from "./pages/auth/PasswordChange";
 
 const App: React.FC = () => {
   const token = useAppSelector(useCurrentToken);
@@ -140,7 +141,10 @@ const App: React.FC = () => {
                   </>
                 )}
                 {(userRole === "user" || userRole === "admin") && (
+                  <>
                   <Route path="/dashboard/profile" element={<Profile />} />
+                  <Route path="/dashboard/password-update" element={<PasswordChange />} />
+                  </>
                 )}
               </>
             )}
