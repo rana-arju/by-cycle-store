@@ -1,5 +1,5 @@
 import type React from "react";
-import { Table, Tag, Space, Button } from "antd";
+import { Table, Tag } from "antd";
 import { useAllOrdersQuery } from "../../redux/features/order/orderApi";
 import { OrderActions } from "../../components/actions/OrderAction";
 interface Order {
@@ -22,8 +22,8 @@ const columns = [
   },
   {
     title: "Customer",
-    dataIndex: "user",
-    key: "user",
+    dataIndex: "customer",
+    key: "customer",
     render: (item: any) => `${item.email}`,
   },
   {

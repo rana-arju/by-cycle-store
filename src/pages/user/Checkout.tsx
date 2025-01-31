@@ -42,7 +42,6 @@ function Checkout() {
   };
 
   const onSubmit = async (values: FieldValues) => {
-
     const data = {
       products: product.items,
       totalPrice: product.totalPrice,

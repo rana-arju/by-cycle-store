@@ -20,7 +20,7 @@ type UserActionsProps = {
     email: string;
     isDeleted: boolean;
     name: string;
-    role: "user" | "admin";
+    role: "customer" | "admin";
     status: "in-progress" | "blocked";
     updatedAt: string;
     _id: string;
@@ -103,7 +103,7 @@ export const UserActions = ({ item }: UserActionsProps) => {
   const handleStatusChange = (value: "in-progress" | "blocked") => {
     setStatus(value);
   };
-  const handleRoleChange = (value: "admin" | "user") => {
+  const handleRoleChange = (value: "admin" | "customer") => {
     setRole(value);
   };
   const handleDelete = async () => {
@@ -169,7 +169,7 @@ export const UserActions = ({ item }: UserActionsProps) => {
           allowClear
           options={[
             { value: "admin", label: "Admin" },
-            { value: "user", label: "user" },
+            { value: "customer", label: "customer" },
           ]}
           placeholder="Select  user role"
         />

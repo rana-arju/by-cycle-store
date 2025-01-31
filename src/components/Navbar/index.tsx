@@ -75,7 +75,7 @@ const Navbar: React.FC = () => {
             to={
               role === "admin"
                 ? "/dashboard/info"
-                : role === "user"
+                : role === "customer"
                 ? "/dashboard"
                 : ""
             }

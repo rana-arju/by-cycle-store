@@ -34,8 +34,8 @@ const App: React.FC = () => {
   if (token) {
     user = verifyToken(token);
   }
-  const role = (user as IUser)?.role as "admin" | "user" | null;
-  const [userRole, setUserRole] = useState<"admin" | "user" | null>(role);
+  const role = (user as IUser)?.role as "admin" | "customer" | null;
+  const [userRole, setUserRole] = useState<"admin" | "customer" | null>(role);
 
   return (
     <ConfigProvider
@@ -66,7 +66,7 @@ const App: React.FC = () => {
                 <Route
                   path="/dashboard"
                   element={
-                    <ProtectRoute role="user">
+                    <ProtectRoute role="customer">
                       <Dashboard />
                     </ProtectRoute>
                   }
@@ -74,7 +74,7 @@ const App: React.FC = () => {
                 <Route
                   path="/dashboard/checkout"
                   element={
-                    <ProtectRoute role="user">
+                    <ProtectRoute role="customer">
                       <Checkout />
                     </ProtectRoute>
                   }
@@ -82,7 +82,7 @@ const App: React.FC = () => {
                 <Route
                   path="/dashboard/myOrder"
                   element={
-                    <ProtectRoute role="user">
+                    <ProtectRoute role="customer">
                       <MyOrders />
                     </ProtectRoute>
                   }
@@ -140,10 +140,13 @@ const App: React.FC = () => {
                     />
                   </>
                 )}
-                {(userRole === "user" || userRole === "admin") && (
+                {(userRole === "customer" || userRole === "admin") && (
                   <>
-                  <Route path="/dashboard/profile" element={<Profile />} />
-                  <Route path="/dashboard/password-update" element={<PasswordChange />} />
+                    <Route path="/dashboard/profile" element={<Profile />} />
+                    <Route
+                      path="/dashboard/password-update"
+                      element={<PasswordChange />}
+                    />
                   </>
                 )}
               </>

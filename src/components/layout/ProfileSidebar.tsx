@@ -5,7 +5,6 @@ import {
   DashboardOutlined,
   UserOutlined,
   ShoppingCartOutlined,
-
   TeamOutlined,
   FileTextOutlined,
   MenuUnfoldOutlined,
@@ -17,7 +16,7 @@ import { useEffect, useState } from "react";
 const { Sider } = Layout;
 
 interface DashboardSidebarProps {
-  userRole: "admin" | "user";
+  userRole: "admin" | "customer";
 }
 
 const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ userRole }) => {

@@ -3,19 +3,15 @@ import { Button, Modal, Select, Space } from "antd";
 import { Link } from "react-router-dom";
 import { DeleteTwoTone, EditTwoTone, ExportOutlined } from "@ant-design/icons";
 import { toast } from "sonner";
-import { Order } from "../../types/order";
 import {
   useAllOrdersQuery,
   useDeleteOrderMutation,
   useOrderStatusUpdateMutation,
 } from "../../redux/features/order/orderApi";
 
-type IOrderActionsProps = {
-  item: Order;
-  url: string;
-};
 
-export const OrderActions = ({ item, url }: IOrderActionsProps) => {
+
+export const OrderActions = ({ item }:any) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [status, setStatus] = useState(item?.status);

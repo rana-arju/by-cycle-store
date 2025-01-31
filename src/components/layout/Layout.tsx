@@ -8,7 +8,7 @@ const { Content } = AntLayout;
 
 interface LayoutProps {
   children: React.ReactNode;
-  userRole?: "admin" | "user";
+  userRole?: "admin" | "customer";
 }
 
 const Layout: React.FC<LayoutProps> = ({ children, userRole }) => {
