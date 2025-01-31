@@ -21,7 +21,6 @@ const authApi = baseApi.injectEndpoints({
     }),
     statusUpdate: builder.mutation({
       query: (body) => {
-        console.log("body", body);
 
         return {
           url: `/auth/status/${body.id}`,

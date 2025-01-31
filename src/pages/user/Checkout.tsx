@@ -42,7 +42,6 @@ function Checkout() {
   };
 
   const onSubmit = async (values: FieldValues) => {
-    console.log("values", values);
 
     const data = {
       products: product.items,

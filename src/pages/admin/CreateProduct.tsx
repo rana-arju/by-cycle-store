@@ -24,7 +24,6 @@ const AddProduct: React.FC = () => {
       images: [values.images],
       category: values.category,
     };
-    console.log("product data", productData);
     
     const toastId = toast.loading("Adding new product...");
     try {

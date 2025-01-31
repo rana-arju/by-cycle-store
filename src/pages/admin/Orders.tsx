@@ -1,6 +1,7 @@
 import type React from "react";
 import { Table, Tag, Space, Button } from "antd";
 import { useAllOrdersQuery } from "../../redux/features/order/orderApi";
+import { OrderActions } from "../../components/actions/OrderAction";
 interface Order {
   id: number;
   user: {
@@ -34,7 +35,7 @@ const columns = [
     title: "Total",
     dataIndex: "totalPrice",
     key: "totalPrice",
-    render: (total: number) => `$${total?.toFixed(2)}`,
+    render: (total: number) => `৳${total?.toFixed(2)}`,
   },
   {
     title: "Status",
@@ -53,14 +54,7 @@ const columns = [
   {
     title: "Action",
     key: "action",
-    render: (_: any, record: Order) => (
-      <Space size="middle">
-        <Button type="primary">View Details</Button>
-        <Button danger={record.status === "Pending"}>
-          {record.status === "Pending" ? "Cancel" : "Update Status"}
-        </Button>
-      </Space>
-    ),
+    render: (_: any, record: Order) => <OrderActions url="" item={record} />,
   },
 ];
 
@@ -75,7 +69,6 @@ const Orders: React.FC = () => {
   if (isFetching || isLoading) {
     return <p>Loading...</p>;
   }
-console.log(allOrders);
 
   return (
     <>

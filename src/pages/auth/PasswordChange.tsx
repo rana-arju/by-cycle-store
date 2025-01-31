@@ -13,12 +13,10 @@ function PasswordChange() {
   const [passwordChange] = usePasswordChangeMutation();
   const navigate = useNavigate();
   const onSubmit = async (values: FieldValues) => {
-    console.log(values);
 
     const toastID = toast.loading("Updating password...");
     try {
       const res: any = await passwordChange(values);
-      console.log("res ====> ", res);
 
       if (res.error) {
         const errorMessage = (res.error as any)?.data?.message as string;

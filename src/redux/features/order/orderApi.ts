@@ -12,14 +12,30 @@ const orderApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["order"],
     }),
-
+    deleteOrder: builder.mutation({
+      query: (id) => ({
+        url: `/orders/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["order"],
+    }),
+    orderStatusUpdate: builder.mutation({
+      query: (body) => {
+        return {
+          url: `/orders/status/${body.id}`,
+          method: "PATCH",
+          body: { status: body.data },
+        };
+      },
+      invalidatesTags: ["order"],
+    }),
     verifyOrder: builder.query({
       query: (order_id) => ({
         url: "/orders/verify",
         params: { order_id },
         method: "GET",
       }),
-      providesTags: ["order"]
+      providesTags: ["order"],
     }),
     myOrders: builder.query({
       query: () => {
@@ -57,6 +73,8 @@ export const {
   usePlaceOrderMutation,
   useVerifyOrderQuery,
   useMyOrdersQuery,
-  useAllOrdersQuery
+  useAllOrdersQuery,
+  useDeleteOrderMutation,
+  useOrderStatusUpdateMutation
  
 } = orderApi;

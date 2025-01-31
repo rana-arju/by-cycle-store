@@ -54,7 +54,6 @@ const productApi = baseApi.injectEndpoints({
 
     getSingleProduct: builder.query({
       query: (id) => {
-        console.log("id", id);
 
         return {
           url: `/products/${id}`,
