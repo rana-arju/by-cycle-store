@@ -38,7 +38,7 @@ const sliderData: SliderItem[] = [
 const styles = {
   sliderContainer: {
     width: "100%",
-    maxWidth: "800px",
+    //maxWidth: "800px",
     margin: "0 auto",
   } as CSSProperties,
   slide: {

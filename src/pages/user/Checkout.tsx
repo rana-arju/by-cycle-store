@@ -1,7 +1,7 @@
 import { FieldValues } from "react-hook-form";
 import BForm from "../../components/form/BForm";
 import BInput from "../../components/form/BInput";
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
@@ -26,7 +26,11 @@ function Checkout() {
   const product = useAppSelector((state) => state.cart);
   const { data: myData, isFetching, isLoading } = useGetMyDataQuery(undefined);
   if (isLoading || isFetching) {
-    return <p>Loading....</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
   }
 
   const handleClearCart = () => {

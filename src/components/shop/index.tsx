@@ -15,7 +15,7 @@ function ShopHeader() {
           }}
         >
           <h1 className="title">Shop Now</h1>
-          <p>UNBEATABLE PRICES | UNMATCHED QUALITY | UNRIVALED SERVICE</p>
+          <p style={{textAlign: "center"}}>UNBEATABLE PRICES | UNMATCHED QUALITY | UNRIVALED SERVICE</p>
         </div>
       </div>
     </div>

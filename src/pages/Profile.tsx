@@ -1,5 +1,5 @@
 import type React from "react";
-import { Button, Avatar } from "antd";
+import { Button, Avatar, Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import {
   useGetMyDataQuery,
@@ -18,7 +18,11 @@ const Profile: React.FC = () => {
   );
 
   if (isFetching || isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
   }
   const defaultValues = {
     name: data?.data?.name,

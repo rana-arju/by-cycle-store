@@ -1,5 +1,5 @@
 import type React from "react";
-import { Button, Flex, Col } from "antd";
+import { Button, Flex, Col, Row, Spin } from "antd";
 import BForm from "../../components/form/BForm";
 import { zodResolver } from "@hookform/resolvers/zod";
 import BInput from "../../components/form/BInput";
@@ -15,14 +15,22 @@ import {
 import { toast } from "sonner";
 import { ISingleResponse } from "../../types/global";
 import { useParams } from "react-router-dom";
+import Title from "antd/es/typography/Title";
+import { useMediaQuery } from "react-responsive";
 
 const UpdateProduct: React.FC = () => {
   const { id } = useParams();
+    const isMobile = useMediaQuery({ maxWidth: 767 });
+
   const [updateProduct] = useUpdateProductMutation();
 
   const { data: product, isFetching, isLoading } = useGetSingleProductQuery(id);
   if (isFetching || isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
   }
   const data = product?.data;
   const defaultValues = {
@@ -66,20 +74,12 @@ const UpdateProduct: React.FC = () => {
 
   return (
     <>
-      <div className="container" style={{ paddingBottom: "50px" }}>
-        <Flex justify="center" align="middle">
-          <Col span={12}>
-            <h3
-              style={{
-                textAlign: "center",
-                marginTop: "20px",
-                marginBottom: "20px",
-                fontSize: "20px",
-                textTransform: "uppercase",
-              }}
-            >
-              Update Product
-            </h3>
+      <div className="add-product-container">
+        <Row justify="center">
+          <Col xs={24} sm={20} md={16} lg={12}>
+            <Title level={3} className="add-product-title">
+              Add New Product
+            </Title>
             <BForm
               onSubmit={onSubmit}
               resolver={zodResolver(productSchema)}
@@ -109,18 +109,20 @@ const UpdateProduct: React.FC = () => {
                 name="category"
                 options={CategoryOptions}
               />
-              <BInput
-                type="number"
-                placeholder="Enter price"
-                label="Enter price"
-                name="price"
-              />{" "}
-              <BInput
-                type="number"
-                placeholder="Enter quantity"
-                label="Enter quantity"
-                name="quantity"
-              />
+              <Flex wrap="wrap" gap="small">
+                <BInput
+                  type="number"
+                  placeholder="Enter price"
+                  label="Enter price"
+                  name="price"
+                />
+                <BInput
+                  type="number"
+                  placeholder="Enter quantity"
+                  label="Enter quantity"
+                  name="quantity"
+                />
+              </Flex>
               <BInput
                 type="text"
                 placeholder="Product image url"
@@ -133,12 +135,12 @@ const UpdateProduct: React.FC = () => {
                 name="description"
                 label="Write product description"
               />
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" block={isMobile}>
                 Create new Product
               </Button>
             </BForm>
           </Col>
-        </Flex>
+        </Row>
       </div>
     </>
   );

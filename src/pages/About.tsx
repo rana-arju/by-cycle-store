@@ -5,6 +5,7 @@ import Title from "antd/es/typography/Title";
 import Paragraph from "antd/es/typography/Paragraph";
 import Boxes from "../components/annouce/Boxes";
 import Teams from "../components/team";
+import AppFooter from "../components/footer";
 
 
 function About() {
@@ -82,6 +83,7 @@ function About() {
         </Layout>
       </div>
       <Boxes />
+      <AppFooter />
     </div>
   );
 }

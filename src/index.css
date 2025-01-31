@@ -49,6 +49,16 @@
   .filter-button{
     display: none;
   }
+
+  
+}
+@media  only screen and (max-width: 780px) {
+   .title{
+  font-size: 15px !important;
+  font-weight: 600;
+
+}
+
   
 }
 @media only screen and (min-width: 100px) {

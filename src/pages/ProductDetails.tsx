@@ -1,4 +1,4 @@
-import { Button, Input } from "antd";
+import { Button, Input, Spin } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -17,7 +17,11 @@ function ProductDetails() {
 
   const { data: product, isFetching, isLoading } = useGetSingleProductQuery(id);
   if (isFetching || isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
   }
   const data = product?.data;
 

@@ -3,11 +3,12 @@ import { useState } from "react";
 import type { FilterState } from "../types/product";
 import { FilterSidebar } from "../components/shop/FilterSidebar";
 import ShopHeader from "../components/shop";
-import { Button, Drawer, Layout, Pagination, Select } from "antd";
+import { Button, Drawer, Layout, Pagination, Select, Spin } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { useGetAllProductQuery } from "../redux/features/product/productApi";
 import { IQueryParam } from "../types/global";
 import ProductCard from "../components/card";
+import AppFooter from "../components/footer";
 // This would normally come from an API
 
 
@@ -39,7 +40,11 @@ export default function Shop() {
 
   // Render loading UI conditionally
   if (isFetching || isLoading) {
-    return <p>Loading...</p>;
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
   }
 console.log("filters", filters);
 
@@ -52,7 +57,7 @@ console.log("filters", filters);
         className="min-h-screen bg-gray-100"
         style={{ marginBottom: "50px" }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-8 container">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-8 container" style={{marginBottom: "20px"}}>
           <div className="flex items-center justify-end mb-6">
             <div
               className="flex items-center gap-4 "
@@ -177,7 +182,7 @@ console.log("filters", filters);
 
             {/* Product Grid */}
             <div className="flex-1">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
                 {!isFetching &&
                   !isLoading &&
                   products &&
@@ -199,6 +204,7 @@ console.log("filters", filters);
           </div>
         </div>
       </Layout>
+        <AppFooter />
     </>
   );
 }

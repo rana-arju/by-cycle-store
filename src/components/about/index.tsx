@@ -15,8 +15,8 @@ function AboutHeader() {
             color: "white",
           }}
         >
-          <h1 className="title">About Us</h1>
-          <p>UNBEATABLE PRICES | UNMATCHED QUALITY | UNRIVALED SERVICE</p>
+          <h1 className="title ">About Us</h1>
+          <p style={{textAlign: "center"}}>UNBEATABLE PRICES | UNMATCHED QUALITY | UNRIVALED SERVICE</p>
         </div>
       </div>
       <div style={{ marginTop: "20px" }} className="container about-content">

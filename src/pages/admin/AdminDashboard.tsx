@@ -11,7 +11,7 @@ const AdminDashboard: React.FC = () => {
     <>
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
       <Row gutter={16}>
-        <Col span={8}>
+        <Col xs={24} md={12} lg={8}>
           <Card>
             <Statistic
               title="Total Users"
@@ -20,7 +20,7 @@ const AdminDashboard: React.FC = () => {
             />
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} md={12} lg={8}>
           <Card>
             <Statistic
               title="Total Products"
@@ -29,7 +29,7 @@ const AdminDashboard: React.FC = () => {
             />
           </Card>
         </Col>
-        <Col span={8}>
+        <Col xs={24} md={12}lg={8}>
           <Card>
             <Statistic
               title="Total Revenue"

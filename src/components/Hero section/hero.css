@@ -14,3 +14,24 @@
     grid-template-columns: 1fr;
   }
 }
+.swiper-pagination-bullet {
+  background-color: white !important;
+  opacity: 0.7;
+}
+
+.swiper-pagination-bullet-active {
+  opacity: 1;
+}
+
+.ant-btn-primary {
+  background-color: #2563eb !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: #1d4ed8 !important;
+}
+@media (min-width: 768px) {
+  .hero-section-wrapper {
+    height: 400px;
+  }
+}

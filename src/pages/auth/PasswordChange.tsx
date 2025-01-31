@@ -1,4 +1,4 @@
-import { Button, Card, Col, Flex } from "antd";
+import { Button, Col, Flex, Row } from "antd";
 import BForm from "../../components/form/BForm";
 import BInput from "../../components/form/BInput";
 import { FieldValues } from "react-hook-form";
@@ -8,6 +8,7 @@ import { passwordSchema} from "../../schema/user.schema";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { usePasswordChangeMutation } from "../../redux/features/auth/authApi";
+import Title from "antd/es/typography/Title";
 
 function PasswordChange() {
   const [passwordChange] = usePasswordChangeMutation();
@@ -30,42 +31,40 @@ function PasswordChange() {
     }
   };
   return (
-    <div className="container h-[100vh]">
-      <Card className="customForm">
-        <Flex justify="center" align="middle">
-          <Col span={12}>
-            <h3
-              style={{
-                textAlign: "center",
-                marginTop: "20px",
-                marginBottom: "20px",
-                fontSize: "20px",
-                textTransform: "uppercase",
-              }}
-            >
-              Password Change
-            </h3>
-            <BForm onSubmit={onSubmit} resolver={zodResolver(passwordSchema)}>
-              <BInput
-                type="password"
-                placeholder="Enter old password"
-                label="Enter old password"
-                name="oldPassword"
-              />
+    <div className="h-[100vh]" style={{paddingTop: "40px"}}>
 
-              <BInput
-                type="password"
-                placeholder="Enter new password"
-                label="Enter new password"
-                name="newPassword"
-              />
-              <Button type="primary" htmlType="submit">
-                password Change
-              </Button>
-            </BForm>
+        <Row justify="center">
+          <Col xs={24} sm={20} md={16} lg={24}>
+            <Flex justify="center" align="middle">
+              <Col span={12}>
+                <Title level={3} className="add-product-title" style={{paddingTop: "20px", fontSize: "20px"}}>
+                  Password Change
+                </Title>
+                <BForm
+                  onSubmit={onSubmit}
+                  resolver={zodResolver(passwordSchema)}
+                >
+                  <BInput
+                    type="password"
+                    placeholder="Enter old password"
+                    label="Enter old password"
+                    name="oldPassword"
+                  />
+
+                  <BInput
+                    type="password"
+                    placeholder="Enter new password"
+                    label="Enter new password"
+                    name="newPassword"
+                  />
+                  <Button type="primary" htmlType="submit">
+                    password Change
+                  </Button>
+                </BForm>
+              </Col>
+            </Flex>
           </Col>
-        </Flex>
-      </Card>
+        </Row>
     </div>
   );
 }

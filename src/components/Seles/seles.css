@@ -1,0 +1,73 @@
+.sale-container {
+  padding: 48px 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #f3f4f6;
+  border-radius: 8px;
+}
+
+.sale-card {
+  background: linear-gradient(to top right, #273284b6, #1e1e60);
+  border-radius: 30px;
+  transform: skew(-10deg);
+  box-shadow: 0 10px 15px -3px rgba(159, 122, 234, 0.5);
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.sale-title {
+  color: #fff !important;
+  margin-bottom: 0 !important;
+}
+
+.sale-subtitle {
+  color: #d1d5db !important;
+  margin-top: 0 !important;
+}
+
+.sale-paragraph {
+  color: #d1d5db;
+  margin-bottom: 0;
+}
+
+.offer-column {
+  text-align: center;
+}
+
+.offer-title {
+  color: #1890FF !important;
+  margin-bottom: 0 !important;
+}
+
+.offer-subtitle {
+  color: #1890FF !important;
+  margin-top: 8px !important;
+}
+
+.offer-paragraph {
+  color: #1f2937;
+  margin-top: 16px;
+}
+
+.shop-button {
+  background: linear-gradient(to right, #1890FF, #1890FF) !important;
+  border-color: #1890FF !important;
+  margin-top: 32px;
+}
+
+.shop-button:hover {
+  background: linear-gradient(to left, #1890FF, #1890FF) !important;
+}
+
+@media only screen and (max-width: 500px) {
+  
+.sale-card {
+  
+  transform: skew(0deg);
+  
+}
+}

@@ -5,8 +5,11 @@ export interface IProduct {
   category: string;
   images: string[];
   model: string;
-  brand: string
+  brand: string;
+  quantity: number;
   
+
+
 }
 
 export interface FilterState {

@@ -53,14 +53,15 @@ function RightHero() {
         position: "absolute",
         top: "16px",
         left: "16px",
-        zIndex: 2,
+        zIndex: 99,
       } as CSSProperties,
     };
   return (
     <div
+      className="hero-section-wrapper"
       style={{
         ...styles.content,
-      
+
         width: "100%",
         margin: "0 auto",
       }}
@@ -69,7 +70,7 @@ function RightHero() {
       <div style={styles.content}>
         <h3 style={styles.title}>Hot Deals of The Day</h3>
         <p style={styles.description}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, ut.
+          Explore our new range and get the best offers
         </p>
         <span style={{ ...styles.price, marginRight: "5px" }}>From 4000</span>
         <button

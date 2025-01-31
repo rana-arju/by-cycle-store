@@ -1,5 +1,5 @@
 import type React from "react";
-import { Button, Layout, Menu } from "antd";
+import { Layout, Menu } from "antd";
 import { Link, useLocation } from "react-router-dom";
 import {
   DashboardOutlined,
@@ -7,39 +7,23 @@ import {
   ShoppingCartOutlined,
   TeamOutlined,
   FileTextOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   FormOutlined,
 } from "@ant-design/icons";
-import { useEffect, useState } from "react";
 
 const { Sider } = Layout;
 
 interface DashboardSidebarProps {
   userRole: "admin" | "customer";
+  collapsed: boolean;
+  setCollapsed: (collapsed: boolean) => void;
 }
 
-const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ userRole }) => {
-  const [collapsed, setCollapsed] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
+  userRole,
+  collapsed,
+  setCollapsed,
+}) => {
   const location = useLocation();
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => {
-      window.removeEventListener("resize", checkMobile);
-    };
-  }, []);
-
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
 
   const adminMenuItems = [
     {
@@ -121,40 +105,17 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({ userRole }) => {
       collapsible
       collapsed={collapsed}
       breakpoint="lg"
-      collapsedWidth={isMobile ? 80 : 80}
+      collapsedWidth={80}
       onBreakpoint={(broken) => {
         setCollapsed(broken);
       }}
-      style={{
-        overflow: "auto",
-        height: "100vh",
-        position: "fixed",
-        left: 0,
-        top: 70,
-        bottom: 0,
-      }}
+      className="fixed left-0 top-16 bottom-0 overflow-auto transition-all duration-300 ease-in-out"
     >
-      <Button
-        type="text"
-        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        onClick={toggleCollapsed}
-        style={{
-          fontSize: "16px",
-          width: "100%",
-          height: 64,
-          color: "white",
-          display: isMobile ? "flex" : "none",
-          alignItems: "center",
-          justifyContent: "center",
-          backgroundColor: "#3182ce",
-          borderRadius: 0,
-        }}
-      />
       <Menu
         mode="inline"
         defaultSelectedKeys={["dashboard"]}
         selectedKeys={[location.pathname.split("/")[2] || "dashboard"]}
-        style={{ height: "100%", borderRight: 0 }}
+        className="h-full border-r-0"
       >
         {menuItems.map((item) => (
           <Menu.Item key={item.key} icon={item.icon}>
