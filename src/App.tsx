@@ -26,6 +26,7 @@ import ProductDetails from "./pages/ProductDetails";
 import VerifyOrder from "./pages/user/VerifyOrder";
 import UpdateProduct from "./pages/admin/UpdateProduct";
 import PasswordChange from "./pages/auth/PasswordChange";
+import OrdersDetails from "./pages/user/OrderDetails";
 
 const App: React.FC = () => {
   const token = useAppSelector(useCurrentToken);
@@ -53,9 +54,6 @@ const App: React.FC = () => {
             <Route path="/contact" element={<Contact />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/order/verify" element={<VerifyOrder />} />
-            <Route path="/order/my-orders" element={<MyOrders />} />
             <Route path="/details/:id" element={<ProductDetails />} />
             <Route
               path="/login"
@@ -63,31 +61,61 @@ const App: React.FC = () => {
             />
             {userRole && (
               <>
-                <Route
-                  path="/dashboard"
-                  element={
-                    <ProtectRoute role="customer">
-                      <Dashboard />
-                    </ProtectRoute>
-                  }
-                />
-                <Route
-                  path="/dashboard/checkout"
-                  element={
-                    <ProtectRoute role="customer">
-                      <Checkout />
-                    </ProtectRoute>
-                  }
-                />
-                <Route
-                  path="/dashboard/myOrder"
-                  element={
-                    <ProtectRoute role="customer">
-                      <MyOrders />
-                    </ProtectRoute>
-                  }
-                />
-                <Route path="/dashboard/orders" element={<Orders />} />
+                {userRole === "customer" && (
+                  <>
+                    <Route
+                      path="/dashboard"
+                      element={
+                        <ProtectRoute role="customer">
+                          <Dashboard />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="/order/my-orders"
+                      element={
+                        <ProtectRoute role="customer">
+                          <MyOrders />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="/checkout"
+                      element={
+                        <ProtectRoute role="customer">
+                          <Checkout />
+                        </ProtectRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/order/verify"
+                      element={
+                        <ProtectRoute role="customer">
+                          <VerifyOrder />
+                        </ProtectRoute>
+                      }
+                    />
+
+                    <Route
+                      path="/dashboard/checkout"
+                      element={
+                        <ProtectRoute role="customer">
+                          <Checkout />
+                        </ProtectRoute>
+                      }
+                    />
+                    <Route
+                      path="/dashboard/myOrder"
+                      element={
+                        <ProtectRoute role="customer">
+                          <MyOrders />
+                        </ProtectRoute>
+                      }
+                    />
+                  </>
+                )}
+
                 {userRole === "admin" && (
                   <>
                     <Route
@@ -98,6 +126,7 @@ const App: React.FC = () => {
                         </ProtectRoute>
                       }
                     />
+
                     <Route
                       path="/dashboard/users"
                       element={
@@ -129,7 +158,7 @@ const App: React.FC = () => {
                           <AddProduct />
                         </ProtectRoute>
                       }
-                    />{" "}
+                    />
                     <Route
                       path="/dashboard/productUpdate/:id"
                       element={
@@ -146,6 +175,10 @@ const App: React.FC = () => {
                     <Route
                       path="/dashboard/password-update"
                       element={<PasswordChange />}
+                    />
+                    <Route
+                      path="/dashboard/order/:id"
+                      element={<OrdersDetails />}
                     />
                   </>
                 )}

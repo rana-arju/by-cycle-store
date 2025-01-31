@@ -1,65 +1,84 @@
 import type React from "react";
-import {
-  Card,
-  List,
-  Tag,
-  Spin,
-  Typography,
-  Statistic,
-  Row,
-  Col,
-  Timeline,
-  Divider,
-  Image,
-} from "antd";
-import {
-  ShoppingCartOutlined,
-  UserOutlined,
-  ClockCircleOutlined,
-  DollarOutlined,
-} from "@ant-design/icons";
+import { useState } from "react";
+import { Table, Tag, Card, List, Typography, Space, Spin } from "antd";
+import { useMediaQuery } from "react-responsive";
 import { useMyOrdersQuery } from "../../redux/features/order/orderApi";
-import styles from "../../styles/OrderDetails.module.css";
-const { Title } = Typography;
+import { MyOrderActions } from "../../components/actions/MyOrderAction";
+const { Title, Text } = Typography;
 
-export interface Transaction {
-  id: string;
-  transactionStatus: string | null;
-  bank_status: string;
-  date_time: string;
-  method: string;
-  sp_code: string;
-  sp_message: string;
-}
-
-export interface Product {
-  product: {
-    name: string;
-    images: string[];
-    price: number;
+interface Order {
+  id: number;
+  transaction: {
+    id: string;
   };
-  quantity: number;
-  _id: string;
-  price: number;
-}
-
-export interface Order {
-  transaction: Transaction;
-  _id: string;
-  user: {
-    name: string;
+  customer: {
     email: string;
   };
-  products: Product[];
+  createdAt: string;
   totalPrice: number;
   status: string;
-  createdAt: string;
-  updatedAt: string;
-  __v: number;
 }
 
 const MyOrders: React.FC = () => {
-  const { data: orders, isFetching, isLoading } = useMyOrdersQuery(undefined);
+  const { data: myOrders, isFetching, isLoading } = useMyOrdersQuery(undefined);
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+  const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
+  const orderData = myOrders?.data;
+  const columns = [
+    {
+      title: "Transaction ID",
+      dataIndex: ["transaction", "id"],
+      key: "transaction",
+    },
+    {
+      title: "Customer",
+      dataIndex: ["customer", "email"],
+      key: "customer",
+    },
+    {
+      title: "Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+    },
+    {
+      title: "Total",
+      dataIndex: "totalPrice",
+      key: "totalPrice",
+      render: (total: number) => `৳${total?.toFixed(2)}`,
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status: string) => {
+        let color = "green";
+        if (status === "Pending") {
+          color = "gold";
+        } else if (status === "Cancelled") {
+          color = "red";
+        }
+        return <Tag color={color}>{status}</Tag>;
+      },
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_: any, record: Order) => (
+        <MyOrderActions
+          url={`/dashboard/order/${record.transaction.id}`}
+          item={record}
+        />
+      ),
+    },
+  ];
+
+  const onExpandRow = (expanded: boolean, record: Order) => {
+    const keys = expanded
+      ? [...expandedRowKeys, record.id.toString()]
+      : expandedRowKeys.filter((key) => key !== record.id.toString());
+    setExpandedRowKeys(keys);
+  };
+
   if (isFetching || isLoading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -67,168 +86,58 @@ const MyOrders: React.FC = () => {
       </div>
     );
   }
-  const orderData = orders?.data;
-
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case "pending":
-        return "orange";
-      case "paid":
-        return "blue";
-      case "completed":
-        return "green";
-      case "cancelled":
-        return "red";
-      default:
-        return "default";
-    }
-  };
-
-  const renderOrderCard = (order: Order) => (
-    <Card key={order._id} className={styles.orderCard}>
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={24} md={12}>
-          <Title level={4} className={styles.cardTitle}>
-            <UserOutlined className="mr-2" />
-            Customer Information
-          </Title>
-          <p>
-            <strong>Name:</strong> {order.user.name}
-          </p>
-          <p>
-            <strong>Email:</strong> {order.user.email}
-          </p>
-          <p>
-            <strong>Order ID:</strong> {order._id}
-          </p>
-          <p>
-            <strong>Order Date:</strong>{" "}
-            {new Date(order.createdAt).toLocaleString()}
-          </p>
-        </Col>
-        <Col xs={24} sm={24} md={12}>
-          <Title level={4} className={styles.cardTitle}>
-            <ShoppingCartOutlined className="mr-2" />
-            Products
-          </Title>
-          <List
-            className={styles.productList}
-            itemLayout="horizontal"
-            dataSource={order.products}
-            renderItem={(item) => (
-              <List.Item className={styles.productItem}>
-                <Image
-                  src={item.product.images[0]}
-                  alt={item.product.name}
-                  className={styles.productImage}
-                  style={{ width: "50px", height: "50px" }}
-                />
-                <div className={styles.productInfo}>
-                  <div className={styles.productName}>{item.product.name}</div>
-                  <div className={styles.productDetails}>
-                    Quantity: {item.quantity} | Price: $
-                    {item.product.price.toFixed(2)}
-                  </div>
-                </div>
-              </List.Item>
-            )}
-          />
-        </Col>
-      </Row>
-      <Divider />
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={24} md={12}>
-          <Title level={4}>
-            <DollarOutlined className="mr-2" />
-            Transaction Details
-          </Title>
-          {order.transaction ? (
-            <>
-              <p>
-                <strong>Transaction ID:</strong> {order.transaction.id}
-              </p>
-              <p>
-                <strong>Payment Method:</strong>{" "}
-                {order.transaction.method || "N/A"}
-              </p>
-              <p>
-                <strong>Transaction Status:</strong>{" "}
-                {order.transaction.bank_status ||
-                  order.transaction.transactionStatus ||
-                  "N/A"}
-              </p>
-            </>
-          ) : (
-            <p>No transaction details available</p>
-          )}
-        </Col>
-        <Col xs={24} sm={24} md={12}>
-          <Title level={4}>
-            <ClockCircleOutlined className="mr-2" />
-            Order Timeline
-          </Title>
-          <Timeline>
-            <Timeline.Item color="green">
-              Order Placed ({new Date(order.createdAt).toLocaleString()})
-            </Timeline.Item>
-            {order.transaction && order.transaction.date_time && (
-              <Timeline.Item color="blue">
-                Payment{" "}
-                {order.transaction.bank_status ||
-                  order.transaction.transactionStatus}{" "}
-                ({order.transaction.date_time})
-              </Timeline.Item>
-            )}
-            {order.status === "Paid" && (
-              <Timeline.Item color="green">
-                Order Completed ({new Date(order.updatedAt).toLocaleString()})
-              </Timeline.Item>
-            )}
-          </Timeline>
-        </Col>
-      </Row>
-      <Divider />
-      <Row gutter={[16, 16]}>
-        <Col xs={24} sm={8}>
-          <Statistic
-            title="Total Price"
-            value={order.totalPrice}
-            prefix="$"
-            precision={2}
-          />
-        </Col>
-        <Col xs={24} sm={8}>
-          <Statistic title="Items" value={order.products.length} />
-        </Col>
-        <Col xs={24} sm={8}>
-          <Statistic
-            title="Status"
-            formatter={() => (
-              <Tag color={getStatusColor(order.status)}>{order.status}</Tag>
-            )}
-          />
-        </Col>
-      </Row>
-    </Card>
-  );
 
   return (
-    <div
-      className="p-6 max-w-7xl mx-auto container"
-      style={{ paddingTop: "20px", paddingBottom: "50px" }}
-    >
-      <Title level={2} className="mb-6 text-center">
-        My Order Details
+    <div className="orders-container">
+      <Title level={2} className="mb-6">
+        My Orders
       </Title>
-      {isLoading ? (
-        <div className="flex justify-center items-center h-64">
-          <Spin size="large" />
-        </div>
+      {isMobile ? (
+        <List
+          dataSource={orderData}
+          renderItem={(item: Order) => (
+            <List.Item key={item.id}>
+              <Card className="w-full">
+                <Space direction="vertical" className="w-full">
+                  <Text strong>Transaction ID: {item.transaction.id}</Text>
+                  <Text>Customer: {item.customer?.email}</Text>
+                  <Text>Date: {item.createdAt}</Text>
+                  <Text>Total: ৳{item.totalPrice.toFixed(2)}</Text>
+                  <Tag color={getStatusColor(item.status)}>{item.status}</Tag>
+                  <MyOrderActions
+                    url={`/dashboard/order/${item.transaction.id}`}
+                    item={item}
+                  />
+                </Space>
+              </Card>
+            </List.Item>
+          )}
+        />
       ) : (
-        orderData.map(renderOrderCard)
+        <Table
+          columns={columns}
+          dataSource={orderData}
+          rowKey="id"
+          expandable={{
+            expandedRowKeys,
+            onExpand: onExpandRow,
+          }}
+          className="orders-table"
+        />
       )}
     </div>
   );
+};
+
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case "Pending":
+      return "gold";
+    case "Cancelled":
+      return "red";
+    default:
+      return "green";
+  }
 };
 
 export default MyOrders;

@@ -70,7 +70,13 @@ const Orders: React.FC = () => {
     {
       title: "Action",
       key: "action",
-      render: (_: any, record: Order) => <OrderActions url="" item={record} />,
+      render: (_: any, record: Order) => (
+        <OrderActions
+          url={`/dashboard/order/${record?.transaction?.id}`}
+          target="admin"
+          item={record}
+        />
+      ),
     },
   ];
 

@@ -9,9 +9,9 @@ import {
   useOrderStatusUpdateMutation,
 } from "../../redux/features/order/orderApi";
 
-
-
-export const OrderActions = ({ item }:any) => {
+export const OrderActions = ({ item ,url }:any) => {
+  console.log(url);
+  
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
   const [status, setStatus] = useState(item?.status);
@@ -73,7 +73,7 @@ export const OrderActions = ({ item }:any) => {
 
   return (
     <Space>
-      <Link to={`/details/${item._id}`}>
+      <Link to={url}>
         <Button>
           <ExportOutlined />
         </Button>
