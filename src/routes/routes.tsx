@@ -46,6 +46,14 @@ const router = createBrowserRouter([
           </ProtectRoute>
         ),
       },
+      {
+        path: "/order/verify",
+        element: (
+          <ProtectRoute role={["customer"]}>
+            <VerifyOrder />
+          </ProtectRoute>
+        ),
+      },
     ],
   },
   {
@@ -53,7 +61,7 @@ const router = createBrowserRouter([
     element: <Dashboard />,
     children: [
       {
-        path: "order/my-orders",
+        path: "myOrder",
         element: (
           <ProtectRoute role={["customer"]}>
             <MyOrders />
@@ -61,14 +69,6 @@ const router = createBrowserRouter([
         ),
       },
 
-      {
-        path: "order/verify",
-        element: (
-          <ProtectRoute role={["customer"]}>
-            <VerifyOrder />
-          </ProtectRoute>
-        ),
-      },
       {
         path: "info",
         element: (

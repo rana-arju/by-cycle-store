@@ -56,7 +56,7 @@ function ProductDetails() {
       totalPrice: data.price * quantity,
     };
     dispatch(addCart(cart));
-    navigate("/checkout", { replace: true });
+    await navigate("/checkout", { replace: true });
   };
   return (
     <div className="container">
@@ -195,7 +195,10 @@ function ProductDetails() {
           </div>
         </div>
 
-        <div className="lg:mt-12 mt-6 max-w-2xl px-6" style={{padding: "10px 15px"}}>
+        <div
+          className="lg:mt-12 mt-6 max-w-2xl px-6"
+          style={{ padding: "10px 15px" }}
+        >
           <h3 className="text-lg font-bold text-gray-800">Bi-Cycle Info</h3>
 
           <ul className="grid sm:grid-cols-2 gap-3 mt-4 ">

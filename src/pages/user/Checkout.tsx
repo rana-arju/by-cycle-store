@@ -75,7 +75,7 @@ function Checkout() {
     if (isError) toast.error(JSON.stringify(error), { id: toastId });
   }, [data?.data, data?.message, error, isError, isLoading, isSuccess]);
   return (
-    <div style={{ paddingTop: "20px", paddingBottom: "20px" }}>
+    <div style={{ paddingTop: "65px", paddingBottom: "20px" }}>
       <div
         className="font-[sans-serif] bg-white container shadow-2xl rounded-md"
         style={{ padding: "20px" }}

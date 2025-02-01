@@ -39,7 +39,6 @@ const orderApi = baseApi.injectEndpoints({
     }),
     myOrders: builder.query({
       query: () => {
-        
         return {
           url: "/orders/myOrder",
           method: "GET",
@@ -55,7 +54,6 @@ const orderApi = baseApi.injectEndpoints({
     }),
     allOrders: builder.query({
       query: () => {
-
         return {
           url: "/orders",
           method: "GET",
@@ -77,6 +75,5 @@ export const {
   useMyOrdersQuery,
   useAllOrdersQuery,
   useDeleteOrderMutation,
-  useOrderStatusUpdateMutation
- 
+  useOrderStatusUpdateMutation,
 } = orderApi;

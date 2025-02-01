@@ -217,8 +217,8 @@ const OrdersDetails: React.FC = () => {
       className="p-6 max-w-7xl mx-auto container"
       style={{ paddingTop: "20px", paddingBottom: "50px" }}
     >
-      <Title level={2} className="mb-6 text-center">
-        My Order Details
+      <Title level={2} className="text-center">
+        Order Details
       </Title>
       {isLoading ? (
         <div className="flex justify-center items-center h-64">

@@ -51,12 +51,17 @@ export default function VerifyOrder() {
   const orderData: OrderData = data?.data?.[0];
   
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Order Verification</h1>
+    <div className="container mx-auto p-4" style={{ paddingTop: "70px" }}>
+      <h1
+        className="sm:text-xl md:text-2xl font-bold "
+        style={{ marginBottom: "10px" }}
+      >
+        Order Verification
+      </h1>
       {isLoading ? (
         <div className="w-full container h-[100vh] grid grid-cols-1 md:grid-cols-2 justify-between items-center gap-10">
-          <Skeleton  />
-          <Skeleton  />
+          <Skeleton />
+          <Skeleton />
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2">
@@ -142,7 +147,7 @@ export default function VerifyOrder() {
               )}
             </div>
 
-            <Link to="/order/my-orders">
+            <Link to="/dashboard/myOrder">
               <Button className="w-full">View Orders</Button>
             </Link>
           </Card>
