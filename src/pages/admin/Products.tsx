@@ -1,6 +1,16 @@
 import type React from "react";
 import { useState } from "react";
-import { Table, Tag, Button, List, Card, Typography, Space, Spin } from "antd";
+import {
+  Table,
+  Tag,
+  Button,
+  List,
+  Card,
+  Typography,
+  Space,
+  Spin,
+  Pagination,
+} from "antd";
 import { Link } from "react-router-dom";
 import { useGetAllProductQuery } from "../../redux/features/product/productApi";
 import type { IProduct } from "../../types/product";
@@ -9,12 +19,13 @@ import { useMediaQuery } from "react-responsive";
 const { Title, Text } = Typography;
 
 const Products: React.FC = () => {
+  const [page, setPage] = useState(1);
+
   const {
     data: allProducts,
     isFetching,
     isLoading,
-  } = useGetAllProductQuery(undefined, { refetchOnMountOrArgChange: true });
-
+  } = useGetAllProductQuery([{ name: "page", value: page.toString() }], {refetchOnMountOrArgChange: true});
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
 
@@ -79,7 +90,10 @@ const Products: React.FC = () => {
 
   return (
     <div className="products-container">
-      <div className="flex justify-between items-center" style={{paddingTop: "40px"}}>
+      <div
+        className="flex justify-between items-center"
+        style={{ paddingTop: "40px" }}
+      >
         <Title level={2}>Products</Title>
         <Link to="/dashboard/add-product">
           <Button type="primary">Add New Product</Button>
@@ -113,6 +127,7 @@ const Products: React.FC = () => {
           columns={columns}
           dataSource={products}
           rowKey="_id"
+          pagination={false}
           expandable={{
             expandedRowKeys,
             onExpand: onExpandRow,
@@ -120,6 +135,16 @@ const Products: React.FC = () => {
           className="orders-table"
         />
       )}
+
+      <div className="mt-8 flex justify-center" style={{ marginTop: "20px" }}>
+        <Pagination
+          current={page}
+          onChange={setPage}
+          total={allProducts?.meta?.total || 0}
+          pageSize={allProducts?.meta?.limit || 10}
+          showSizeChanger={false}
+        />
+      </div>
     </div>
   );
 };

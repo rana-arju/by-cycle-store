@@ -6,13 +6,13 @@ import { persistor, store } from "./redux/store.ts";
 import { PersistGate } from "redux-persist/integration/react";
 import { Toaster } from "sonner";
 import "swiper/swiper-bundle.css";
+import AllRoutes from "./routes/routes.tsx";
 
-import App from "./App.tsx";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <App />
+        <AllRoutes />
       </PersistGate>
     </Provider>
     <Toaster position="top-center" expand={false} richColors />

@@ -1,13 +1,11 @@
 import { useState, useCallback, useEffect } from "react";
 import { Button, Drawer, Layout, Pagination, Select, Spin } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
-
 import type { FilterState } from "../types/product";
 import { FilterSidebar } from "../components/shop/FilterSidebar";
 import { useGetAllProductQuery } from "../redux/features/product/productApi";
 import type { IQueryParam } from "../types/global";
 import ProductCard from "../components/card";
-import AppFooter from "../components/footer";
 import ShopHeader from "../components/shop";
 
 export default function Shop() {
@@ -85,12 +83,12 @@ export default function Shop() {
 
   return (
     <>
-      <div className="pb-56">
+      <div>
         <ShopHeader onSearch={handleSearch} value={searchTerm} />
       </div>
       <Layout
         className="min-h-screen bg-gray-100"
-        style={{ marginBottom: "50px" }}
+        style={{ marginBottom: "10px" }}
       >
         <div
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-8 container"
@@ -292,7 +290,10 @@ export default function Shop() {
                     )}
                   </div>
 
-                  <div className="mt-8 flex justify-center" style={{marginTop: "20px"}}>
+                  <div
+                    className="mt-8 flex justify-center"
+                    style={{ marginTop: "20px" }}
+                  >
                     <Pagination
                       current={page}
                       onChange={setPage}
@@ -307,7 +308,6 @@ export default function Shop() {
           </div>
         </div>
       </Layout>
-      <AppFooter />
     </>
   );
 }

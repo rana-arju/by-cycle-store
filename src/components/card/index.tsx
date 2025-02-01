@@ -6,7 +6,7 @@ const { Meta } = Card;
 
 const ProductCard = ({ product }: any) => {
   return (
-    <Card hoverable cover={<img alt={product.name} src={product.images[0]} />}>
+    <Card hoverable cover={<img alt={product.name} src={product.images[0]} style={{maxWidth: "100%", height: "200px", objectFit: "contain"}}/>}>
       <Meta
         title={product.name}
         description={

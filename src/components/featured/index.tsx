@@ -9,7 +9,15 @@ function Featured() {
     isFetching,
     isLoading,
   } = useGetAllProductQuery([{ name: "limit", value: 6 }]);
-
+  if (isFetching || isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <Spin size="large" />
+      </div>
+    );
+  }
+  console.log("products", products);
+  
   return (
     <div className="container">
       <div className="featured">
@@ -27,16 +35,10 @@ function Featured() {
         </Link>
       </div>
       <div className="productGrid">
-        {isFetching || isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <Spin size="large" />
-          </div>
-        ) : (
-          products &&
+        {products &&
           products?.data.map((product) => (
             <ProductCard key={product._id} product={product} />
-          ))
-        )}
+          ))}
       </div>
     </div>
   );

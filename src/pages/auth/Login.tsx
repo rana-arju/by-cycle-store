@@ -11,7 +11,7 @@ import { useLoginMutation } from "../../redux/features/auth/authApi";
 import { verifyToken } from "../../utils/VerifyToken";
 import { toast } from "sonner";
 
-function Login({ setUserRole }: any) {
+function Login() {
   const [login] = useLoginMutation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -22,16 +22,17 @@ function Login({ setUserRole }: any) {
     };
 
     const res = await login(data).unwrap();
+    
     const user = verifyToken(res.data.accessToken) as IUser;
     if (!res.data.success) {
       toast.error(res?.data?.error?.message);
     }
-    
-    setUserRole(user.role);
+
     dispatch(setUser({ user: user, token: res.data.accessToken }));
     toast.success(res.message);
     navigate("/", { replace: true });
   };
+
   return (
     <div className="container">
       <Card className="customForm">

@@ -1,6 +1,6 @@
 import type React from "react";
 import { useState } from "react";
-import { Table, Tag, Card, List, Typography, Space, Spin } from "antd";
+import { Table, Tag, Card, List, Typography, Space, Spin, Pagination } from "antd";
 import { useAllOrdersQuery } from "../../redux/features/order/orderApi";
 import { OrderActions } from "../../components/actions/OrderAction";
 import { useMediaQuery } from "react-responsive";
@@ -22,11 +22,13 @@ interface Order {
 }
 
 const Orders: React.FC = () => {
+    const [page, setPage] = useState(1);
+  
   const {
     data: allOrders,
     isFetching,
     isLoading,
-  } = useAllOrdersQuery(undefined);
+  } = useAllOrdersQuery([{ name: "page", value: page.toString() }]);
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
   const [expandedRowKeys, setExpandedRowKeys] = useState<string[]>([]);
@@ -123,6 +125,7 @@ const Orders: React.FC = () => {
           columns={columns}
           dataSource={allOrders?.data}
           rowKey="id"
+          pagination={false}
           expandable={{
             expandedRowKeys,
             onExpand: onExpandRow,
@@ -130,6 +133,15 @@ const Orders: React.FC = () => {
           className="orders-table"
         />
       )}
+      <div className="mt-8 flex justify-center" style={{ marginTop: "20px" }}>
+        <Pagination
+          current={page}
+          onChange={setPage}
+          total={allOrders?.meta?.total || 0}
+          pageSize={allOrders?.meta?.limit || 10}
+          showSizeChanger={false}
+        />
+      </div>
     </div>
   );
 };

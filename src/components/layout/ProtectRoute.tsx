@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import {
-  IUser,
   logout,
   useCurrentToken,
 } from "../../redux/features/auth/authSlice";
@@ -9,20 +8,27 @@ import { Navigate } from "react-router-dom";
 import { verifyToken } from "../../utils/VerifyToken";
 type IProtectedRoute = {
   children: ReactNode;
-  role: string;
+  //role: "admin" | "customer";
+  role: string[];
 };
 const ProtectRoute = ({ children, role }: IProtectedRoute) => {
   const dispatch = useAppDispatch();
   const token = useAppSelector(useCurrentToken);
-  let user;
-  if (token) {
-    user = verifyToken(token);
-  }
+
   if (!token) {
     dispatch(logout());
-    return <Navigate to={"/login"} replace={true} />;
+    return <Navigate to="/login" replace />;
   }
-  if (role !== (user as IUser)?.role) {
+  let user;
+  if (token) {
+    try {
+      user = verifyToken(token);
+    } catch (error) {
+      return <Navigate to="/login" replace />;
+    }
+  }
+
+  if (!role.includes(user?.role)) {
     dispatch(logout());
     return <Navigate to={"/login"} replace={true} />;
   }

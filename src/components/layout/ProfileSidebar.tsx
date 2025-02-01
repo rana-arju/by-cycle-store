@@ -9,22 +9,29 @@ import {
   FileTextOutlined,
   FormOutlined,
 } from "@ant-design/icons";
+import { useAppSelector } from "../../redux/hook";
+import { IUser, useCurrentToken } from "../../redux/features/auth/authSlice";
+import { verifyToken } from "../../utils/VerifyToken";
+import { useState } from "react";
 
 const { Sider } = Layout;
 
 interface DashboardSidebarProps {
-  userRole: "admin" | "customer";
-  collapsed: boolean;
-  setCollapsed: (collapsed: boolean) => void;
+  //userRole: "admin" | "customer";
+  ///collapsed: boolean;
+  ///setCollapsed: (collapsed: boolean) => void;
 }
 
-const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
-  userRole,
-  collapsed,
-  setCollapsed,
-}) => {
+const DashboardSidebar: React.FC<DashboardSidebarProps> = () => {
   const location = useLocation();
+  const token = useAppSelector(useCurrentToken);
 
+  let user;
+  if (token) {
+    user = verifyToken(token);
+  }
+  const role = (user as IUser)?.role as "admin" | "customer" | null;
+  const [userRole] = useState<"admin" | "customer" | null>(role);
   const adminMenuItems = [
     {
       key: "dashboard",
@@ -103,12 +110,10 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
     <Sider
       trigger={null}
       collapsible
-      collapsed={collapsed}
       breakpoint="lg"
       collapsedWidth={80}
-      onBreakpoint={(broken) => {
-        setCollapsed(broken);
-      }}
+      //collapsed={collapsed}
+      //onBreakpoint={(broken) => {setCollapsed(broken)}}
       className="fixed left-0 top-16 bottom-0 overflow-auto transition-all duration-300 ease-in-out"
     >
       <Menu

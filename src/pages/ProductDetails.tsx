@@ -8,7 +8,6 @@ import { useState } from "react";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../redux/hook";
 import { addCart } from "../redux/features/product/cartSlice";
-import AppFooter from "../components/footer";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -196,7 +195,7 @@ function ProductDetails() {
           </div>
         </div>
 
-        <div className="lg:mt-12 mt-6 max-w-2xl px-6">
+        <div className="lg:mt-12 mt-6 max-w-2xl px-6" style={{padding: "10px 15px"}}>
           <h3 className="text-lg font-bold text-gray-800">Bi-Cycle Info</h3>
 
           <ul className="grid sm:grid-cols-2 gap-3 mt-4 ">
@@ -252,7 +251,6 @@ function ProductDetails() {
           </div>
         </div>
       </div>
-      <AppFooter />
     </div>
   );
 }
