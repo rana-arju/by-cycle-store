@@ -17,8 +17,5 @@ export const productSchema = z.object({
     .string({ required_error: "Description is required" })
     .min(20, { message: "Must have at least 20 character" }),
   quantity: z.string({ required_error: "Quantity is required" }),
-  price: z.string({ required_error: "Quantity is required" }),
-  images: z.string({
-    required_error: "Provide at least one product image",
-  }),
+  price: z.string({ required_error: "Quantity is required" })
 });

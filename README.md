@@ -1,8 +1,8 @@
 # GearCycle - MERN stack ecommerce application
 
 ## Description
-GearCycle is a comprehensive e-commerce application built with the MERN stack (MongoDB, Express, React, Node.js). This application is designed to provide a seamless shopping experience for users, whether they are guests, registered customers, or administrators. The application features a responsive design, ensuring it works well on both desktop and mobile devices.
 
+GearCycle is a comprehensive e-commerce application built with the MERN stack (MongoDB, Express, React, Node.js). This application is designed to provide a seamless shopping experience for users, whether they are guests, registered customers, or administrators. The application features a responsive design, ensuring it works well on both desktop and mobile devices.
 
 ## Features
 
@@ -12,7 +12,59 @@ GearCycle is a comprehensive e-commerce application built with the MERN stack (M
 - Integration with Redux for state management
 - Ant Design for UI components
 
+## Developer
+
+- [@Rana Arju](https://github.com/rana-arju)
+
+## Live API url
+
+<https://by-cycle-store.vercel.app/>
+
+# or
+
+```
+https://by-cycle-store.vercel.app
+
+```
+
+## Video Explaination:
+
+[![BY-Cycle store](https://res.cloudinary.com/db8l1ulfq/image/upload/v1732376843/bi-cycle_l1wqwn.png)](https://youtu.be/UAo5M98yehk?si=JR22lwTtXNUUykbL)
+
+## Instructions for Running the Application Locally
+
+1. **Clone the repository**:
+
+   ```sh
+   git clone https://github.com/rana-arju/by-cycle-store.git
+   ```
+
+1. **Go to the project directory**:
+
+   ```sh
+    cd by-cycle-store
+   ```
+
+1. **Install dependencies**:
+
+   ```sh
+   npm install
+   ```
+
+1. **Run the application**:
+
+   ```sh
+   npm run dev
+   ```
+
+1. **Build the application**:
+
+   ```sh
+   npm run build
+   ```
+
 ## File and Folder Structure
+
 ```bash
 ├── README.md
 ├── tsconfig.json
@@ -73,58 +125,6 @@ GearCycle is a comprehensive e-commerce application built with the MERN stack (M
 - `jsonwebtoken`: JSON Web Token implementation (symmetric and asymmetric).
 - `@ant-design/icons`: Official Ant Design icons.
 - `sonner`: A toast notification library.
-
-## Developer
-
-- [@Rana Arju](https://github.com/rana-arju)
-
-## Live API url
-
-<https://by-cycle-store.vercel.app/>
-
-# or
-
-```
-https://by-cycle-store.vercel.app
-
-```
-
-## Video Explaination:
-
-[![BY-Cycle store](https://res.cloudinary.com/db8l1ulfq/image/upload/v1732376843/bi-cycle_l1wqwn.png)](https://youtu.be/UAo5M98yehk?si=JR22lwTtXNUUykbL)
-
-## Instructions for Running the Application Locally
-
-1. **Clone the repository**:
-
-    ```sh
-    git clone https://github.com/rana-arju/by-cycle-store.git
-    ```
-1. **Go to the project directory**:
-
-    ```sh
-     cd by-cycle-store
-    ```
-
-3. **Install dependencies**:
-
-    ```sh
-    npm install
-    ```
-
-4. **Run the application**:
-
-    ```sh
-    npm run dev
-    ```
-
-5. **Build the application**:
-
-    ```sh
-    npm run build
-    ```
-
-
 
 ## Contributing
 

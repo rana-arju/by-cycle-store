@@ -1,5 +1,5 @@
 import type React from "react";
-import { Button, Flex, Col, Row, Typography } from "antd";
+import { Button, Flex, Col, Row, Typography, Modal,  Spin } from "antd";
 import { useMediaQuery } from "react-responsive";
 import BForm from "../../components/form/BForm";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,12 +15,40 @@ import {
 import { useAddProductMutation } from "../../redux/features/product/productApi";
 import { toast } from "sonner";
 import type { ISingleResponse } from "../../types/global";
+import { UploadOutlined } from "@ant-design/icons";
+import { useState } from "react";
+import ImageUpload from "../../components/upload/imageUpload";
 
 const { Title } = Typography;
 
 const AddProduct: React.FC = () => {
-  const [addProduct] = useAddProductMutation();
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
+
+  const handleUploadComplete = (urls: string[]) => {
+    setImageUrls(urls);
+  };
+
+  const [addProduct, {isLoading}] = useAddProductMutation();
   const isMobile = useMediaQuery({ maxWidth: 767 });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   const onSubmit = async (values: FieldValues) => {
     const productData = {
@@ -30,9 +58,10 @@ const AddProduct: React.FC = () => {
       quantity: Number(values.quantity),
       price: Number(values.price),
       description: values.description,
-      images: [values.images],
+      images: imageUrls,
       category: values.category,
     };
+console.log("productData", productData);
 
     const toastId = toast.loading("Adding new product...");
     try {
@@ -62,12 +91,7 @@ const AddProduct: React.FC = () => {
               label="Enter product name"
               name="name"
             />
-            <BInput
-              type="text"
-              placeholder="Brand"
-              label="Enter brand"
-              name="brand"
-            />
+     
             <BSelect
               placeholder="Brand"
               label="Brand"
@@ -100,22 +124,34 @@ const AddProduct: React.FC = () => {
                 name="quantity"
               />
             </Flex>
-            <BInput
-              type="text"
-              placeholder="Product image url"
-              label="Enter one Product image url"
-              name="images"
-            />
+     
+
             <BInput
               placeholder="Write product description..."
               type="textarea"
               name="description"
               label="Write product description"
             />
+            <div style={{ marginBottom: "20px" }}>
+              <Button icon={<UploadOutlined />} onClick={showModal}>
+                Click to Upload
+              </Button>
+            </div>
+
             <Button type="primary" htmlType="submit" block={isMobile}>
               Create new Product
             </Button>
           </BForm>
+          <>
+            <Modal
+              title="Basic Modal"
+              open={isModalOpen}
+              onOk={handleOk}
+              onCancel={handleCancel}
+            >
+              <ImageUpload onUploadComplete={handleUploadComplete} />
+            </Modal>
+          </>
         </Col>
       </Row>
     </div>
