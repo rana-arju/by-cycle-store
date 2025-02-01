@@ -113,77 +113,80 @@ const Navbar: React.FC = () => {
   }, []);
 
   return (
-    <Header className="navbar">
-      <div className="navbar-logo">
-        <Link to="/">
-          <img src={logo} alt="Logo" className="logo" />
-        </Link>
-      </div>
-      <div className="navbar-menu">
-        {/* Desktop Menu */}
-        <div className="desktop-menu">
-          <Menu mode="horizontal" selectedKeys={[location.pathname]}>
-            {renderMenuItems()}
-            {overflowedItems.length > 0 && (
-              <Menu.SubMenu
-                key="more"
-                title={
-                  <>
-                    More <DownOutlined />
-                  </>
-                }
-              >
-                {overflowedItems.map((item) => (
-                  <Menu.Item key={item.key}>
-                    <Link to={item.path}>{item.label}</Link>
-                  </Menu.Item>
-                ))}
-              </Menu.SubMenu>
-            )}
-          </Menu>
+ 
+
+      <Header className="navbar ">
+        <div className="navbar-logo">
+          <Link to="/">
+            <img src={logo} alt="Logo" className="logo" />
+          </Link>
         </div>
-      </div>
-      <div className="navbar-right">
-        {renderRightMenu()}
-        <Link to="/checkout" className="cart-icon desktop-cart">
-          <Badge count={0} size="small">
-            <ShoppingCartOutlined className="nav-icon" />
-          </Badge>
-        </Link>
-      </div>
-      {/* Mobile Menu */}
-      <div className="mobile-menu">
-        <Link to="/cart" className="cart-icon mobile-cart">
-          <Badge count={1} size="small">
-            <ShoppingCartOutlined className="nav-icon" />
-          </Badge>
-        </Link>
-        <Button type="primary" onClick={showDrawer}>
-          <MenuOutlined />
-        </Button>
-      </div>
-      {/* Mobile Drawer */}
-      <Drawer
-        title="Menu"
-        placement="right"
-        onClose={onClose}
-        visible={visible}
-        className="mobile-drawer"
-      >
-        <Menu
-          mode="vertical"
-          selectedKeys={[location.pathname]}
-          onClick={onClose}
+        <div className="navbar-menu">
+          {/* Desktop Menu */}
+          <div className="desktop-menu">
+            <Menu mode="horizontal" selectedKeys={[location.pathname]}>
+              {renderMenuItems()}
+              {overflowedItems.length > 0 && (
+                <Menu.SubMenu
+                  key="more"
+                  title={
+                    <>
+                      More <DownOutlined />
+                    </>
+                  }
+                >
+                  {overflowedItems.map((item) => (
+                    <Menu.Item key={item.key}>
+                      <Link to={item.path}>{item.label}</Link>
+                    </Menu.Item>
+                  ))}
+                </Menu.SubMenu>
+              )}
+            </Menu>
+          </div>
+        </div>
+        <div className="navbar-right">
+          {renderRightMenu()}
+          <Link to="/checkout" className="cart-icon desktop-cart">
+            <Badge count={0} size="small">
+              <ShoppingCartOutlined className="nav-icon" />
+            </Badge>
+          </Link>
+        </div>
+        {/* Mobile Menu */}
+        <div className="mobile-menu">
+          <Link to="/cart" className="cart-icon mobile-cart">
+            <Badge count={1} size="small">
+              <ShoppingCartOutlined className="nav-icon" />
+            </Badge>
+          </Link>
+          <Button type="primary" onClick={showDrawer}>
+            <MenuOutlined />
+          </Button>
+        </div>
+        {/* Mobile Drawer */}
+        <Drawer
+          title="Menu"
+          placement="right"
+          onClose={onClose}
+          visible={visible}
+          className="mobile-drawer"
         >
-          {menuItems.map((item) => (
-            <Menu.Item key={item.key}>
-              <Link to={item.path}>{item.label}</Link>
-            </Menu.Item>
-          ))}
-        </Menu>
-        <div className="drawer-right-menu">{renderRightMenu()}</div>
-      </Drawer>
-    </Header>
+          <Menu
+            mode="vertical"
+            selectedKeys={[location.pathname]}
+            onClick={onClose}
+          >
+            {menuItems.map((item) => (
+              <Menu.Item key={item.key}>
+                <Link to={item.path}>{item.label}</Link>
+              </Menu.Item>
+            ))}
+          </Menu>
+          <div className="drawer-right-menu">{renderRightMenu()}</div>
+        </Drawer>
+      </Header>
+    
   );
 };
 

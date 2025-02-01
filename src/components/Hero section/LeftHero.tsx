@@ -1,12 +1,13 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 
-
 import { Pagination, Autoplay } from "swiper/modules";
 import { CSSProperties } from "react";
-import hero1 from "../../assets/1.webp"
-import hero2 from "../../assets/2.jpg"
-import hero3 from "../../assets/3.jpg"
+import hero1 from "../../assets/1.webp";
+import hero2 from "../../assets/2.jpg";
+import hero3 from "../../assets/3.jpg";
+import { Button } from "antd";
+import { Link } from "react-router-dom";
 interface SliderItem {
   title: string;
   description: string;
@@ -19,19 +20,19 @@ const sliderData: SliderItem[] = [
     title: "Best Deals Of The Week",
     description: "Amazing discounts and deals",
     price: "$399.99",
-    image: hero1
+    image: hero1,
   },
   {
     title: "Exclusive Weekend Offers",
     description: "Don't miss out on these offers!",
     price: "$299.99",
-    image: hero2
+    image: hero2,
   },
   {
     title: "Limited Time Sale",
     description: "Grab it before it's gone!",
     price: "$199.99",
-    image: hero3
+    image: hero3,
   },
 ];
 
@@ -117,7 +118,6 @@ const styles = {
   } as CSSProperties,
 };
 
-
 const LeftHero: React.FC = () => {
   return (
     <div style={styles.sliderContainer}>
@@ -144,19 +144,9 @@ const LeftHero: React.FC = () => {
               <span style={{ ...styles.price, marginRight: "5px" }}>
                 From {item.price}
               </span>
-              <button
-                style={styles.button}
-                onMouseEnter={(e) => {
-                  (e.target as HTMLButtonElement).style.backgroundColor =
-                    styles.buttonHover.backgroundColor || "";
-                }}
-                onMouseLeave={(e) => {
-                  (e.target as HTMLButtonElement).style.backgroundColor =
-                    styles.button.backgroundColor || "";
-                }}
-              >
-                Shop Now
-              </button>
+              <Link to="/shop">
+                <Button type="primary">Shop Now</Button>
+              </Link>
             </div>
           </SwiperSlide>
         ))}

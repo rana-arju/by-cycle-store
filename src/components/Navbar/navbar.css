@@ -2,12 +2,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: fixed;
-  z-index: 999;
   width: 100%;
   background-color: white;
- 
+  position: fixed;
+  z-index: 999;
 }
+
 
 .navbar-logo {
   float: left;
@@ -100,7 +100,8 @@
     margin-right: 16px;
   }
 
-  .mobile-drawer .ant-drawer-body,.ant-drawer-header {
+  .mobile-drawer .ant-drawer-body,
+  .ant-drawer-header {
     padding: 24px 0;
     margin: 0 !important;
   }

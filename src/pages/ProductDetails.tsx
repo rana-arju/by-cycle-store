@@ -8,6 +8,7 @@ import { useState } from "react";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../redux/hook";
 import { addCart } from "../redux/features/product/cartSlice";
+import AppFooter from "../components/footer";
 
 function ProductDetails() {
   const { id } = useParams();
@@ -59,10 +60,10 @@ function ProductDetails() {
     navigate("/checkout", { replace: true });
   };
   return (
-    <div className="container" style={{ paddingBottom: "100px" }}>
+    <div className="container">
       <div
         className="font-sans tracking-wide max-md:mx-auto"
-        style={{ marginTop: "50px" }}
+        style={{ marginTop: "60px", paddingBottom: "50px" }}
       >
         <div className="bg-gradient-to-r from-gray-600 via-gray-900 to-gray-900 md:min-h-[350px] grid items-start grid-cols-1 lg:grid-cols-5 md:grid-cols-2">
           <div className="lg:col-span-3 h-full p-6">
@@ -101,9 +102,30 @@ function ProductDetails() {
             <div style={{ margin: "10px 0 10px 0" }}>
               <p className="text-gray-800 text-3xl font-bold mt-2">
                 ৳ {data.price}
-              </p>  
-               <p className="text-gray-600 text-xl " style={{marginTop: "10px"}}>
-                Stock: {data.quantity}
+              </p>
+              <p
+                className="text-gray-600 text-xl "
+                style={{
+                  marginTop: "10px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                }}
+              >
+                Stock:{" "}
+                {data.quantity > 0 ? (
+                  data?.quantity
+                ) : (
+                  <p
+                    style={{
+                      color: "red",
+                      fontSize: "16px",
+                      textTransform: "uppercase",
+                    }}
+                  >
+                    Stock Out
+                  </p>
+                )}
               </p>
             </div>
 
@@ -145,6 +167,7 @@ function ProductDetails() {
             <div style={{ margin: "20px 0 20px 0" }}>
               <Button
                 onClick={handleBuy}
+                disabled={data?.quantity > 0 ? false : true}
                 type="primary"
                 className="w-full px-4 py-3 bg-gray-800 hover:bg-gray-900 text-white text-sm font-semibold rounded"
               >
@@ -229,6 +252,7 @@ function ProductDetails() {
           </div>
         </div>
       </div>
+      <AppFooter />
     </div>
   );
 }

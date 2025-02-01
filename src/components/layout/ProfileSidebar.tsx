@@ -78,7 +78,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = ({
       link: "/dashboard",
     },
     {
-      key: "orders",
+      key: "myOrders",
       icon: <FileTextOutlined />,
       label: "My Orders",
       link: "/dashboard/myOrder",
