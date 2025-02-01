@@ -27,6 +27,7 @@ import VerifyOrder from "./pages/user/VerifyOrder";
 import UpdateProduct from "./pages/admin/UpdateProduct";
 import PasswordChange from "./pages/auth/PasswordChange";
 import OrdersDetails from "./pages/user/OrderDetails";
+import Blog from "./pages/Blog";
 
 const App: React.FC = () => {
   const token = useAppSelector(useCurrentToken);
@@ -51,6 +52,7 @@ const App: React.FC = () => {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/cart" element={<Cart />} />

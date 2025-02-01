@@ -25,10 +25,7 @@ export default function Shop() {
     { name: "searchTerm", value: searchTerm },
     ...queryParams,
   ]);
-  if (isLoading) {
-    return <p>Loading</p>;
-  }
-  console.log(products?.data);
+
   const defaultFiletr: FilterState = {
     availability: "all",
     priceRange: [500, 40000],

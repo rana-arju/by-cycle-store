@@ -4,6 +4,7 @@ import Featured from "../components/featured"
 import AppFooter from "../components/footer"
 import Hero from "../components/Hero section"
 import SaleComponent from "../components/Seles"
+import Testimonials from "../components/testimonial"
 
 function Home() {
   return (
@@ -12,6 +13,7 @@ function Home() {
       <Boxes />
       <Featured />
       <SaleComponent />
+      <Testimonials />
       <Blogs />
       <AppFooter />
     </div>

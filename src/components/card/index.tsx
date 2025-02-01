@@ -12,15 +12,14 @@ const ProductCard = ({ product }: any) => {
         description={
           <div>
             <div className="flex justify-between items-center gap-4">
-
-            <p>
-              <span className="font-semibold">Brand:</span> {product.brand}
-            </p>
-            <p>
-              <span className="font-semibold">Model:</span> {product.model}
-            </p>
+              <p>
+                <span className="font-semibold">Brand:</span> {product.brand}
+              </p>
+              <p>
+                <span className="font-semibold">Model:</span> {product.model}
+              </p>
             </div>
-          
+
             <p>
               <span className="font-semibold">Category:</span>{" "}
               {product.category}
@@ -50,7 +49,7 @@ const ProductCard = ({ product }: any) => {
             style={{ fontSize: "15px", textTransform: "capitalize" }}
             className="w-full"
           >
-            Details
+            View Details
           </Button>
         </Link>
       </div>

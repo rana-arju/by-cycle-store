@@ -6,6 +6,7 @@ import {
   LinkedinOutlined,
 } from "@ant-design/icons";
 import "./footer.css";
+import logo from "../../assets/logo.png"
 import { Link } from "react-router-dom";
 const { Footer } = Layout;
 
@@ -25,11 +26,14 @@ const AppFooter: React.FC = () => {
         <Row gutter={[16, 16]}>
           {/* About Section */}
           <Col xs={24} sm={12} md={6}>
-            <h3>About Us</h3>
+          <div style={{height: "100px"}}>
+
+            <img src={logo} className="footer-logo" />
             <p>
               We are committed to providing the best services and products to
               our customers.
             </p>
+          </div>
           </Col>
 
           {/* Quick Links */}

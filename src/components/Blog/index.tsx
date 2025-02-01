@@ -32,6 +32,11 @@ const blogPosts = [
     date: "20 October 2019",
     image:
       "https://res.cloudinary.com/db8l1ulfq/image/upload/v1738067060/Magnet24TBlkOrg_720x_hkffkl.webp",
+  },  {
+    title: "What do you want to know about Blockchain",
+    date: "20 October 2019",
+    image:
+      "https://res.cloudinary.com/db8l1ulfq/image/upload/v1738067060/Magnet24TBlkOrg_720x_hkffkl.webp",
   },
 ];
 
@@ -54,7 +59,7 @@ const BlogSection: React.FC = () => {
             hoverable
             cover={
               <img
-                className="object-cover h-56 w-full rounded-lg"
+                className="object-contain h-56 w-full rounded-lg"
                 src={post.image}
                 alt={post.title}
               />
