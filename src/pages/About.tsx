@@ -1,12 +1,11 @@
-import {  Col, Image, Layout, Row } from "antd";
-import AboutHeader from "../components/about"
+import { Col, Image, Layout, Row } from "antd";
+import AboutHeader from "../components/about";
 import { Content } from "antd/es/layout/layout";
 import Title from "antd/es/typography/Title";
 import Paragraph from "antd/es/typography/Paragraph";
 import Boxes from "../components/annouce/Boxes";
 import Teams from "../components/team";
 import AppFooter from "../components/footer";
-
 
 function About() {
   return (
@@ -77,7 +76,6 @@ function About() {
                 />
               </Col>
             </Row>
-
           </Content>
           <Teams />
         </Layout>
@@ -88,4 +86,4 @@ function About() {
   );
 }
 
-export default About
+export default About;
