@@ -7,7 +7,7 @@ import BInput from "../../components/form/BInput";
 import type { FieldValues } from "react-hook-form";
 import { productSchema } from "../../schema/product.schema";
 import BSelect from "../../components/form/BSelect";
-import { CategoryOptions, ModelOptions } from "../../constant/product";
+import { bicycleBrandOptions, CategoryOptions, ModelOptions } from "../../constant/product";
 import { useAddProductMutation } from "../../redux/features/product/productApi";
 import { toast } from "sonner";
 import type { ISingleResponse } from "../../types/global";
@@ -63,6 +63,12 @@ const AddProduct: React.FC = () => {
               placeholder="Brand"
               label="Enter brand"
               name="brand"
+            />
+            <BSelect
+              placeholder="Brand"
+              label="Brand"
+              name="brand"
+              options={bicycleBrandOptions}
             />
             <BSelect
               placeholder="Model"

@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { Button, Drawer, Layout, Pagination, Select, Spin } from "antd";
-import { MenuOutlined} from "@ant-design/icons";
+import { MenuOutlined } from "@ant-design/icons";
 
 import type { FilterState } from "../types/product";
 import { FilterSidebar } from "../components/shop/FilterSidebar";
@@ -15,7 +15,6 @@ export default function Shop() {
   const [page, setPage] = useState(1);
   const [sortBy, setSortBy] = useState<string>("name");
   const [searchTerm, setSearchTerm] = useState("");
-
   const {
     data: products,
     isFetching,
@@ -26,14 +25,18 @@ export default function Shop() {
     { name: "searchTerm", value: searchTerm },
     ...queryParams,
   ]);
-
-  const [filters, setFilters] = useState<FilterState>({
+  if (isLoading) {
+    return <p>Loading</p>;
+  }
+  console.log(products?.data);
+  const defaultFiletr: FilterState = {
     availability: "all",
     priceRange: [500, 40000],
     brand: [],
     model: [],
     category: [],
-  });
+  };
+  const [filters, setFilters] = useState<FilterState>(defaultFiletr);
   const [drawerVisible, setDrawerVisible] = useState(false);
 
   const handleSearch = (value: string) => {
@@ -127,7 +130,28 @@ export default function Shop() {
               <FilterSidebar
                 filters={filters}
                 onChange={handleFilterChange}
-                brands={["SportsPro", "ActiveWear", "FitGear"]}
+                brands={[
+                  "Trek",
+                  "Giant",
+                  "Specialized",
+                  "Cannondale",
+                  "Scott",
+                  "Santa Cruz",
+                  "Bianchi",
+                  "Merida",
+                  "Cervélo",
+                  "Orbea",
+                  "Fuji",
+                  "Cube",
+                  "Marin",
+                  "Kona",
+                  "Raleigh",
+                  "GT Bicycles",
+                  "Polygon",
+                  "Norco",
+                  "BMC",
+                  "Yeti Cycles",
+                ]}
                 models={[
                   "ModelX100",
                   "TrailBlazer",
@@ -176,7 +200,28 @@ export default function Shop() {
               <FilterSidebar
                 filters={filters}
                 onChange={handleFilterChange}
-                brands={["SportsPro", "ActiveWear", "FitGear"]}
+                brands={[
+                  "Trek",
+                  "Giant",
+                  "Specialized",
+                  "Cannondale",
+                  "Scott",
+                  "Santa Cruz",
+                  "Bianchi",
+                  "Merida",
+                  "Cervélo",
+                  "Orbea",
+                  "Fuji",
+                  "Cube",
+                  "Marin",
+                  "Kona",
+                  "Raleigh",
+                  "GT Bicycles",
+                  "Polygon",
+                  "Norco",
+                  "BMC",
+                  "Yeti Cycles",
+                ]}
                 models={[
                   "ModelX100",
                   "TrailBlazer",
@@ -223,9 +268,31 @@ export default function Shop() {
               ) : (
                 <>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-                    {products?.data?.map((product) => (
-                      <ProductCard key={product._id} product={product} />
-                    ))}
+                    {products?.data && products?.data?.length > 0 ? (
+                      products?.data?.map((product) => (
+                        <ProductCard key={product._id} product={product} />
+                      ))
+                    ) : (
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <p
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            fontSize: "20px",
+                            color: "#1D4ED8",
+                          }}
+                        >
+                          There are no product available!
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="mt-8 flex justify-center">
