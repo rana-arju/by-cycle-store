@@ -1,20 +1,14 @@
+import { Spin } from "antd";
 import { useGetAllProductQuery } from "../../redux/features/product/productApi";
 import ProductCard from "../card";
 import "./featured.css";
 import { Link } from "react-router-dom";
 function Featured() {
-
   const {
     data: products,
     isFetching,
     isLoading,
-  } = useGetAllProductQuery([
-    { name: "limit", value: 6 }
-    
-  ]);
-  if (isFetching || isLoading) {
-    return <p>Loadding</p>;
-  }
+  } = useGetAllProductQuery([{ name: "limit", value: 6 }]);
 
   return (
     <div className="container">
@@ -33,11 +27,16 @@ function Featured() {
         </Link>
       </div>
       <div className="productGrid">
-        {!isFetching &&
+        {isFetching || isLoading ? (
+          <div className="flex justify-center items-center h-64">
+            <Spin size="large" />
+          </div>
+        ) : (
           products &&
           products?.data.map((product) => (
             <ProductCard key={product._id} product={product} />
-          ))}
+          ))
+        )}
       </div>
     </div>
   );

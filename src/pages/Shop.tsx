@@ -292,7 +292,7 @@ export default function Shop() {
                     )}
                   </div>
 
-                  <div className="mt-8 flex justify-center">
+                  <div className="mt-8 flex justify-center" style={{marginTop: "20px"}}>
                     <Pagination
                       current={page}
                       onChange={setPage}
