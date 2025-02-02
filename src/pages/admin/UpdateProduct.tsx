@@ -78,7 +78,7 @@ const UpdateProduct: React.FC = () => {
         <Row justify="center">
           <Col xs={24} sm={20} md={16} lg={12}>
             <Title level={3} className="add-product-title">
-              Add New Product
+              Update Product
             </Title>
             <BForm
               onSubmit={onSubmit}

@@ -25,13 +25,13 @@ function Registration() {
     const res = await registration(data).unwrap();
     const user = verifyToken(res.data.accessToken) as IUser;
 
-    if (!res.data.success) {
+    if (!res.success) {
       toast.error(res?.data?.error?.message);
+    } else {
+      dispatch(setUser({ user: user, token: res.data.accessToken }));
+      toast.success(res.message);
+      navigate("/", { replace: true });
     }
-
-    dispatch(setUser({ user: user, token: res.data.accessToken }));
-    toast.success(res.message);
-    navigate("/", { replace: true });
   };
   return (
     <div className="container">

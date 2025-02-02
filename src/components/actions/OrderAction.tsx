@@ -10,7 +10,6 @@ import {
 } from "../../redux/features/order/orderApi";
 
 export const OrderActions = ({ item ,url }:any) => {
-  console.log(url);
   
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);

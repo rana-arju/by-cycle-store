@@ -21,7 +21,6 @@ const authApi = baseApi.injectEndpoints({
     }),
     statusUpdate: builder.mutation({
       query: (body) => {
-
         return {
           url: `/auth/status/${body.id}`,
           method: "PATCH",
@@ -87,11 +86,10 @@ export const {
   useLoginMutation,
   useRegistrationMutation,
   useGetMyDataQuery,
-
   useStatusUpdateMutation,
   useRoleUpdateMutation,
   useDeleteUserMutation,
   useAllUsersQuery,
   useProfileUpdateMutation,
-  usePasswordChangeMutation
+  usePasswordChangeMutation,
 } = authApi;

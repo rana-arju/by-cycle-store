@@ -22,15 +22,16 @@ function Login() {
     };
 
     const res = await login(data).unwrap();
-    
-    const user = verifyToken(res.data.accessToken) as IUser;
-    if (!res.data.success) {
-      toast.error(res?.data?.error?.message);
-    }
 
-    dispatch(setUser({ user: user, token: res.data.accessToken }));
-    toast.success(res.message);
-    navigate("/", { replace: true });
+    const user = verifyToken(res.data.accessToken) as IUser;
+
+    if (!res.success) {
+      toast.error(res?.data?.error?.message);
+    } else {
+      dispatch(setUser({ user: user, token: res.data.accessToken }));
+      toast.success(res?.message);
+      navigate("/", { replace: true });
+    }
   };
 
   return (

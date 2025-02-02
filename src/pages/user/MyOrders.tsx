@@ -11,7 +11,7 @@ interface Order {
   transaction: {
     id: string;
   };
-  customer: {
+  user: {
     email: string;
   };
   createdAt: string;
@@ -32,7 +32,7 @@ const MyOrders: React.FC = () => {
     },
     {
       title: "Customer",
-      dataIndex: ["customer", "email"],
+      dataIndex: ["user", "email"],
       key: "customer",
     },
     {
@@ -95,23 +95,26 @@ const MyOrders: React.FC = () => {
       {isMobile ? (
         <List
           dataSource={orderData}
-          renderItem={(item: Order) => (
-            <List.Item key={item.id}>
-              <Card className="w-full">
-                <Space direction="vertical" className="w-full">
-                  <Text strong>Transaction ID: {item.transaction.id}</Text>
-                  <Text>Customer: {item.customer?.email}</Text>
-                  <Text>Date: {item.createdAt}</Text>
-                  <Text>Total: ৳{item.totalPrice.toFixed(2)}</Text>
-                  <Tag color={getStatusColor(item.status)}>{item.status}</Tag>
-                  <MyOrderActions
-                    url={`/dashboard/order/${item.transaction.id}`}
-                    item={item}
-                  />
-                </Space>
-              </Card>
-            </List.Item>
-          )}
+          renderItem={(item: Order) => {
+            
+            return (
+              <List.Item key={item.id}>
+                <Card className="w-full">
+                  <Space direction="vertical" className="w-full">
+                    <Text strong>Transaction ID: {item.transaction.id}</Text>
+                    <Text>Customer: {item?.user?.email}</Text>
+                    <Text>Date: {item.createdAt}</Text>
+                    <Text>Total: ৳{item.totalPrice.toFixed(2)}</Text>
+                    <Tag color={getStatusColor(item.status)}>{item.status}</Tag>
+                    <MyOrderActions
+                      url={`/dashboard/order/${item.transaction.id}`}
+                      item={item}
+                    />
+                  </Space>
+                </Card>
+              </List.Item>
+            );
+          }}
         />
       ) : (
         <Table

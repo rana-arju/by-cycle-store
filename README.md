@@ -16,7 +16,7 @@ GearCycle is a comprehensive e-commerce application built with the MERN stack (M
 
 - [@Rana Arju](https://github.com/rana-arju)
 
-## Live API url
+## Live url
 
 <https://by-cycle-store.vercel.app/>
 
@@ -27,9 +27,30 @@ https://by-cycle-store.vercel.app
 
 ```
 
+## Backend Live  url
+
+<https://bi-cycle-backend.vercel.app/api >
+
+# or
+
+```
+https://bi-cycle-backend.vercel.app/api/
+
+```
+## Backend github  url
+
+<https://github.com/rana-arju/bi-cycle-backend >
+
+# or
+
+```
+https://github.com/rana-arju/bi-cycle-backend
+
+```
+
 ## Video Explaination:
 
-[![BY-Cycle store](https://res.cloudinary.com/db8l1ulfq/image/upload/v1732376843/bi-cycle_l1wqwn.png)](https://youtu.be/UAo5M98yehk?si=JR22lwTtXNUUykbL)
+[![GearCycle store](https://res.cloudinary.com/db8l1ulfq/image/upload/v1738480990/bicycle-website_d0hu5q.png)](https://youtu.be/RxKw84nNy9k?si=giK77tO-IOmqC0Ol)
 
 ## Instructions for Running the Application Locally
 

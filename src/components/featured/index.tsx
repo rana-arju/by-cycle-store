@@ -16,7 +16,6 @@ function Featured() {
       </div>
     );
   }
-  console.log("products", products);
   
   return (
     <div className="container">
