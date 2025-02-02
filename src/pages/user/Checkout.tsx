@@ -24,7 +24,9 @@ function Checkout() {
     { isLoading: placeLoad, isSuccess, data, isError, error },
   ] = usePlaceOrderMutation();
   const product = useAppSelector((state) => state.cart);
+
   const { data: myData, isFetching, isLoading } = useGetMyDataQuery(undefined);
+
   if (isLoading || isFetching) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -38,13 +40,12 @@ function Checkout() {
   };
 
   const defaultValues = {
-    name: myData.data?.name,
-    email: myData.data?.email,
-    address: myData.data?.address || "",
-    city: myData.data?.city || "",
-    phone: myData.data?.phone || "",
+    name: myData?.data?.name || "",
+    email: myData?.data?.email || "",
+    address: myData?.data?.address || "",
+    city: myData?.data?.city || "",
+    phone: myData?.data?.phone || "",
   };
-
   const onSubmit = async (values: FieldValues) => {
     const data = {
       products: product.items,
