@@ -8,19 +8,19 @@ import { productSchema } from "../../schema/product.schema";
 import BSelect from "../../components/form/BSelect";
 import { CategoryOptions, ModelOptions } from "../../constant/product";
 import {
- 
   useGetSingleProductQuery,
   useUpdateProductMutation,
 } from "../../redux/features/product/productApi";
 import { toast } from "sonner";
 import { ISingleResponse } from "../../types/global";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Title from "antd/es/typography/Title";
 import { useMediaQuery } from "react-responsive";
 
 const UpdateProduct: React.FC = () => {
   const { id } = useParams();
-    const isMobile = useMediaQuery({ maxWidth: 767 });
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery({ maxWidth: 767 });
 
   const [updateProduct] = useUpdateProductMutation();
 
@@ -66,6 +66,7 @@ const UpdateProduct: React.FC = () => {
         toast.error(res.error.data.message, { id: toastId });
       } else {
         toast.success(res?.data?.message, { id: toastId });
+        navigate("/dashboard/products", { replace: true });
       }
     } catch (error) {
       toast.error("Something went wrong!", { id: toastId });
@@ -136,7 +137,7 @@ const UpdateProduct: React.FC = () => {
                 label="Write product description"
               />
               <Button type="primary" htmlType="submit" block={isMobile}>
-                Create new Product
+                Update Product
               </Button>
             </BForm>
           </Col>
