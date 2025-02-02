@@ -285,7 +285,7 @@ function Checkout() {
                               <li className="flex flex-wrap gap-4">
                                 Total Price{" "}
                                 <span className="ml-auto">
-                                  {item.totalPrice}
+                                  {item?.totalPrice?.toFixed(2)}
                                 </span>
                               </li>
                             </ul>
@@ -314,7 +314,9 @@ function Checkout() {
                 >
                   <h4 className="flex flex-wrap gap-4 text-sm text-gray-800 font-bold">
                     Total Price
-                    <span className="ml-auto">৳ {product?.totalPrice}</span>
+                    <span className="ml-auto">
+                      ৳ {product?.totalPrice?.toFixed(2)}
+                    </span>
                   </h4>
                 </div>
               </div>
