@@ -61,20 +61,37 @@ function Checkout() {
   };
   const toastId = "cart";
   useEffect(() => {
-    if (placeLoad) toast.loading("Processing ...", { id: toastId });
+    let isMounted = true;
 
-    if (isSuccess) {
+    if (placeLoad && isMounted)
+      toast.loading("Processing ...", { id: toastId });
+
+    if (isSuccess && isMounted) {
       dispatch(clearCart());
       toast.success(data?.message, { id: toastId });
       if (data?.data) {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
           window.location.href = data.data;
         }, 1000);
+        return () => clearTimeout(timer);
       }
     }
 
-    if (isError) toast.error(JSON.stringify(error), { id: toastId });
-  }, [data?.data, data?.message, error, isError, isLoading, isSuccess]);
+    if (isError && isMounted)
+      toast.error(JSON.stringify(error), { id: toastId });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [
+    data?.data,
+    data?.message,
+    error,
+    isError,
+    isSuccess,
+    placeLoad,
+    dispatch,
+  ]);
   return (
     <div style={{ paddingTop: "65px", paddingBottom: "20px" }}>
       <div
