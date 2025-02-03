@@ -18,34 +18,21 @@ import { checkout } from "../../schema/checkout.schema";
 function Checkout() {
   const dispatch = useAppDispatch();
   const [check, setCheck] = useState(false);
+  const product = useAppSelector((state) => state.cart);
 
   const [
     placeOrder,
     { isLoading: placeLoad, isSuccess, data, isError, error },
   ] = usePlaceOrderMutation();
-  const product = useAppSelector((state) => state.cart);
 
   const { data: myData, isFetching, isLoading } = useGetMyDataQuery(undefined);
 
-  if (isLoading || isFetching) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Spin size="large" />
-      </div>
-    );
-  }
+
 
   const handleClearCart = () => {
     dispatch(clearCart());
   };
 
-  const defaultValues = {
-    name: myData?.data?.name || "",
-    email: myData?.data?.email || "",
-    address: myData?.data?.address || "",
-    city: myData?.data?.city || "",
-    phone: myData?.data?.phone || "",
-  };
   const onSubmit = async (values: FieldValues) => {
     const data = {
       products: product.items,
@@ -92,6 +79,20 @@ function Checkout() {
     placeLoad,
     dispatch,
   ]);
+    if (isLoading || isFetching) {
+      return (
+        <div className="flex justify-center items-center h-screen">
+          <Spin size="large" />
+        </div>
+      );
+    }
+  const defaultValues = {
+    name: myData?.data?.name || "",
+    email: myData?.data?.email || "",
+    address: myData?.data?.address || "",
+    city: myData?.data?.city || "",
+    phone: myData?.data?.phone || "",
+  };
   return (
     <div style={{ paddingTop: "65px", paddingBottom: "20px" }}>
       <div

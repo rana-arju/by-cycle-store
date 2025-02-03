@@ -147,19 +147,23 @@ const Navbar: React.FC = () => {
       </div>
       <div className="navbar-right">
         {renderRightMenu()}
-        <Link to="/checkout" className="cart-icon desktop-cart">
-          <Badge count={0} size="small">
-            <ShoppingCartOutlined className="nav-icon" />
-          </Badge>
-        </Link>
+        {role === "customer" && (
+          <Link to="/checkout" className="cart-icon desktop-cart">
+            <Badge count={0} size="small">
+              <ShoppingCartOutlined className="nav-icon" />
+            </Badge>
+          </Link>
+        )}
       </div>
       {/* Mobile Menu */}
       <div className="mobile-menu">
-        <Link to="/checkout" className="cart-icon mobile-cart">
-          <Badge count={0} size="small">
-            <ShoppingCartOutlined className="nav-icon" />
-          </Badge>
-        </Link>
+        {role === "customer" && (
+          <Link to="/checkout" className="cart-icon desktop-cart">
+            <Badge count={0} size="small">
+              <ShoppingCartOutlined className="nav-icon" />
+            </Badge>
+          </Link>
+        )}
         <Button type="primary" onClick={showDrawer}>
           <MenuOutlined />
         </Button>

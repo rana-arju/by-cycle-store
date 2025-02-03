@@ -4,7 +4,7 @@ import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import Rating from "../components/card/Rating";
 import { useGetSingleProductQuery } from "../redux/features/product/productApi";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { MinusOutlined, PlusOutlined } from "@ant-design/icons";
 import { useAppDispatch } from "../redux/hook";
 import { addCart } from "../redux/features/product/cartSlice";
@@ -16,14 +16,6 @@ function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
 
   const { data: product, isFetching, isLoading } = useGetSingleProductQuery(id);
-  if (isFetching || isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <Spin size="large" />
-      </div>
-    );
-  }
-  const data = product?.data;
 
   const handleDecrease = () => {
     const newValue = quantity - 1;
@@ -46,18 +38,28 @@ function ProductDetails() {
     }
   };
 
-  const handleBuy = async () => {
-    const cart = {
-      product: data._id,
-      name: data.name,
-      price: data.price,
-      quantity: quantity,
-      images: data.images[0],
-      totalPrice: data.price * quantity,
-    };
-    dispatch(addCart(cart));
-    await navigate("/checkout", { replace: true });
-  };
+  const handleBuy = useCallback(async () => {
+    if (product?.data) {
+      const cart = {
+        product: product.data._id,
+        name: product.data.name,
+        price: product.data.price,
+        quantity: quantity,
+        images: product.data.images[0],
+        totalPrice: product.data.price * quantity,
+      };
+      await dispatch(addCart(cart));
+      navigate("/checkout", { replace: true });
+    }
+  }, [product?.data, quantity, dispatch, navigate]);
+  if (isFetching || isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spin size="large" />
+      </div>
+    );
+  }
+  const data = product?.data;
   return (
     <div className="container">
       <div
