@@ -1,4 +1,4 @@
-import { Button, Card, Col, Flex } from "antd";
+import { Button,  Col,  Row } from "antd";
 import BForm from "../../components/form/BForm";
 import BInput from "../../components/form/BInput";
 import { FieldValues } from "react-hook-form";
@@ -35,53 +35,51 @@ function Login() {
   };
 
   return (
-    <div className="container">
-      <Card className="customForm">
-        <Flex justify="center" align="middle">
-          <Col span={12}>
-            <h3
-              style={{
-                textAlign: "center",
-                marginTop: "20px",
-                marginBottom: "20px",
-                fontSize: "20px",
-                textTransform: "uppercase",
-              }}
-            >
+    <div className="container " style={{padding: "5px"}}>
+      <Row justify="center">
+        <Col xs={24} sm={20} md={16} lg={12}>
+          <h3
+            style={{
+              textAlign: "center",
+              marginTop: "20px",
+              marginBottom: "20px",
+              fontSize: "20px",
+              textTransform: "uppercase",
+            }}
+          >
+            Login
+          </h3>
+          <BForm onSubmit={onSubmit} resolver={zodResolver(loginSchema)}>
+            <BInput
+              type="text"
+              placeholder="Enter your email"
+              label="Enter your email"
+              name="email"
+            />
+            <BInput
+              type="password"
+              placeholder="Enter your password"
+              label="Enter your password"
+              name="password"
+            />
+            <Button type="primary" htmlType="submit">
               Login
-            </h3>
-            <BForm onSubmit={onSubmit} resolver={zodResolver(loginSchema)}>
-              <BInput
-                type="text"
-                placeholder="Enter your email"
-                label="Enter your email"
-                name="email"
-              />
-              <BInput
-                type="password"
-                placeholder="Enter your password"
-                label="Enter your password"
-                name="password"
-              />
-              <Button type="primary" htmlType="submit">
-                Login
-              </Button>
-            </BForm>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                gap: "5px",
-                marginTop: "10px",
-              }}
-            >
-              <p>Don't have an account? </p>
-              <Link to="/registration">Registration</Link>
-            </div>
-          </Col>
-        </Flex>
-      </Card>
+            </Button>
+          </BForm>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              gap: "5px",
+              marginTop: "10px",
+            }}
+          >
+            <p>Don't have an account? </p>
+            <Link to="/registration">Registration</Link>
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 }

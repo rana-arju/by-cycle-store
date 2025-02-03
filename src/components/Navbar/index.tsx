@@ -17,6 +17,7 @@ import {
 } from "../../redux/features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/hook";
 import { verifyToken } from "../../utils/VerifyToken";
+import { clearCart } from "../../redux/features/product/cartSlice";
 
 const { Header } = Layout;
 
@@ -53,9 +54,10 @@ const Navbar: React.FC = () => {
   const showDrawer = () => setVisible(true);
   const onClose = () => setVisible(false);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate("/login", { replace: true });
+  const handleLogout = async () => {
+    await dispatch(logout());
+    await dispatch(clearCart());
+    await navigate("/login", { replace: true });
   }; // Implement logout logic
 
   const renderMenuItems = () =>
